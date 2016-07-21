@@ -1,0 +1,16 @@
+{
+  "name": "pisignage-server",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "^4.12.3",
+    "multer": "^0.1.8",
+    "jade": "^1.9.2",
+    "socket.io": "^1.3.5",
+    "mongojs": "^2.4.0",
+    "node-mac-address": "^1.0.0",
+    "body-parser": "^1.8.3",
+    "mongodb": "~2.0.33",
+    "morgan": "~1.6.0",
+    "compression": "~1.5.0"
+  }
+}

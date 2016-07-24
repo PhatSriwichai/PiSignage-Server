@@ -19,14 +19,14 @@ module.exports = function(){
 	app.use(bodyParser.json());
 
 	app.set('views', './app/views'); //path from server.js
-	app.set('view engine', 'jade');
+	//app.set('view engine', 'jade');
 
 	var path = __dirname;
     var pathLength = path.length;
     var pathAssets = path.substring(0, pathLength-7);
     
 	app.use(multer({
-        dest: pathAssets + '/assets/',
+        dest: pathAssets + '/public/assets/',
         rename: function(fieldname, filename) {
             return filename;
         },
@@ -40,6 +40,8 @@ module.exports = function(){
     }));
 
 	require('../app/routes/index.routes')(app);
+
+	app.use(express.static('./public'));
 
     
 

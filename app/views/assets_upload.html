@@ -3,11 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Sample File Upload</title>
+    <link rel="stylesheet" type="text/css" href="/css/menu.css">
+    <link rel="stylesheet" type="text/css" href="/css/assets.css">
 </head>
 <body>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Upload">
-    </form>
+	<div id="wrapper">
+		<header>
+			<h1>Picture</h1>
+		</header>
+		<nav>
+			<ul>
+	          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>` 
+	          <li><a class="active" href="/">Home</a></li>
+	          <li><a href="/playlist">Playlist</a></li>
+	          <li><a href="/assets">Assets</a></li>
+	          <li><a href="/setting">Setting</a></li>
+	        </ul>
+		</nav>
+		<div id="sec_wrapper">
+			<section>
+				<article>
+					<header>
+						<h1>Your Assets</h1>
+					</header>
+					<form action="/assets/upload" method="post" enctype="multipart/form-data">
+				        Select asset: <input class="button" type="file" name="file">
+				        <input class="button" type="submit" value="Upload">
+				    </form>
+				</article>
+			</section>
+			<aside>
+				 
+			</aside>
+		</div>
+		<footer>
+			
+		</footer>
+	</div>
 </body>
 </html>

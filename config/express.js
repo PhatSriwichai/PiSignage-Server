@@ -40,6 +40,8 @@ module.exports = function(){
     }));
 
 	require('../app/routes/index.routes')(app);
+	require('../app/routes/user.routes')(app);
+
 
 	app.use(express.static('./public'));
 

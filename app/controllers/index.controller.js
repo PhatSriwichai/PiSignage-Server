@@ -9,7 +9,9 @@ exports.render = function(req, res){
     var pathLength = path.length;
     var pathView = path.substring(0, pathLength-12);
     //console.log(pathView);
-    res.sendFile(pathView + '/views/index.html');
+
+    
+    res.sendFile(pathView + '/views/login.html');
     //};
     //res.sendFile('./app/views/assets_upload.html');
 };

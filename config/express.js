@@ -2,6 +2,7 @@ var express = require('express');
 var morgan = require('morgan');
 var compression = require('compression');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 
 var multer = require('multer');
 var fs = require('fs');
@@ -20,6 +21,12 @@ module.exports = function(){
 
 	app.set('views', './app/views'); //path from server.js
 	//app.set('view engine', 'jade');
+
+	app.use(session({
+		secret: 'secret_key',
+		resave: false,
+		saveUninitialized: true
+	}));
 
 	var path = __dirname;
     var pathLength = path.length;

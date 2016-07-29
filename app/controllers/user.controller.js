@@ -19,6 +19,9 @@ exports.login = function(req, res){
    		}
 
    		if(rows.length > 0){
+   			req.session.userId = rows[0].userId;
+   			req.session.username = rows[0].username;
+   			console.log('id: '+req.session.userId);
    			res.sendFile(pathView + '/views/index.html');
    		}else{
    			res.sendFile(pathView + '/views/login.html');
@@ -28,5 +31,34 @@ exports.login = function(req, res){
 };
 
 exports.addAssets = function(req, res){
+	var path = __dirname;
+    var pathLength = path.length;
+    var pathView = path.substring(0, pathLength-12);
+    //console.log(pathView);
+    res.sendFile(pathView + '/views/assets_upload.html');
+    //};
+    //res.sendFile('./app/views/assets_upload.html');
+};
 
+exports.upload = function(req, res){
+	//console.log(req.files.file.name);
+	//console.log(req.session.userId);
+	var db = require('../models/connectdb');
+	var mysql = db.connectdb();
+
+	//var queryString = 'INSERT INTO Assets(assetsName, ownId) VALUES(\''+req.files.file.name+'\','+req.session.userId+')';
+	var queryString = 'INSERT INTO ??(??,??) VALUES(?, ?)';
+	var insert = ['Assets', 'assetsName', 'ownId', req.files.file.name, req.session.userId];
+	queryString = mysql.format(queryString, insert);
+
+	mysql.query(queryString,
+        function(err, result){
+            //console.log(pass);
+            if(err){
+                console.log(err);
+            }else{
+                console.log('added new assets');
+            }
+        }
+    );
 };

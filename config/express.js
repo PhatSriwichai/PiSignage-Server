@@ -20,7 +20,7 @@ module.exports = function(){
 	app.use(bodyParser.json());
 
 	app.set('views', './app/views'); //path from server.js
-	//app.set('view engine', 'jade');
+	app.set('view engine', 'jade');
 
 	app.use(session({
 		secret: 'secret_key',

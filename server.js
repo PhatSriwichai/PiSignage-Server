@@ -14,7 +14,15 @@ var table = createtable.createtable();
 
     //require('/app/routes/assets.routes')(app);
 
-app.listen(port);
+var server = app.listen(port, function(){
+	console.log('Server running at port '+port);
+});
+
+//var io = socket();
+
+var io = require('socket.io').listen(server);
+var socket = require('./config/socket')(io);
+
+
 module.exports = app;
 
-console.log('Server running at port '+port);

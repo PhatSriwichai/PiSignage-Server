@@ -5,8 +5,10 @@
     <title>Sample File Upload</title>
     <link rel="stylesheet" type="text/css" href="/css/menu.css">
     <link rel="stylesheet" type="text/css" href="/css/assets.css">
+    <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
 </head>
 <body>
+	
 	<div id="wrapper">
 		<header>
 			<h1>Picture</h1>
@@ -20,7 +22,7 @@
 	          <li><a href="/setting">Setting</a></li>
 	        </ul>
 		</nav>
-		<div id="sec_wrapper">
+		<div id="sec_wrapper" name="sec_wrapper">
 			<section>
 				<article>
 					<header>
@@ -33,12 +35,27 @@
 				</article>
 			</section>
 			<aside>
-				 
+				<table id="list">
+					
+				</table>
+				
 			</aside>
 		</div>
 		<footer>
 			
 		</footer>
 	</div>
+
+	<script type="text/javascript">
+		var socket = io();
+		var i;
+		socket.on('assets', function(message){
+			var list = document.getElementById("list");
+			for(i = 0; i < message.length; i++){
+				list.innerHTML += "<tr><td>"+message[i].assetsName + "</td></tr>";
+			}
+			
+		});
+	</script>
 </body>
 </html>

@@ -4,5 +4,6 @@ module.exports = function(app){
 	app.post('/login', user.login);
 	app.get('/assets', user.addAssets);
 	app.post('/assets/upload', user.upload);
+	app.get('/assets/list', user.assetsList);
 
 };

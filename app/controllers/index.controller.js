@@ -1,8 +1,7 @@
 exports.render = function(req, res){
 	//res.send('Hello World');
     /*res.render('index',{
-    	'title': 'Hello World',
-    	'message': 'Yo Yo'
+    	'title': 'Hello World'
     });*/
     //function(req, res){
     var path = __dirname;

@@ -53,6 +53,7 @@ exports.createtable = function(req, res){
     connection.query('CREATE TABLE Assets(\
     	assetsId int NOT NULL AUTO_INCREMENT, \
     	assetsName VARCHAR(100) NOT NULL,\
+        time DATETIME NOT NULL,\
         ownId int NOT NULL, \
 		PRIMARY KEY(assetsId),\
         FOREIGN KEY(ownId) REFERENCES User(userId))',

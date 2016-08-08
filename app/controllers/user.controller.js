@@ -62,8 +62,8 @@ exports.upload = function(req, res){
 	var mysql = db.connectdb();
 
 	//var queryString = 'INSERT INTO Assets(assetsName, ownId) VALUES(\''+req.files.file.name+'\','+req.session.userId+')';
-	var queryString = 'INSERT INTO ??(??,??) VALUES(?, ?)';
-	var insert = ['Assets', 'assetsName', 'ownId', req.files.file.name, req.session.userId];
+	var queryString = 'INSERT INTO ??(??,??,??) VALUES(?, NOW(), ?)';
+	var insert = ['Assets', 'assetsName', 'time','ownId', req.files.file.name, req.session.userId];
 	queryString = mysql.format(queryString, insert);
 
 	mysql.query(queryString,

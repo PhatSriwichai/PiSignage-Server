@@ -75,5 +75,9 @@ exports.upload = function(req, res){
                 console.log('added new assets');
             }
         }
-    );
+  );
+  var path = __dirname;
+  var pathLength = path.length;
+  var pathView = path.substring(0, pathLength-12);
+  res.sendFile(pathView + '/views/assets_upload.html');
 };

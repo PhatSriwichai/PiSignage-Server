@@ -7,7 +7,8 @@ module.exports = function(io){
 
 	io.on('connection', function(socket){
 		console.log("client connected");
-		var queryString = 'SELECT * FROM Assets';
+		var queryString = 'SELECT Assets.assetsId, Assets.assetsName, Assets.time, User.userName FROM Assets, User \
+							WHERE Assets.ownId = User.userId';
    	//var queryString = 'SELECT * FROM User)';
 	   	mysql.query(queryString, function(err, rows, fields){
 	   		if(err){

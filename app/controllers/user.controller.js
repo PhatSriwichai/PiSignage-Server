@@ -55,15 +55,15 @@ exports.assetsList = function(req, res){
     //res.sendFile('./app/views/assets_upload.html');
 };
 
-exports.upload = function(req, res){
+exports.uploadVideo = function(req, res){
 	//console.log(req.files.file.name);
 	//console.log(req.session.userId);
 	var db = require('../models/connectdb');
 	var mysql = db.connectdb();
 
 	//var queryString = 'INSERT INTO Assets(assetsName, ownId) VALUES(\''+req.files.file.name+'\','+req.session.userId+')';
-	var queryString = 'INSERT INTO ??(??,??,??) VALUES(?, NOW(), ?)';
-	var insert = ['Assets', 'assetsName', 'time','ownId', req.files.file.name, req.session.userId];
+	var queryString = 'INSERT INTO ??(??,??,??,??) VALUES(?, NOW(), \'video\', ?)';
+	var insert = ['Assets', 'assetsName', 'time','type','ownId', req.files.file.name, req.session.userId];
 	queryString = mysql.format(queryString, insert);
 
 	mysql.query(queryString,
@@ -76,8 +76,30 @@ exports.upload = function(req, res){
             }
         }
   );
-  var path = __dirname;
-  var pathLength = path.length;
-  var pathView = path.substring(0, pathLength-12);
-  res.sendFile(pathView + '/views/assets_upload.html');
+  res.redirect('back');
+};
+
+exports.uploadImage = function(req, res){
+  //console.log(req.files.file.name);
+  //console.log(req.session.userId);
+  var db = require('../models/connectdb');
+  var mysql = db.connectdb();
+
+  //var queryString = 'INSERT INTO Assets(assetsName, ownId) VALUES(\''+req.files.file.name+'\','+req.session.userId+')';
+  var queryString = 'INSERT INTO ??(??,??,??,??) VALUES(?, NOW(), \'image\', ?)';
+  var insert = ['Assets', 'assetsName', 'time','type','ownId', req.files.file.name, req.session.userId];
+  queryString = mysql.format(queryString, insert);
+
+  mysql.query(queryString,
+        function(err, result){
+            //console.log(pass);
+            if(err){
+                console.log(err);
+            }else{
+                console.log('added new assets');
+            }
+        }
+  );
+  
+  res.redirect('back');
 };

@@ -81,12 +81,12 @@
 			<section>
 				<article>
 					<div id="video">Upload Videos</div>
-					<form id="videoUpload" action="/assets/upload" method="post" enctype="multipart/form-data">
+					<form id="videoUpload" action="/assets/uploadVideo" method="post" enctype="multipart/form-data">
 				        Select video: <input id="videoFile" class="button" type="file" name="file" accept="video/*" require="require" onChange="checkVideo(this.id, this.value)">
 				        <input class="button" type="submit" value="Upload">
 				    </form>
 				    <div id="image">Upload Images</div>
-				    <form id="imageUpload" action="/assets/upload" method="post" enctype="multipart/form-data">
+				    <form id="imageUpload" action="/assets/uploadImage" method="post" enctype="multipart/form-data">
 				        Select image: <input id="imageFile" class="button" type="file" name="file"  accept="image/*" require="require" onChange="checkImage(this.id, this.value)">
 				        <input class="button" type="submit" value="Upload">
 				    </form>
@@ -116,9 +116,9 @@
 		socket.on('assets', function(message){
 			var list = document.getElementById("list");
 			for(i = 0; i < message.length; i++){
-				string += "<tr><td>Asset Name : "+message[i].assetsName+ "<br>";
-				string += "Upload time : "+message[i].time+ "<br><br>";
-				string += "Upload by : "+message[i].userName + "<br></td></tr>";
+				string += "<tr><td>Asset Name : "+message[i].assetsName+"<p align=\"right\">Upload by : "+message[i].userName + "</p>";
+				string += "Type : "+message[i].type+ "<br>";
+				string += "Upload time : "+message[i].time+ "<br></td></tr>";
 			}
 			list.innerHTML = string;
 			

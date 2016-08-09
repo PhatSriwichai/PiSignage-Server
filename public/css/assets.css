@@ -74,6 +74,9 @@ td{
   	vertical-align:middle;
   	padding: 15px;	
 }
+.tab{
+	text-align: right;
+}
 
 #video, #image{
 	-webkit-border-radius: 5px;

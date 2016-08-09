@@ -38,7 +38,7 @@ module.exports = function(){
             return filename;
         },
         limits: {
-            fileSize: 10000000
+            fileSize: 1000000000
         },
         onFileSizeLimit: function(file) {
             console.log('Failed: ' + file.originalname + ' is limited');

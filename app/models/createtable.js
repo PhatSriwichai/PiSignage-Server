@@ -54,6 +54,7 @@ exports.createtable = function(req, res){
     	assetsId int NOT NULL AUTO_INCREMENT, \
     	assetsName VARCHAR(100) NOT NULL,\
         time DATETIME NOT NULL,\
+        type VARCHAR(20) NOT NULL,\
         ownId int NOT NULL, \
 		PRIMARY KEY(assetsId),\
         FOREIGN KEY(ownId) REFERENCES User(userId))',

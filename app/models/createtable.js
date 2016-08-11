@@ -35,12 +35,24 @@ exports.createtable = function(req, res){
     		}
     	}
     );
+    connection.query('CREATE TABLE Groups(\
+        groupId int NOT NULL AUTO_INCREMENT, \
+        groupName VARCHAR(100) NOT NULL)',
+        function(err, result){
+            if(err){
+                console.log(err);
+            }else{
+                console.log("Table Groups created.");
+            }
+        }
+    );
     connection.query('CREATE TABLE Player(\
     	playerId int NOT NULL AUTO_INCREMENT, \
     	playerMac VARCHAR(16) NOT NULL,\
-		groups VARCHAR(20) NOT NULL,\
+		groupId int,\
 		ownId int NOT NULL,\
 		PRIMARY KEY(playerId),\
+        FOREIGN KEY(groupId) REFERENCES Groups(groupId),\
 		FOREIGN KEY(ownId) REFERENCES User(userId))',
     	function(err, result){
     		if(err){

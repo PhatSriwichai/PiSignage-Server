@@ -7,6 +7,9 @@ module.exports = function(io){
 
 	io.on('connection', function(socket){
 		console.log("client connected");
+		socket.on('player', function(obj){
+			console.log(obj.playerID);
+		});
 		var queryString = 'SELECT Assets.assetsId, Assets.assetsName, Assets.type, Assets.time, User.userName FROM Assets, User \
 							WHERE Assets.ownId = User.userId';
    	//var queryString = 'SELECT * FROM User)';
@@ -14,13 +17,15 @@ module.exports = function(io){
 	   		if(err){
 	   			console.log(err);
 	   		}else{
-	   			console.log(rows);
+	   			//console.log(rows);
 	   			io.emit('assets', rows);
 	   		}
 	   	});
 		
 		
+		
 	});
+	
 	
 	//return io;
 }

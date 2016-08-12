@@ -37,7 +37,9 @@ exports.createtable = function(req, res){
     );
     connection.query('CREATE TABLE Groups(\
         groupId int NOT NULL AUTO_INCREMENT, \
-        groupName VARCHAR(100) NOT NULL)',
+        groupName VARCHAR(100) NOT NULL,\
+        description VARCHAR(100),\
+        PRIMARY KEY(groupId))',
         function(err, result){
             if(err){
                 console.log(err);

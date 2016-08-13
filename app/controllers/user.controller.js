@@ -124,8 +124,9 @@ exports.registerPlayer = function(req, res){
   var db = require('../models/connectdb');
   var mysql = db.connectdb();
 
-  var queryString = 'INSERT INTO ??(??,??,??) VALUES(?,?,?)';
-  var insert = ['Player', 'playerMac', 'groupId', 'ownId', req.body.playerId, req.body.group, req.session.userId];
+  var queryString = 'INSERT INTO ??(??,??,??,??,??,??) VALUES(?,\'offline\',?,?,?,?)';
+  var insert = ['Player', 'playerMac', 'status', 'name', 'location', 'groupId', 'ownId', 
+              req.body.playerId, req.body.playerName, req.body.location, req.body.group, req.session.userId];
   queryString = mysql.format(queryString, insert);
 
   mysql.query(queryString,

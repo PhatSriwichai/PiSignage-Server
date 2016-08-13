@@ -50,7 +50,11 @@ exports.createtable = function(req, res){
     );
     connection.query('CREATE TABLE Player(\
     	playerId int NOT NULL AUTO_INCREMENT, \
-    	playerMac VARCHAR(16) NOT NULL,\
+    	playerMac VARCHAR(17) NOT NULL,\
+        status VARCHAR(10),\
+        ip CHAR(16),\
+        name VARCHAR(100),\
+        location VARCHAR(100),\
 		groupId int,\
 		ownId int NOT NULL,\
 		PRIMARY KEY(playerId),\

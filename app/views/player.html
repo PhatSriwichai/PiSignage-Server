@@ -27,10 +27,11 @@
 	<script type="text/javascript">
 		var socket = io();
 		var i;
-		var string = '';
+		
 		socket.emit('route', 'group');
 		socket.on('group', function(message){
 			var list = document.getElementById("groupPlayer");
+			var string = '';
 			for(i = 0; i < message.length; i++){
 				string += "<option value="+message[i].groupId+">"+message[i].groupName+"</option>";
 			}
@@ -39,16 +40,21 @@
 			
 		});
 		socket.emit('route', 'player');
-		/*socket.on('player', function(message){
+
+		socket.on('player', function(message){
 			var list = document.getElementById("list");
+			var string = '';
 			for(i = 0; i < message.length; i++){
-				string += "<tr><td>"+message[i].groupName+"</td>";
-				string += "<td>"+message[i].description+ "</td></tr>";
+				string += "<tr><td>"+message[i].name+"</td>";
+				string += "<td>"+message[i].ip+"</td>";
+				string += "<td>"+message[i].location+"</td>";
+				string += "<td>"+message[i].status+"</td>";
+				string += "<td>"+message[i].groupName+ "</td></tr>";
 			}
 			list.innerHTML = string;
 			
 			
-		});*/
+		});
 	</script>
 	
 </head>
@@ -101,6 +107,7 @@
 				<table>
 					<tr>
 						<th>Name</th>
+						<th>IP Address</th>
 						<th>Location</th>
 						<th>Status</th>
 						<th>Group</th>

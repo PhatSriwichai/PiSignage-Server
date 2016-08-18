@@ -26,6 +26,7 @@ exports.createtable = function(req, res){
     connection.query('CREATE TABLE Playlist(\
     	playlistId int NOT NULL AUTO_INCREMENT, \
     	playlistName VARCHAR(100) NOT NULL,\
+        description VARCHAR(100),\
 		PRIMARY KEY(playlistId))',
     	function(err, result){
     		if(err){

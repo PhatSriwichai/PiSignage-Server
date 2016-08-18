@@ -49,6 +49,49 @@ module.exports = function(io){
 			   			io.emit('player', rows);
 			   		}
 			   	});
+			}else if(message == 'playlist'){
+
+				var queryString = 'SELECT *FROM Playlist';
+		   	//var queryString = 'SELECT * FROM User)';
+			   	mysql.query(queryString, function(err, rows, fields){
+			   		if(err){
+			   			console.log(err);
+			   		}else{
+			   			//console.log(rows);
+			   			io.emit('playlist', rows);
+			   		}
+			   	});
+			}else if(message == 'playlist-assets'){
+				var id;
+				socket.on('playlist-assets', function(message){
+					id = message;
+					//console.log(id);
+		
+			   		/*var queryString = 'SELECT * FROM AddPlaylist, Playlist, Assets \
+			   						WHERE AddPlaylist.playlistId = Playlist.playlistId and AddPlaylist.assetsId = Assets.assetsId';
+				   	mysql.query(queryString, function(err, rows, fields){
+				   		if(err){
+				   			console.log(err);
+				   		}else{
+				   			//console.log(rows);
+				   			io.emit('playlist-assets', rows);
+				   		}
+				   	});*/
+				   	
+				   	var queryString = 'SELECT * FROM Assets LEFT JOIN AddPlaylist \
+				   	ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId ='+id+' ORDER BY apId DESC';
+			   		//var queryString = 'SELECT * FROM Assets';
+				   	mysql.query(queryString, function(err, rows, fields){
+				   		if(err){
+				   			console.log(err);
+				   		}else{
+				   			//console.log(rows);
+				   			io.emit('playlist-assets', rows);
+				   		}
+				   	});
+				});
+
+				
 			}
 		});
 		
@@ -135,7 +178,6 @@ module.exports = function(io){
 					   	});
 						}
 					});
-			console.log("player disconnect");
 		});
 		
 	});

@@ -163,4 +163,42 @@ exports.addGroup = function(req, res){
   );
   
   res.redirect('back');
-}
+};
+
+exports.playListRender = function(req, res){
+ var path = __dirname;
+    var pathLength = path.length;
+    var pathView = path.substring(0, pathLength-12);
+    //console.log(pathView);
+    res.sendFile(pathView + '/views/playlist.html');
+};
+
+exports.addPlayList = function(req, res){
+  var db = require('../models/connectdb');
+  var mysql = db.connectdb();
+
+  var queryString = 'INSERT INTO ??(??,??) VALUES(?,?)';
+  var insert = ['Playlist', 'playlistName', 'description', req.body.add, req.body.description];
+  queryString = mysql.format(queryString, insert);
+
+  mysql.query(queryString,
+        function(err, result){
+            //console.log(pass);
+            if(err){
+                console.log(err);
+            }else{
+                console.log('added new playlist');
+            }
+        }
+  );
+  
+  res.redirect('back');
+};
+
+exports.playListOrder = function(req, res){
+ var path = __dirname;
+    var pathLength = path.length;
+    var pathView = path.substring(0, pathLength-12);
+    //console.log(pathView);
+    res.sendFile(pathView + '/views/playlistOrder.html');
+};

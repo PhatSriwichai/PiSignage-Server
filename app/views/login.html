@@ -2,23 +2,31 @@
 <html>
 <head>
 	<title>Login</title>
+	 <link rel="stylesheet" type="text/css" href="css/login.css">
+	 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 </head>
 
 <body>
-	<head>
-		
-
-	</head>
-
 	<section>
-		<form id="login" method="post" action="/login">
-			<label for="username">Username</label><br>
-			<input type="text" name="username"><br>
-			<label for="password">Password</label><br>
-			<input type="password" name="password"><br>
-			<button type="submit" value="login">Sing In</button>
-		</form>
+		<div id="div1">
+			<h1>PiSignage</h1>
+		</div>
+			
 	</section>
 
+	<section>
+		<div class="form-inline" align="center">
+			<form id="login" method="post" action="/login">
+		 			<label for="username">Username</label><br>
+					<input  type="text" name="username"  placeholder="Username" ><br>
+					<label for="password">Password</label><br>
+					<input type="password" name="password"  placeholder="Password"><br>
+				<div id="divsubmit">					
+					<button type="submit" class="btn btn-primary" value="login">Sing In</button><br>
+				</div>
+				
+			</form>
+		</div>
+	</section>
 </body>
 </html>

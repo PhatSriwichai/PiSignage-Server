@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sample File Upload</title>
+    <link rel="stylesheet" type="text/css" href="/css/menu.css">
+    <link rel="stylesheet" type="text/css" href="/css/playlist.css">
+    <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	
+	<script type="text/javascript">
+		var socket = io();
+		var i;
+		var id = getUrlVars()["id"];
+		var string = '';
+		socket.emit('route', 'show');
+		socket.emit('show', id);
+		socket.on('show', function(message){
+			var list = document.getElementById("show");
+			for(i = 0; i < message.length; i++){
+				if(message[i].type == "video"){
+					string += "<video controls>";
+					string += "<source src=\"/assets/"+message[i].assetsName+"\" type=\"video/mp4\"</video>"
+				}else if(message[i].type == "image"){
+					string += "<img src=\"/assets/"+message[i].assetsName+"\">";
+				}
+			}
+			list.innerHTML = string;
+			
+		});
+
+		function getUrlVars()
+		{
+		    var vars = [], hash;
+		    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+		    for(var i = 0; i < hashes.length; i++)
+		    {
+		        hash = hashes[i].split('=');
+		        vars.push(hash[0]);
+		        vars[hash[0]] = hash[1];
+		    }
+		    return vars;
+		}
+	</script>
+</head>
+<body>
+	
+	<div id="wrapper">
+		<header>
+			<h1>Picture</h1>
+		</header>
+		
+		<div id="show" name="show">
+			
+		</div>
+		<footer>
+			
+		</footer>
+	</div>
+
+</body>
+</html>

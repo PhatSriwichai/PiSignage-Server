@@ -196,9 +196,60 @@ exports.addPlayList = function(req, res){
 };
 
 exports.playListOrder = function(req, res){
- var path = __dirname;
+    var path = __dirname;
+    var pathLength = path.length;
+    var pathView = path.substring(0, pathLength-12);
+    req.session.playListId = req.query.id;
+    //console.log(pathView);
+    res.sendFile(pathView + '/views/playlistOrder.html');
+};
+
+exports.showAsset = function(req, res){
+    var path = __dirname;
     var pathLength = path.length;
     var pathView = path.substring(0, pathLength-12);
     //console.log(pathView);
-    res.sendFile(pathView + '/views/playlistOrder.html');
+    res.sendFile(pathView + '/views/show.html');
+};
+
+exports.addToPlaylist = function(req, res){
+    var db = require('../models/connectdb');
+    var mysql = db.connectdb();
+
+    var queryString = 'DELETE FROM AddPlaylist WHERE playlistId = ?';
+    var insert = [req.session.playListId];
+    queryString = mysql.format(queryString, insert);
+
+    mysql.query(queryString,
+          function(err, result){
+              //console.log(pass);
+              if(err){
+                  console.log(err);
+              }else{
+                  console.log('delete playlist id '+req.session.id);
+              }
+          }
+    );
+    var assets_id = req.body.a;
+    var i;
+    for(i=0; i<assets_id.length; i++){
+      var queryString = 'INSERT INTO AddPlaylist(??, ??, ??) VALUES(?, ?, ?)';
+      var insert = ['ownId', 'playlistId', 'assetsId' , req.session.userId, req.session.playListId, assets_id[i]];
+      queryString = mysql.format(queryString, insert);
+
+      mysql.query(queryString,
+            function(err, result){
+                //console.log(pass);
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log('added');
+                }
+            }
+      );
+    }
+    
+    
+    
+    res.redirect('back');
 };

@@ -7,9 +7,11 @@ module.exports = function(app){
 	app.get('/group', user.groupRender);
 	app.get('/playlist', user.playListRender);
 	app.get('/playlist/list', user.playListOrder);
+	app.get('/show', user.showAsset);
 
 	app.post('/group/add', user.addGroup);
 	app.post('/playlist/add', user.addPlayList);
+	app.post('/playlist/addTo', user.addToPlaylist);
 	app.post('/player/register', user.registerPlayer);
 	app.post('/assets/uploadVideo', user.uploadVideo);
 	app.post('/assets/uploadImage', user.uploadImage);

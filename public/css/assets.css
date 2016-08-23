@@ -95,7 +95,7 @@ td{
 	display: none;
 	width: 100%;
 	padding: 5px;
-	text-align: center;
+	text-align: left;
 }
 .section{
 	float: left;
@@ -135,4 +135,36 @@ td{
 .button:active{
 	background-color: #3e8e41;
 	transform: translateY(0px);
+}
+input[type=text], select{
+	width: 82%;
+	padding: 12px 20px;
+	margin: 8px 0px;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+#progressbox{
+	border: 1px solid #4E616D;
+	padding: 1px;
+	position: relative;
+	width: 100%;
+	border-radius: 3px;
+	margin: 10px;
+	display: block;
+
+}
+#progressbar{
+	height: 20px;
+	border-radius: 3px;
+	background-color: #D84A38;
+}
+#statustxt{
+	top: 3px;
+	left: 50%;
+	position: absolute;
+	display: inline-block;
+	color: blue;
 }

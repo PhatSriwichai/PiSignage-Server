@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Sample File Upload</title>
     <link rel="stylesheet" type="text/css" href="/css/menu.css">
-    <link rel="stylesheet" type="text/css" href="/css/playlist.css">
+    <link rel="stylesheet" type="text/css" href="/css/playlistOrder.css">
     <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	
@@ -23,7 +23,14 @@
 			for(i = 0; i < message.length; i++){
 				//string += "<tr><td>"+message[+"</a></td></tr>";
 				//string += "<td>"+message[i].description+ "</td></tr>";
-				string += "<tr><td>"+message[i].assetsName+"<br></td></tr>";
+				string += "<tr><td>Name: <a href=\"/show?id="+message[i].assetsId+"\">"+message[i].assetsName+"</a><br>";
+				string += "Type: "+message[i].type+"<br></td>";
+				if(message[i].apId != null){
+					string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" checked><br></td></tr>";
+				}else{
+					string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"><br></td></tr>";
+				}
+				
 			}
 			list.innerHTML = string;
 			
@@ -81,14 +88,18 @@
 				</article>
 			</section>
 			<aside>
-				<table>
+				<form name="addToPlaylist" method="post" action="/playlist/addTo">
+					<table>
 					<tr>
 						<th>Assets</th>
+						<th id="check"><input type="submit" value="Save"></th>
 					</tr>
 					<tbody id="list">
 						
 					</tbody>
 				</table>
+				</form>
+				
 				
 			</aside>
 		</div>

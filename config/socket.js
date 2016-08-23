@@ -78,8 +78,12 @@ module.exports = function(io){
 				   		}
 				   	});*/
 				   	
-				   	var queryString = 'SELECT * FROM Assets LEFT JOIN AddPlaylist \
-				   	ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId ='+id+' ORDER BY apId DESC';
+				   	/*var queryString = 'SELECT * FROM Assets LEFT JOIN AddPlaylist \
+				   	ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId ='+id+' ORDER BY apId DESC';*/
+
+				   	var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, Assets.time, Assets.ownId, \
+				   				AddPlaylist.apId, AddPlaylist.playlistId FROM Assets LEFT JOIN AddPlaylist \
+				   				ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId = "+id+" ORDER BY apId DESC"
 			   		//var queryString = 'SELECT * FROM Assets';
 				   	mysql.query(queryString, function(err, rows, fields){
 				   		if(err){
@@ -92,6 +96,22 @@ module.exports = function(io){
 				});
 
 				
+			}else if(message == 'show'){
+				var id;
+				socket.on('show', function(message){
+					id = message;
+					var queryString = 'SELECT assetsName, type FROM Assets WHERE assetsId = ?';
+					var insert = [id];
+					queryString = mysql.format(queryString, insert);
+
+					mysql.query(queryString, function(err, rows, fields){
+					    if(err){
+					      	console.log(err);
+					    }else{
+					          io.emit('show', rows)
+					    }
+					});
+				});
 			}
 		});
 		

@@ -7,6 +7,45 @@
     <link rel="stylesheet" type="text/css" href="/css/assets.css">
     <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
+    <script>
+    	$(function(){
+    		$('#videoUpload').ajaxForm({
+    			beforeSend:function(){
+    				$('#progressbox').show();
+    			},
+    			uploadProgress:function(event, position, total, percentcomplete){
+    				$('#progressbar').width(percentcomplete+"%");
+    				$('#statustxt').text(percentcomplete+"%");
+    			},
+    			success:function(){
+    				alert("Upload Complete.");
+    				$('#progressbox').hide();
+    			},
+    			complete:function(){
+    				location.reload();
+    			}
+    		});
+
+    		$('#imageUpload').ajaxForm({
+    			beforeSend:function(){
+    				$('#progressbox').show();
+    			},
+    			uploadProgress:function(event, position, total, percentcomplete){
+    				$('#progressbar').width(percentcomplete+"%");
+    				$('#statustxt').text(percentcomplete+"%");
+    			},
+    			success:function(){
+    				alert("Upload Complete.");
+    				$('#progressbox').hide();
+    			},
+    			complete:function(){
+    				location.reload();
+    			}
+    		});
+    		$('#progressbox').hide();
+    	});
+    </script>
 	<script>
 		$(document).ready(function(){
 		    $("#video").click(function(){
@@ -89,14 +128,20 @@
 				<article>
 					<div id="video">Upload Videos</div>
 					<form id="videoUpload" action="/assets/uploadVideo" method="post" enctype="multipart/form-data">
+						Name: <input type="text" name="fileName" id="fileName"><br>
 				        Select video: <input id="videoFile" class="button" type="file" name="file" accept="video/*" require="require" onChange="checkVideo(this.id, this.value)">
 				        <input class="button" type="submit" value="Upload">
 				    </form>
 				    <div id="image">Upload Images</div>
 				    <form id="imageUpload" action="/assets/uploadImage" method="post" enctype="multipart/form-data">
+				    	Name: <input type="text" name="fileName" id="fileName"><br>
 				        Select image: <input id="imageFile" class="button" type="file" name="file"  accept="image/*" require="require" onChange="checkImage(this.id, this.value)">
 				        <input class="button" type="submit" value="Upload">
 				    </form>
+				    <div id="progressbox">
+				    	<div id="progressbar"></div>
+				    	<div id="statustxt"></div>
+				    </div>
 				</article>
 			</section>
 			<aside>

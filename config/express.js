@@ -34,8 +34,8 @@ module.exports = function(){
     
 	app.use(multer({
         dest: pathAssets + '/public/assets/',
-        rename: function(fieldname, filename) {
-            return filename;
+        rename: function(fieldname, filename, req) {
+            return req.body.fileName;
         },
         limits: {
             fileSize: 1000000000

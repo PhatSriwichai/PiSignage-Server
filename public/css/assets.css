@@ -44,6 +44,7 @@ aside{
 	width: 700px;
 	margin: 10px;
 	padding: 10px;
+	text-align: center;
 }
 table, th, td{
 	-webkit-border-radius: 5px 5px 0px 0px;
@@ -71,8 +72,15 @@ td{
 	border: 1px solid #F50057;
 	border-collapse: collapse;
 	text-align: left;
-  	vertical-align:middle;
+  	
   	padding: 15px;	
+}
+#front{
+	width: 12%;
+	text-align: center;
+}
+#back{
+	width: 25%;
 }
 .tab{
 	text-align: right;
@@ -144,6 +152,19 @@ input[type=text], select{
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-sizing: border-box;
+}
+
+input[type=submit]{
+	background-color: #4cAF50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+input[type=submit]:hover{
+	background-color: #45a049;
 }
 
 #progressbox{

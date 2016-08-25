@@ -147,7 +147,9 @@
 			<aside>
 				<table>
 					<tr>
+						<th id="front"></th>
 						<th>Assets</th>
+						<th id="back"><a href="/assets/edit"><input type="submit" value="Edit"></a></th>
 					</tr>
 					<tbody id="list">
 						
@@ -169,9 +171,16 @@
 		socket.on('assets', function(message){
 			var list = document.getElementById("list");
 			for(i = 0; i < message.length; i++){
-				string += "<tr><td>Asset Name : "+message[i].assetsName+"<p align=\"right\">Upload by : "+message[i].userName + "</p>";
+				if(message[i].type == 'image'){
+					string += "<tr><td><img src=\"/assets/"+message[i].assetsName+"\" width=\"50px\" height=\"50px\"></td>";
+				}else if(message[i].type == 'video'){
+					string += "<tr><td><video src=\"/assets/"+message[i].assetsName+"\" width=\"50px\" height=\"50px\" controls></td>";
+				}
+				
+				string += "<td>"+message[i].assetsName+"<br>";
 				string += "Type : "+message[i].type+ "<br>";
-				string += "Upload time : "+message[i].time+ "<br></td></tr>";
+				string += "Upload time : "+message[i].time+ "<br></td>";
+				string += "<td>Upload by : "+message[i].userName + "</td></tr>"
 			}
 			list.innerHTML = string;
 			

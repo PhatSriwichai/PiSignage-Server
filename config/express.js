@@ -43,6 +43,9 @@ module.exports = function(){
         onFileSizeLimit: function(file) {
             console.log('Failed: ' + file.originalname + ' is limited');
             fs.unlink(file.path);
+        },
+        onFileUploadComplete:function(file, req, res){
+        	
         }
     }));
 

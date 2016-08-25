@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sample File Upload</title>
+    <link rel="stylesheet" type="text/css" href="/css/menu.css">
+    <link rel="stylesheet" type="text/css" href="/css/assets_edit.css">
+    <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
+	
+</head>
+<body>
+	
+	<div id="wrapper">
+		<header>
+			<h1>Picture</h1>
+		</header>
+		<nav>
+			<ul>
+	          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>` 
+	          <li><a class="active" href="/">Home</a></li>
+	          <li><a href="/playlist">Playlist</a></li>
+	          <li><a href="/assets">Assets</a></li>
+	          <li class="dropdown">
+	          	<a href="#" class="dropbtn">Manage Player</a>
+		        <div class="dropdown-content">
+				    <a href="/player">Players</a>
+				    <a href="/group">Groups</a>
+				</div>
+	          </li>
+	          <li><a href="/setting">Setting</a></li>
+	        </ul>
+		</nav>
+		<div id="sec_wrapper" name="sec_wrapper">
+			<aside>
+				<form action="/assets/edit/delete" method="POST">
+					<table>
+					<tr>
+						<th id="front"></th>
+						<th>Assets</th>
+						<th id="by"></th>
+						<th id="back"><input type="submit" value="Delete"></th>
+					</tr>
+					<tbody id="list">
+						
+					</tbody>
+				</table>
+				</form>
+			</aside>
+		</div>
+		<footer>
+			
+		</footer>
+	</div>
+
+	<script type="text/javascript">
+		var socket = io();
+		var i;
+		var string = '';
+		socket.emit('route', 'asset');
+		socket.on('assets', function(message){
+			var list = document.getElementById("list");
+			for(i = 0; i < message.length; i++){
+				if(message[i].type == 'image'){
+					string += "<tr><td id=\"front\"><img src=\"/assets/"+message[i].assetsName+"\" width=\"50px\" height=\"50px\"></td>";
+				}else if(message[i].type == 'video'){
+					string += "<tr><td id=\"front\"><video src=\"/assets/"+message[i].assetsName+"\" width=\"50px\" height=\"50px\" controls></td>";
+				}
+				
+				string += "<td id=\"data\">"+message[i].assetsName+"<br>";
+				string += "Type : "+message[i].type+ "<br>";
+				string += "Upload time : "+message[i].time+ "<br></td>";
+				string += "<td id=\"by\">Upload by : "+message[i].userName + "</td>";
+				string += "<td id=\"delete\"><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"><br></td></tr>";
+			}
+			list.innerHTML = string;
+			
+			
+		});
+	</script>
+</body>
+</html>

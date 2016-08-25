@@ -8,13 +8,14 @@
     "express": "~4.14.0",
     "express-session": "~1.14.0",
     "jade": "^1.9.2",
+    "lwip": "0.0.9",
     "mongodb": "~2.0.33",
     "mongojs": "~2.4.0",
     "morgan": "~1.6.0",
     "multer": "~0.1.8",
     "mysql": "~2.11.1",
     "node-mac-address": "~1.0.0",
-    "socket.io": "~1.3.5",
-    "object-keys": "~1.0.11"
+    "object-keys": "~1.0.11",
+    "socket.io": "~1.3.5"
   }
 }

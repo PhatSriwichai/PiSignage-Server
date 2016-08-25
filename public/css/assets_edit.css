@@ -8,6 +8,7 @@ body{
 	height: 200px;
 	display: -webkit-box;
 	-webkit-box-pack: center; 
+	text-align: center;
 }
 nav{
 	width: 100%;
@@ -19,10 +20,13 @@ nav{
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-box-flex: 1;
+
 }
 #sec_wrapper{
-	display: -webkit-box;
-	-webkit-box-orient: horizontal;
+	width: 100%;
+	text-align: center;
+
+
 }
 header{
 	padding: 20px;
@@ -41,11 +45,15 @@ article{
 }
 aside{
 	border: 2px;
-	width: 900px;
+	width: 1000px;
 	margin: 10px;
 	padding: 10px;
+	text-align: center;
 }
 table, th, td{
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0px 0px;
 	border: 0px solid blue;
 	border-collapse: collapse;
 
@@ -53,56 +61,61 @@ table, th, td{
 table{
 	width: 100%;
 	table-layout: fixed;
+	-webkit-border-radius: 5px 5px 0px 0px;
+	-moz-border-radius: 5px 5px 0px 0px;
+	border-radius: 5px 5px 0px 0px;
 }
 th{
 	background-color: #F50057;
+	text-transform: uppercase;
 	height: 50px;
 	color: white;
 
 }
-#check{
-	width: 10%;
-	text-align: center;
-}
-#description{
-	width: 60%;
-}
-#front{
-	width: 9%;
-}
-
 td{
 	border: 1px solid #F50057;
 	border-collapse: collapse;
 	text-align: left;
-  	vertical-align:middle;
+  	
   	padding: 15px;	
 }
-
-
+#front{
+	width: 12%;
+	text-align: center;
+}
+#back, #delete{
+	width: 10%;
+	text-align: center;
+}
+#data{
+	text-align: left;
+}
+#by{
+	width: 25%;
+	text-align: left;
+}
 .tab{
 	text-align: right;
 }
 
-#addList{
+#video, #image{
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
 	width: 100%;
-	height: 100%;
 	padding: 10px;
 	margin-bottom: 5px;
 	text-align: center;
 	color: #fff;
 	background-color: #4CAF50;
 	border: none;
-	cursor: default;
+	cursor: pointer;
 }
-#addList{
-	
+#imageUpload, #videoUpload{
+	display: none;
 	width: 100%;
 	padding: 5px;
-	
+	text-align: left;
 }
 .section{
 	float: left;
@@ -143,9 +156,8 @@ td{
 	background-color: #3e8e41;
 	transform: translateY(0px);
 }
-
 input[type=text], select{
-	width: 100%;
+	width: 82%;
 	padding: 12px 20px;
 	margin: 8px 0px;
 	display: inline-block;
@@ -153,11 +165,7 @@ input[type=text], select{
 	border-radius: 4px;
 	box-sizing: border-box;
 }
-input[type=checkbox]{
-	text-align: right;
-	border: 1px solid #ccc;
-	box-sizing: border-box;
-}
+
 input[type=submit]{
 	background-color: #4cAF50;
 	color: white;
@@ -169,4 +177,27 @@ input[type=submit]{
 }
 input[type=submit]:hover{
 	background-color: #45a049;
+}
+
+#progressbox{
+	border: 1px solid #4E616D;
+	padding: 1px;
+	position: relative;
+	width: 100%;
+	border-radius: 3px;
+	margin: 10px;
+	display: block;
+
+}
+#progressbar{
+	height: 20px;
+	border-radius: 3px;
+	background-color: #D84A38;
+}
+#statustxt{
+	top: 3px;
+	left: 50%;
+	position: absolute;
+	display: inline-block;
+	color: blue;
 }

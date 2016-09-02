@@ -5,6 +5,8 @@
     <title>Sample File Upload</title>
     <link rel="stylesheet" type="text/css" href="/css/menu.css">
     <link rel="stylesheet" type="text/css" href="/css/playlist.css">
+    <link href="css/elements.css" rel="stylesheet">
+    <script src="js/my_js.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	
@@ -29,28 +31,47 @@
 	<script id="menu">w3IncludeHTML();</script> 
 </head>
 <body>
-	
-	
-	<div id="wrapper">
-	
-		<div id="sec_wrapper" name="sec_wrapper">
-			<section>
-				<article>
-					<form id="addPlaylist" method="post" action="/playlist/add">
-						<div id="addList">Add Playlist</div>
-						<label for="playlist">Playlist</label><br>
+						<div id="abcplaylist">
+						<!-- Popup Div Starts Here -->
+						<div id="popupContact">
+						<!-- Contact Us Form -->
+						<form id="addPlaylist" method="post" action="/playlist/add">
+						<img id="close" src="images/3.png" onclick ="div_hideplaylist()">
+						<h2>Insert Playlist</h2>
+						<hr>
+						Name Playlist
 						<input type="text" id="add" name="add"><br>
-						<label for="description">Short Description</label><br>
+						Short Description
 						<input type="text" id="description" name="description"><br>
-						<input type="submit" value="Add">
-					</form>
-				</article>
+						<input type="submit" value="Add">		    	
+				      </form>
+						</div>
+						<!-- Popup Div Ends Here -->
+						</div>					
+				
+				
+		
+
+
+	
+		<div id="wrapper" class="container">
+  			<div class="panel-group">
+   			<div class="panel panel-success">
+   	   		<div class="panel-heading">Playlist</div>
+      			<div class="panel-body">
+      			
+      			
+			<section>
+				<button id="videobtn" type="button" onclick="div_showplaylist()" class="btn btn-success">Insert Playlist</button>
+				
 			</section>
+
 			<aside>
-				<table>
+				<table class="table table-bordered">
 					<tr>
 						<th>Playlist</th>
 						<th>Description</th>
+						<th><a href="#"><input type="submit" id="editbtn" class="btn btn-warning" value="Edit"></th></a></th>
 					</tr>
 					<tbody id="list">
 						
@@ -58,7 +79,14 @@
 				</table>
 				
 			</aside>
-		</div>
+						
+					  </div>							
+				</div>
+	 		</div>
+ 		</div>
+			
+			
+		
 		<footer>
 			
 		</footer>

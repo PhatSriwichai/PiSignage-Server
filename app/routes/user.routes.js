@@ -9,7 +9,8 @@ module.exports = function(app){
 	app.get('/playlist', user.playListRender);
 	app.get('/playlist/list', user.playListOrder);
 	app.get('/show', user.showAsset);
-
+	app.get('/logout', user.logout);
+	
 	app.post('/group/add', user.addGroup);
 	app.post('/playlist/add', user.addPlayList);
 	app.post('/playlist/addTo', user.addToPlaylist);
@@ -18,6 +19,7 @@ module.exports = function(app){
 	app.post('/assets/uploadImage', user.uploadImage);
 	app.post('/assets/edit/delete', user.deleteAssets);
 	app.post('/login', user.login);
+
 	
 
 };

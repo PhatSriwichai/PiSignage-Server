@@ -32,11 +32,12 @@ exports.login = function(req, res){
 };
 
 exports.addAssets = function(req, res){
-	var path = __dirname;
+	   var path = __dirname;
     var pathLength = path.length;
     var pathView = path.substring(0, pathLength-12);
     //console.log(pathView);
-    res.sendFile(pathView + '/views/assets_upload.html');
+    if(req.session.userId == null)  res.sendFile(pathView + '/views/login.html');
+    else res.sendFile(pathView + '/views/assets_upload.html');
     //console.log(req.body.textTest);
     //var assetsList = "Test";
     //req.body.document.getElementById("list").innerHTML=assetsList;
@@ -49,7 +50,9 @@ exports.assetsList = function(req, res){
     var pathLength = path.length;
     var pathView = path.substring(0, pathLength-12);
     //console.log(pathView);
-    res.sendFile(pathView + '/views/assetsList.html');
+
+    if(req.session.userId == null)  res.sendFile(pathView + '/views/login.html');
+    else res.sendFile(pathView + '/views/assetsList.html');
     //var assetsList = "Test";
     //req.body.document.getElementById("list").innerHTML=assetsList;
     //};
@@ -112,7 +115,8 @@ exports.playerRender = function(req, res){
     var pathLength = path.length;
     var pathView = path.substring(0, pathLength-12);
     //console.log(pathView);
-    res.sendFile(pathView + '/views/player.html');
+    if(req.session.userId == null)  res.sendFile(pathView + '/views/login.html');
+    else res.sendFile(pathView + '/views/player.html');
 };
 
 exports.groupRender = function(req, res){
@@ -120,7 +124,8 @@ exports.groupRender = function(req, res){
     var pathLength = path.length;
     var pathView = path.substring(0, pathLength-12);
     //console.log(pathView);
-    res.sendFile(pathView + '/views/group.html');
+    if(req.session.userId == null)  res.sendFile(pathView + '/views/login.html');
+    else res.sendFile(pathView + '/views/group.html');
 };
 
 exports.registerPlayer = function(req, res){
@@ -173,7 +178,8 @@ exports.playListRender = function(req, res){
     var pathLength = path.length;
     var pathView = path.substring(0, pathLength-12);
     //console.log(pathView);
-    res.sendFile(pathView + '/views/playlist.html');
+    if(req.session.userId == null)  res.sendFile(pathView + '/views/login.html');
+    else res.sendFile(pathView + '/views/playlist.html');
 };
 
 exports.addPlayList = function(req, res){
@@ -204,7 +210,8 @@ exports.playListOrder = function(req, res){
     var pathView = path.substring(0, pathLength-12);
     req.session.playListId = req.query.id;
     //console.log(pathView);
-    res.sendFile(pathView + '/views/playlistOrder.html');
+    if(req.session.userId == null)  res.sendFile(pathView + '/views/login.html');
+    else res.sendFile(pathView + '/views/playlistOrder.html');
 };
 
 exports.showAsset = function(req, res){
@@ -212,7 +219,8 @@ exports.showAsset = function(req, res){
     var pathLength = path.length;
     var pathView = path.substring(0, pathLength-12);
     //console.log(pathView);
-    res.sendFile(pathView + '/views/show.html');
+    if(req.session.userId == null)  res.sendFile(pathView + '/views/login.html');
+    else res.sendFile(pathView + '/views/show.html');
 };
 
 exports.addToPlaylist = function(req, res){
@@ -262,7 +270,8 @@ exports.editRender = function(req, res){
     var pathLength = path.length;
     var pathView = path.substring(0, pathLength-12);
     //console.log(pathView);
-    res.sendFile(pathView + '/views/assets_edit.html');
+    if(req.session.userId == null)  res.sendFile(pathView + '/views/login.html');
+    else res.sendFile(pathView + '/views/assets_edit.html');
 };
 
 exports.deleteAssets = function(req, res){

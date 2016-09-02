@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="css/menu.css">
+        
+		
+    </head>
+<body>
+		<nav>
+			<ul>
+	        
+	          <li><a class="active" href="/">Home</a></li>
+	          <li><a href="/playlist">Playlist</a></li>
+	          <li><a href="/assets">Assets</a></li>
+	          <li><a href="/player">Players</a></li>
+	          <li><a href="/group">Players Groups</a></li>				
+	          <li><a href="/setting">Setting</a></li>
+	        </ul>
+		</nav>
+    <section>
+        
+    </section>
+
+</body>
+</html>

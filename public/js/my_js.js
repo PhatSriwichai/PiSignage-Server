@@ -31,3 +31,19 @@ document.getElementById('abcplaylist').style.display = "block";
 function div_hideplaylist(){
 document.getElementById('abcplaylist').style.display = "none";
 }
+
+function div_showregplay() {
+document.getElementById('abcregplay').style.display = "block";
+}
+//Function to Hide Popup
+function div_hideregplay(){
+document.getElementById('abcregplay').style.display = "none";
+}
+
+function div_showgroup() {
+document.getElementById('abcgroup').style.display = "block";
+}
+//Function to Hide Popup
+function div_hidegroup(){
+document.getElementById('abcgroup').style.display = "none";
+}

@@ -22,7 +22,7 @@
 					<label for="password">Password</label><br>
 					<input type="password" name="password"  placeholder="Password"><br>
 				<div id="divsubmit">					
-					<button id="btnlogin" type="submit" class="btn btn-primary" value="login">Sing In</button><br>
+					<button type="submit" class="btn btn-primary" value="login">Sing In</button><br>
 				</div>
 				
 			</form>

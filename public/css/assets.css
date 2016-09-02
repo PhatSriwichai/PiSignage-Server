@@ -1,0 +1,34 @@
+div.panel-group{
+	width: 100%;
+	height: 100%;
+	
+}
+div.progress{
+	width: 500px;
+}
+#videobtn,#imagebtn{
+	width: 130px;
+	
+}
+table{
+	margin: 10px;
+}
+div.container2{
+	width: 98%;
+}
+th#assetst{
+	width: 650px;
+}
+thead{
+	width: 100%;	
+}
+th#back{
+	width: 200px;
+	
+}
+input#editbtn{
+	width: 100px;
+}
+label{
+	text-align: center;
+}

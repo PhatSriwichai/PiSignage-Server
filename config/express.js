@@ -54,6 +54,7 @@ module.exports = function(){
 
 
 	app.use(express.static('./public'));
+	app.use(express.static('./app/views'));
 
     
 

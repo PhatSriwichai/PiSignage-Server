@@ -2,20 +2,16 @@
 <html>
     <head>
         <title>HOME</title>
-        <link rel="stylesheet" type="text/css" href="css/menu.css">
-        
+  		
     </head>
 <body>
-    <section>
-        <ul>
-          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+	    <iframe src="menu.html" class="navbar" />
 
-          <li><a class="active" href="/home">Home</a></li>
-          <li><a href="/news">Playlist</a></li>
-          <li><a href="/contact">Asset</a></li>
-          <li><a href="/about">Setting</a></li>
-        </ul>
-    </section>
+	
 
+  
+    
+  
+index
 </body>
 </html>

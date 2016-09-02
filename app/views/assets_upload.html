@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Sample File Upload</title>
-    <link rel="stylesheet" type="text/css" href="/css/menu.css">
-    <link rel="stylesheet" type="text/css" href="/css/assets.css">
+    <link rel="stylesheet" type="text/css" href="css/assets.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link href="css/elements.css" rel="stylesheet">
+    <script src="js/my_js.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://malsup.github.com/jquery.form.js"></script> 
-    <script>
+     <script>
     	$(function(){
     		$('#videoUpload').ajaxForm({
     			beforeSend:function(){
@@ -100,68 +102,104 @@
 		}
 		
 	</script>
+	<script src="js/w3data.js"></script>
+
 </head>
-<body>
+<body id="body">
+	<div  w3-include-html="menu.html"></div>
+	<script id="menu">w3IncludeHTML();</script> 
 	
-	<div id="wrapper">
-		<header>
-			<h1>Picture</h1>
-		</header>
-		<nav>
-			<ul>
-	          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>` 
-	          <li><a class="active" href="/">Home</a></li>
-	          <li><a href="/playlist">Playlist</a></li>
-	          <li><a href="/assets">Assets</a></li>
-	          <li class="dropdown">
-	          	<a href="#" class="dropbtn">Manage Player</a>
-		        <div class="dropdown-content">
-				    <a href="/player">Players</a>
-				    <a href="/group">Groups</a>
-				</div>
-	          </li>
-	          <li><a href="/setting">Setting</a></li>
-	        </ul>
-		</nav>
-		<div id="sec_wrapper" name="sec_wrapper">
-			<section>
-				<article>
-					<div id="video">Upload Videos</div>
-					<form id="videoUpload" action="/assets/uploadVideo" method="post" enctype="multipart/form-data">
-						Name: <input type="text" name="fileName" id="fileName"><br>
-				        Select video: <input id="videoFile" class="button" type="file" name="file" accept="video/*" require="require" onChange="checkVideo(this.id, this.value)">
-				        <input class="button" type="submit" value="Upload">
-				    </form>
-				    <div id="image">Upload Images</div>
-				    <form id="imageUpload" action="/assets/uploadImage" method="post" enctype="multipart/form-data">
-				    	Name: <input type="text" name="fileName" id="fileName"><br>
+		
+						<div id="abc">
+						<!-- Popup Div Starts Here -->
+						<div id="popupContact">
+						<!-- Contact Us Form -->
+						<form id="videoUpload" action="/assets/uploadVideo" method="post" enctype="multipart/form-data">
+						<img id="close" src="images/3.png" onclick ="div_hide()">
+						<h2>Upload Videos</h2>
+						<hr>
+						 Name: <input type="text" name="fileName" id="fileName"><br>
+				       Select video: <input id="videoFile" class="button" type="file" name="file" accept="video/*" require="require" onChange="checkVideo(this.id, this.value)">
+				       <input class="button" type="submit"  value="Upload">
+				     	<div class="container">
+						     	<div class="progress progress-striped active">
+									  <div class="progress-bar" style="0%">
+									    <p id="barpro"></p>
+									  </div>
+								</div>
+						</div>
+				    	
+				      </form>
+						</div>
+						<!-- Popup Div Ends Here -->
+						</div>	
+	
+	
+	
+	
+	
+	
+	
+						<div id="abcd">
+						<!-- Popup Div Starts Here -->
+						<div id="popupContact">
+						<!-- Contact Us Form -->
+						<form id="imageUpload" action="/assets/uploadImage" method="post" enctype="multipart/form-data">
+						<img id="close" src="images/3.png" onclick ="div_hideimage()">
+						<h2>Upload Images</h2>
+						<hr>
+						  Name: <input type="text" name="fileName" id="fileName"><br>
 				        Select image: <input id="imageFile" class="button" type="file" name="file"  accept="image/*" require="require" onChange="checkImage(this.id, this.value)">
 				        <input class="button" type="submit" value="Upload">
-				    </form>
-				    <div id="progressbox">
-				    	<div id="progressbar"></div>
-				    	<div id="statustxt"></div>
-				    </div>
-				</article>
+				     	<div class="container">
+						     	<div class="progress progress-striped active">
+									  <div class="progress-bar" style="0%">
+									    <p id="barpro"></p>
+									  </div>
+								</div>
+						</div>
+				    	
+				      </form>
+						</div>
+						<!-- Popup Div Ends Here -->
+						</div>	
+						
+
+
+		<div id="wrapper" class="container">
+  			<div class="panel-group">
+   			<div class="panel panel-success">
+   	   		<div class="panel-heading">Assets</div>
+      			<div class="panel-body">
+							
+
+	
+			<section>
+					<button id="videobtn" type="button" onclick="div_show()" class="btn btn-success">Upload Videos</button>
+					<button id="imagebtn" type="button" onclick="div_showimage()" class="btn btn-success">Upload Images</button>
 			</section>
 			<aside>
-				<table>
-					<tr>
-						<th id="front"></th>
-						<th>Assets</th>
-						<th id="back"><a href="/assets/edit"><input type="submit" value="Edit"></a></th>
-					</tr>
-					<tbody id="list">
-						
-					</tbody>
-				</table>
-				
+				<div class="container2">
+				  <table class="table table-bordered">
+				    <thead>
+				      <tr>
+				        <th id="front">Media</th>
+				        <th id="assetst">Assets</th>
+				        <th id="back">
+				        <a href="/assets/edit"><input type="submit" id="editbtn" class="btn btn-warning" value="Edit"></th></a>
+				      </tr>
+				    </thead>
+				    <tbody id="list"></tbody>
+				  </table>
+				  </div>	
 			</aside>
-		</div>
-		<footer>
-			
-		</footer>
-	</div>
+		
+		
+					  </div>							
+      			</div>
+	    		</div>
+    		</div>
+
 
 	<script type="text/javascript">
 		var socket = io();

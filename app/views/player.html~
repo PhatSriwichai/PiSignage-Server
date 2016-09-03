@@ -74,16 +74,16 @@
 						<h2>Register Player</h2>
 						<hr>
 							 <label for="playerID">Enter 16 digits player ID</label><br>
-							<input id="playerID" type="text" name="playerId" placeholder="Get from TV or Mac Address for Raspberry Pi"><br>
+							<input id="playerID" type="text" name="playerId" placeholder="Get from TV or Mac Address for Raspberry Pi"><br><br>
 							<label for="Group">Group</label><br>
 							<select id="groupPlayer" name="group">
 								<option value="dd">testt</option>
-							</select><br>
+							</select><br><br>
 							<label for="playerName">Name for the Player</label><br>
 							<input id="playerName" type="text" name="playerName" placeholder="e.g. location of the player"><br>
 							<label for="location">Location</label><br>
 							<input id="location" type="text" name="location" placeholder="e.g. Nakhon Ratchasima"><br>
-							<input type="submit" value="Register"></input>
+							<input id="buttonsub" class="btn btn-success" type="submit" value="Register"></input>
 				    	
 				      </form>
 						</div>
@@ -113,6 +113,7 @@
 						<th>Location</th>
 						<th>Status</th>
 						<th>Group</th>
+						<th><a href="#"><input type="submit" id="editbtn" class="btn btn-warning" value="Edit"></th></a></th>
 					</tr>
 					<tbody id="list">
 						

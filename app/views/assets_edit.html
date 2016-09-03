@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head>
+	<head>
     <meta charset="UTF-8">
     <title>Assets</title>
     <link rel="stylesheet" type="text/css" href="/css/menu.css">
     <link rel="stylesheet" type="text/css" href="/css/assets_edit.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://malsup.github.com/jquery.form.js"></script> 
-	 <div w3-include-html="menu.html"></div>
+    <script src="/js/w3data.js"></script>
+	 <div w3-include-html="/views/menu.html"></div>
 	 <script>w3IncludeHTML();</script> 
-</head>
+	</head>
 <body>
 	
 	<div id="wrapper">
 		<div id="sec_wrapper" name="sec_wrapper">
 			<aside>
+
+
 				<form action="/assets/edit/delete" method="POST">
-					<table>
+					<table class="table table-bordered">
 					<tr>
 						<th id="front"></th>
 						<th>Assets</th>
@@ -29,11 +33,11 @@
 					</tbody>
 				</table>
 				</form>
+				
+				
 			</aside>
 		</div>
-		<footer>
-			
-		</footer>
+	
 	</div>
 
 	<script type="text/javascript">

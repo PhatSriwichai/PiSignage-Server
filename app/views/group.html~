@@ -57,7 +57,7 @@
 						<input type="text" id="add" name="add"><br>
 						<label for="description">Short Description</label><br>
 						<input type="text" id="description" name="description"><br>
-						<input type="submit" value="Add">
+						<input id="buttonsub" class="btn btn-success" type="submit" value="Add">
 				      </form>
 						</div>
 						<!-- Popup Div Ends Here -->

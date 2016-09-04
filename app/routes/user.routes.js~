@@ -1,7 +1,6 @@
 module.exports = function(app){
 	
 	var user = require('../controllers/user.controller');
-	app.get('/home', user.home);
 	app.get('/assets/list', user.assetsList);
 	app.get('/assets', user.addAssets);
 	app.get('/assets/edit', user.editRender);

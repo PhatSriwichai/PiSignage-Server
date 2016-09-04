@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HOME</title>
+  		  <script src="js/w3data.js"></script>
+  		  <div w3-include-html="menu.html"></div>
+		  <script>w3IncludeHTML();</script> 
+    </head>
+<body>
+
+		<div id="wrapper" class="container">
+  			<div class="panel-group">
+   			<div class="panel panel-success">
+   	   		<div class="panel-heading">Setting</div>
+      			<div class="panel-body">
+      			
+      			
+					</div>							
+      			</div>
+	    		</div>
+    		</div>
+</body>
+</html>

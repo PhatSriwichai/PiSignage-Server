@@ -69,7 +69,9 @@ module.exports = function(app, io){
                           console.log(err);
                       }else{
                           var index = j-(j-count);
-                          io.emit('file', jsonString[index], buf);
+                          var type = jsonString[index].substring(jsonString[index].length-3, jsonString[index].length);
+                          io.emit('file', jsonString[index], buf, type);
+                          //console.log(type);
                           count += 1;
 
                       }

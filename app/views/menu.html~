@@ -2,7 +2,8 @@
 <html>
     <head>
         <link rel="stylesheet" href="css/menu.css">
-        
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+		
 		
     </head>
 <body>
@@ -15,6 +16,9 @@
 	          <li><a href="/player">Players</a></li>
 	          <li><a href="/group">Players Groups</a></li>				
 	          <li><a href="/setting">Setting</a></li>
+	          <a href="/logout">
+	          	<button  type="submit" id="buttonlogout" class="btn btn-danger pull-right" value="logout">Sign Out</button>
+	          </a>
 	        </ul>
 		</nav>
     <section>

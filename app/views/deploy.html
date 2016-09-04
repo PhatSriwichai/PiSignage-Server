@@ -24,6 +24,7 @@
 	<script type="text/javascript">
 		var socket = io();
 		var i;
+
 		socket.emit('route', 'playlist');
 		socket.on('playlist', function(message){
 			var list = document.getElementById("plailist");
@@ -35,19 +36,7 @@
 			
 			
 		});
-		var string = '';
-		socket.emit('route', 'group');
-		socket.on('group', function(message){
-			var list = document.getElementById("list");
-			for(i = 0; i < message.length; i++){
-				string += "<tr><td><a href=\"/group_player?id="+message[i].groupId+"\">"+message[i].groupName+"</a></td>";
-				string += "<td>"+message[i].description+ "</td>";
-				string += "<td><a href=\"deploy?groupId="+message[i].groupId+"\"><input id=\"buttonsub\" class=\"btn btn-success\" type=\"submit\" value=\"Deploy\">"+"</a></td></tr>";
-			}
-			list.innerHTML = string;
-			
-			
-		});
+
 	</script>
 	<script src="js/w3data.js"></script>
 </head>
@@ -56,23 +45,7 @@
 	<div  w3-include-html="menu.html"></div>
 	<script id="menu">w3IncludeHTML();</script> 
 	
-	<div id="abcgroup">
-		<!-- Popup Div Starts Here -->
-		<div id="popupContact">
-			<!-- Contact Us Form -->
-			<form id="addGroup" method="post" action="/group/add">
-				<img id="close" src="images/3.png" onclick ="div_hidegroup()">
-				<h2>Players Group</h2>
-				<hr>
-				<label for="group">Group</label><br>
-				<input type="text" id="add" name="add"><br><br>
-				<label for="description">Short Description</label><br>
-				<input type="text" id="description" name="description"><br><br>
-				<input id="buttonsub" class="btn btn-success" type="submit" value="Add">
-		     </form>
-		</div>
-		<!-- Popup Div Ends Here -->
-	</div>			
+	
 	
 	<div id="deploy_form">
 		<!-- Popup Div Starts Here -->
@@ -98,26 +71,27 @@
 	<div id="wrapper" class="container">
   			<div class="panel-group">
    			<div class="panel panel-success">
-   	   		<div class="panel-heading">Players Group</div>
+   	   		<div class="panel-heading">Deploy</div>
       			<div class="panel-body">
       			
       			
 		<div id="sec_wrapper" name="sec_wrapper">
 			<section>
-			<button id="videobtn" type="button" onclick="div_showgroup()" class="btn btn-success">Insert Group</button>	
 		
 			</section>
 			<aside>
-				<table class="table table-bordered">
-					<tr>
-						<th>Groups</th>
-						<th id="description">Description</th>
-						<th><a href="#"><input type="submit" id="editbtn" class="btn btn-warning" value="Edit"></th></a></th>
-					</tr>
-					<tbody id="list">
-						
-					</tbody>
-				</table>
+				<form id="addGroup" method="post" action="/deploy">
+				
+				
+			
+				<label for="group">Playlist</label>
+				<select id="plailist" name="playlist">
+					<option value="dd">testt</option>
+				</select>
+				<label for="description">Short Description</label>
+				<input type="text" id="description" name="description">
+				<input id="buttonsub" class="btn btn-success" type="submit" value="Deploy">
+		     </form>
 				
 			</aside>
 		</div>

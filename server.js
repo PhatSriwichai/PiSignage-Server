@@ -21,7 +21,7 @@ var server = app.listen(port, function(){
 //var io = socket();
 
 var io = require('socket.io').listen(server);
-var socket = require('./config/socket')(io);
+var socket = require('./config/socket')(app, io);
 
 
 module.exports = app;

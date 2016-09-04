@@ -1,0 +1,30 @@
+input#editbtn{
+	width: 100px;
+}
+table{
+	margin: 10px;
+	width: 100%;
+}
+
+#first{
+	width: 40%;
+}
+#final{
+	width: 10%;
+	text-align: right;
+}
+#deploy{
+	text-align: right;
+}
+.section{
+	
+}
+select, option{
+	width: 50%;
+	height: 120%;
+	padding: 5px 0px;
+	
+}
+select, option:hover{
+	
+}

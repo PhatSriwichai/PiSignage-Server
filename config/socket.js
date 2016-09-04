@@ -1,7 +1,9 @@
-module.exports = function(io){
+module.exports = function(app, io){
 	//var io = require('socket.io').listen(server);
 	var db = require('../app/models/connectdb');
 	var mysql = db.connectdb();
+	require('../app/routes/socket.routes')(app, io);
+
 
 
 	io.on('connection', function(socket){
@@ -38,7 +40,7 @@ module.exports = function(io){
 
 			}else if(message == 'player'){
 
-				var queryString = 'SELECT Player.name,Player.location,Player.ip,Player.status, Groups.groupName FROM Player, Groups \
+				var queryString = 'SELECT * FROM Player, Groups \
 							WHERE Player.groupId = Groups.groupId';
 		   	//var queryString = 'SELECT * FROM User)';
 			   	mysql.query(queryString, function(err, rows, fields){
@@ -65,22 +67,6 @@ module.exports = function(io){
 				var id;
 				socket.on('playlist-assets', function(message){
 					id = message;
-					//console.log(id);
-		
-			   		/*var queryString = 'SELECT * FROM AddPlaylist, Playlist, Assets \
-			   						WHERE AddPlaylist.playlistId = Playlist.playlistId and AddPlaylist.assetsId = Assets.assetsId';
-				   	mysql.query(queryString, function(err, rows, fields){
-				   		if(err){
-				   			console.log(err);
-				   		}else{
-				   			//console.log(rows);
-				   			io.emit('playlist-assets', rows);
-				   		}
-				   	});*/
-				   	
-				   	/*var queryString = 'SELECT * FROM Assets LEFT JOIN AddPlaylist \
-				   	ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId ='+id+' ORDER BY apId DESC';*/
-
 				   	var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, Assets.time, Assets.ownId, \
 				   				AddPlaylist.apId, AddPlaylist.playlistId FROM Assets LEFT JOIN AddPlaylist \
 				   				ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId = "+id+" ORDER BY apId DESC"
@@ -112,6 +98,23 @@ module.exports = function(io){
 					    }
 					});
 				});
+			}else if(message == 'player_in_group'){
+				var id;
+
+				socket.on('player_in_group', function(message){
+					id = message;
+					var queryString = 'SELECT * FROM Player, Groups WHERE Groups.groupId = ? and Player.groupId = Groups.groupId';
+					var insert = [id];
+					queryString = mysql.format(queryString, insert);
+
+					mysql.query(queryString, function(err, rows, fields){
+					    if(err){
+					      	console.log(err);
+					    }else{
+					        io.emit('player_in_group', rows)
+					    }
+					});
+				});
 			}
 		});
 		
@@ -140,7 +143,7 @@ module.exports = function(io){
 						   	if(err){
 						   		console.log(err);
 						   	}else{
-						   		var queryString = 'SELECT Player.name,Player.location,Player.ip,Player.status, Groups.groupName FROM Player, Groups \
+						   		var queryString = 'SELECT * FROM Player, Groups \
 												WHERE Player.groupId = Groups.groupId';
 							   	//var queryString = 'SELECT * FROM User)';
 								   	mysql.query(queryString, function(err, rows, fields){

@@ -47,3 +47,11 @@ document.getElementById('abcgroup').style.display = "block";
 function div_hidegroup(){
 document.getElementById('abcgroup').style.display = "none";
 }
+
+function div_showDeploy() {
+	document.getElementById('deploy_form').style.display = "block";
+}
+//Function to Hide Popup
+function div_hideDeploy(){
+	document.getElementById('deploy_form').style.display = "none";
+}

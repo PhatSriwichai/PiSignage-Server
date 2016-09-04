@@ -7,10 +7,12 @@ module.exports = function(app){
 	app.get('/assets/edit', user.editRender);
 	app.get('/player', user.playerRender);
 	app.get('/group', user.groupRender);
+	app.get('/group_player', user.groupPlayer);
 	app.get('/playlist', user.playListRender);
 	app.get('/playlist/list', user.playListOrder);
 	app.get('/show', user.showAsset);
 	app.get('/setting', user.setting);
+	//app.get('/deploy', user.deploy);
 	app.get('/logout', user.logout);
 	
 	app.post('/group/add', user.addGroup);
@@ -21,6 +23,8 @@ module.exports = function(app){
 	app.post('/assets/uploadImage', user.uploadImage);
 	app.post('/assets/edit/delete', user.deleteAssets);
 	app.post('/login', user.login);
+	//app.post('/deploy', user.deploy);
+	
 
 	
 

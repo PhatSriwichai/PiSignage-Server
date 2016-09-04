@@ -65,6 +65,18 @@ div#abcgroup{
 	background-color:#313131;
 	overflow:auto;
 }
+div#deploy_form{
+	margin: 5px;
+	width:100%;
+	height:100%;
+	opacity:.95;
+	top:-30px;
+	left:-30px;
+	display:none;
+	position: fixed;
+	background-color:#313131;
+	overflow:auto;
+}
 img#close {
 	position:absolute;
 	right:-14px;

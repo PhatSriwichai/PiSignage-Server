@@ -27,7 +27,35 @@
 			
 		});
 	 </script>
-	 <script src="js/w3data.js"></script>
+	 <script>
+		function validateForm() {
+		    var x = document.forms["myForm"]["add"].value;
+		    var xl = document.forms["myForm"]["description"].value;
+		    if (x == null || x == "") {
+		        document.getElementById('errorinput').style.display = "block";
+		        return false;
+		    }else {
+		    	  document.getElementById('errorinput').style.display = "none";
+		    }
+		    if (xl == null || xl == "") {
+		        document.getElementById('errorinput2').style.display = "block";
+		        return false;
+		    }else {
+					document.getElementById('errorinput2').style.display = "none";		    	
+		    }
+		}
+		
+		function div_hideerrorinput(){
+		document.getElementById('errorinput').style.display = "none";
+		
+		}
+		
+		function div_hideerrorinput2(){
+		document.getElementById('errorinput2').style.display = "none";
+		
+		}
+	</script>
+	<script src="js/w3data.js"></script>
 	 <div id="menu" w3-include-html="menu.html"></div>
 	<script id="menu">w3IncludeHTML();</script> 
 </head>
@@ -36,15 +64,30 @@
 						<!-- Popup Div Starts Here -->
 						<div id="popupContact">
 						<!-- Contact Us Form -->
-						<form id="addPlaylist" method="post" action="/playlist/add">
+						<form name="myForm" id="addPlaylist" onsubmit="return validateForm()" method="post" action="/playlist/add">
 						<img id="close" src="images/3.png" onclick ="div_hideplaylist()">
 						<h2>Insert Playlist</h2>
 						<hr>
+						<div id="errorinput">
+						<div class="alert alert-danger">
+						   Please enter Name Playlist fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput();</script> 		
+						
+						
+						<div id="errorinput2">
+						<div class="alert alert-danger">
+						   Please enter Short Description fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput2();</script> 					
+						
 						Name Playlist<br>
-						<input type="text" id="add" name="add"><br><br>
+						<input type="text" id="add" name="add" ><br><br>
 						Short Description<br>
-						<input type="text" id="description" name="description"><br><br>
-						<input id="buttonsub" class="btn btn-success" type="submit" value="Add">		    	
+						<input type="text" id="description" name="description" ><br><br>
+						<input id="buttonsub" class="btn btn-success" type="submit" value="Add">
 				      </form>
 						</div>
 						<!-- Popup Div Ends Here -->

@@ -24,19 +24,61 @@
 	<script type="text/javascript">
 		var socket = io();
 		var i;
+		socket.emit('route', 'playlist');
+		socket.on('playlist', function(message){
+			var list = document.getElementById("plailist");
+			var string = '';
+			for(i = 0; i < message.length; i++){
+				string += "<option value="+message[i].plailistId+">"+message[i].playlistName+"</option>";
+			}
+			list.innerHTML = string;
+			
+			
+		});
 		var string = '';
 		socket.emit('route', 'group');
 		socket.on('group', function(message){
 			var list = document.getElementById("list");
 			for(i = 0; i < message.length; i++){
-				string += "<tr><td>"+message[i].groupName+"</td>";
-				string += "<td>"+message[i].description+ "</td></tr>";
+				string += "<tr><td><a href=\"/group_player?id="+message[i].groupId+"\">"+message[i].groupName+"</a></td>";
+				string += "<td>"+message[i].description+ "</td>";
+				string += "<td><a href=\"deploy?groupId="+message[i].groupId+"\"><input id=\"buttonsub\" class=\"btn btn-success\" type=\"submit\" value=\"Deploy\">"+"</a></td></tr>";
 			}
 			list.innerHTML = string;
 			
 			
 		});
 	</script>
+	
+	<script>
+		function validateForm() {
+		    var x = document.forms["myForm"]["add"].value;
+		    var xl = document.forms["myForm"]["description"].value;
+		    if (x == null || x == "") {
+		        document.getElementById('errorinput').style.display = "block";
+		        return false;
+		    }else {
+		    	  document.getElementById('errorinput').style.display = "none";
+		    }
+		    if (xl == null || xl == "") {
+		        document.getElementById('errorinput2').style.display = "block";
+		        return false;
+		    }else {
+					document.getElementById('errorinput2').style.display = "none";		    	
+		    }
+		}
+		
+		function div_hideerrorinput(){
+		document.getElementById('errorinput').style.display = "none";
+		
+		}
+		
+		function div_hideerrorinput2(){
+		document.getElementById('errorinput2').style.display = "none";
+		
+		}
+	</script>
+	
 	<script src="js/w3data.js"></script>
 </head>
 <body>
@@ -44,28 +86,60 @@
 	<div  w3-include-html="menu.html"></div>
 	<script id="menu">w3IncludeHTML();</script> 
 	
-	
-						<div id="abcgroup">
-						<!-- Popup Div Starts Here -->
-						<div id="popupContact">
-						<!-- Contact Us Form -->
-						<form id="addGroup" method="post" action="/group/add">
-						<img id="close" src="images/3.png" onclick ="div_hidegroup()">
-						<h2>Players Group</h2>
-						<hr>
-						<label for="group">Group</label><br>
-						<input type="text" id="add" name="add"><br>
-						<label for="description">Short Description</label><br>
-						<input type="text" id="description" name="description"><br>
-						<input id="buttonsub" class="btn btn-success" type="submit" value="Add">
-				      </form>
+	<div id="abcgroup">
+		<!-- Popup Div Starts Here -->
+		<div id="popupContact">
+			<!-- Contact Us Form -->
+			<form name="myForm" onsubmit="return validateForm()" id="addGroup" method="post" action="/group/add">
+				<img id="close" src="images/3.png" onclick ="div_hidegroup()">
+				<h2>Players Group</h2>
+				<hr>
+				
+						<div id="errorinput">
+						<div class="alert alert-danger">
+						   Please enter Group fields.
 						</div>
-						<!-- Popup Div Ends Here -->
-						</div>			
+						</div>
+						<script >div_hideerrorinput();</script> 		
+						
+						
+						<div id="errorinput2">
+						<div class="alert alert-danger">
+						   Please enter Short Description fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput2();</script> 		
+
+				<label for="group">Group</label><br>
+				<input type="text" id="add" name="add"><br><br>
+				<label for="description">Short Description</label><br>
+				<input type="text" id="description" name="description"><br><br>
+				<input id="buttonsub" class="btn btn-success" type="submit" value="Add">
+		     </form>
+		</div>
+		<!-- Popup Div Ends Here -->
+	</div>			
 	
-	
-	
-	
+	<div id="deploy_form">
+		<!-- Popup Div Starts Here -->
+		<div id="popupContact">
+			<!-- Contact Us Form -->
+			<form id="addGroup" method="post" action="/deploy">
+				<img id="close" src="images/3.png" onclick ="div_hideDeploy()">
+				<h2>Deploy</h2>
+				<hr>
+				<label for="group">Playlist</label><br>
+				<select id="plailist" name="playlist">
+					<option value="dd">testt</option>
+				</select><br><br>
+				<label for="description">Short Description</label><br>
+				<input type="text" id="description" name="description"><br><br>
+				<input id="buttonsub" class="btn btn-success" type="submit" value="Deploy">
+		     </form>
+		</div>
+		<!-- Popup Div Ends Here -->
+	</div>			
+
 	
 	<div id="wrapper" class="container">
   			<div class="panel-group">
@@ -76,7 +150,8 @@
       			
 		<div id="sec_wrapper" name="sec_wrapper">
 			<section>
-			<button id="videobtn" type="button" onclick="div_showgroup()" class="btn btn-success">Insert Group</button>			
+			<button id="videobtn" type="button" onclick="div_showgroup()" class="btn btn-success">Insert Group</button>	
+		
 			</section>
 			<aside>
 				<table class="table table-bordered">

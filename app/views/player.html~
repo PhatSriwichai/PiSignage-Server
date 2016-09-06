@@ -52,13 +52,70 @@
 				string += "<td>"+message[i].playerMac+"</td>";
 				string += "<td>"+message[i].location+"</td>";
 				string += "<td>"+message[i].status+"</td>";
-				string += "<td>"+message[i].groupName+ "</td></tr>";
+				string += "<td>"+message[i].groupName+ "</td>";
+				string += "<td></td></tr>";
 			}
 			list.innerHTML = string;
 			
 			
 		});
 	</script>
+	
+	<script>
+		function validateForm() {
+		    var x = document.forms["myForm"]["playerId"].value;
+		    var xl = document.forms["myForm"]["group"].value;
+		    var y = document.forms["myForm"]["group"].value;
+		    var yl = document.forms["myForm"]["playerName"].value;
+		    var z = document.forms["myForm"]["location"].value;
+		    if (x == null || x == "") {
+		        document.getElementById('errorinput').style.display = "block";
+		        return false;
+		    }else {
+		    	  document.getElementById('errorinput').style.display = "none";
+		    }
+		    if (xl == null || xl == "") {
+		        document.getElementById('errorinput2').style.display = "block";
+		        return false;
+		    }else {
+					document.getElementById('errorinput2').style.display = "none";		    	
+		    }
+		    if (y == null || y == "") {
+		        document.getElementById('errorinput3').style.display = "block";
+		        return false;
+		    }else {
+		    	  document.getElementById('errorinput3').style.display = "none";
+		    }
+		    if (yl == null || yl == "") {
+		        document.getElementById('errorinput4').style.display = "block";
+		        return false;
+		    }else {
+					document.getElementById('errorinput4').style.display = "none";		    	
+		    }
+		}
+		
+		function div_hideerrorinput(){
+		document.getElementById('errorinput').style.display = "none";
+		
+		}
+		
+		function div_hideerrorinput2(){
+		document.getElementById('errorinput2').style.display = "none";
+		
+		}
+		
+		function div_hideerrorinput3(){
+		document.getElementById('errorinput3').style.display = "none";
+		
+		}
+		
+		function div_hideerrorinput4(){
+		document.getElementById('errorinput4').style.display = "none";
+		
+		}
+	</script>
+		
+	
 	<script src="js/w3data.js"></script>
 </head>
 <body>
@@ -69,11 +126,41 @@
 						<!-- Popup Div Starts Here -->
 						<div id="popupContact">
 						<!-- Contact Us Form -->
-						<form id="reg" method="post" action="/player/register">
+						<form name="myForm" onsubmit="return validateForm()" id="reg" method="post" action="/player/register">
 						<img id="close" src="images/3.png" onclick ="div_hideregplay()">
 						<h2>Register Player</h2>
 						<hr>
-							 <label for="playerID">Enter 16 digits player ID</label><br>
+						
+						<div id="errorinput">
+						<div class="alert alert-danger">
+						  Please enter 16 digits player ID (xx:xx:xx:xx) fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput();</script>
+						
+						<div id="errorinput2">
+						<div class="alert alert-danger">
+						  Please enter Group fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput2();</script>
+						
+						<div id="errorinput3">
+						<div class="alert alert-danger">
+						  Please enter Name for the Player fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput3();</script>	
+						
+						<div id="errorinput4">
+						<div class="alert alert-danger">
+						  Please enter Location fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput4();</script>
+											
+						
+							 <label for="playerID">Enter 16 digits player ID (xx:xx:xx:xx)</label><br>
 							<input id="playerID" type="text" name="playerId" placeholder="Get from TV or Mac Address for Raspberry Pi"><br><br>
 							<label for="Group">Group</label><br>
 							<select id="groupPlayer" name="group">

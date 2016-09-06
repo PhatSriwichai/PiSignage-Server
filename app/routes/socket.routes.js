@@ -53,38 +53,22 @@ module.exports = function(app, io){
                             console.log(err);
                         }else{
                             var i;
-                            var j;
-                            var jsonString=[];
-                            var count=0;
+                            var j; 
                             for(i=0; i<play.length; i++){
+                              var mac = play[i].playerMac;
+                              var listFile = [];
                                 for(j=0; j<rows.length; j++){
-                                    var fileName = rows[j].assetsName;
-                                    jsonString.push(fileName);
-                                    console.log("j = "+j);
-                                    var mac = play[i].playerMac;
-                                    var file = fs.readFile(pathFile+"/public/assets/"+jsonString[j], "binary",function(err, buf){
-                                        
-                                        if(err){
-                                            console.log(err);
-                                        }else{
-                                            var index = j-(j-count);
-                                            var type = jsonString[index].substring(jsonString[index].length-3, jsonString[index].length);
-                                            io.emit(mac, jsonString[index], buf, type);
-                                            //console.log(mac);
-                                            count += 1;
-
-                                        }
-                                    }); 
-
+                                    var fileName = rows[j].assetsName; 
+                                    listFile.push(fileName);
+                                   
+                                    
+                                    //console.log("send "+fileName+" to "+mac);
                                 }
+                                console.log(listFile);
+                                io.emit(mac+"_check", listFile);
                             }
-                                
-                           
-                            //io.emit('file', fileName, buf);
-                          
                         }
                     });
-                   
                 }
       });
       //var queryString = 'INSERT INTO Assets(assetsName, ownId) VALUES(\''+req.files.file.name+'\','+req.session.userId+')';

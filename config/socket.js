@@ -3,6 +3,7 @@ module.exports = function(app, io){
 	var db = require('../app/models/connectdb');
 	var mysql = db.connectdb();
 	require('../app/routes/socket.routes')(app, io);
+	var fs = require('fs');
 
 
 
@@ -11,6 +12,7 @@ module.exports = function(app, io){
 		nick = nick.substring(7, nick.length);
 		socket.nickname = nick;
 		console.log(socket+" connected.");
+		var old_file = [];
 		//==========================================================================================
 		socket.on('route', function(message){
 			if(message == 'group'){
@@ -114,6 +116,35 @@ module.exports = function(app, io){
 					        io.emit('player_in_group', rows)
 					    }
 					});
+				});
+			}else if(message == 'file'){
+				var path = __dirname;
+			    var pathLength = path.length;
+			    var pathFile = path.substring(0, pathLength-7);
+
+				socket.on('file', function(message){
+					
+					if(!(old_file[0] == message[0] && old_file[1] == message[1])){
+						console.log(message);
+						var file = fs.readFile(pathFile+"/public/assets/"+message[0], "binary",function(err, buf){
+	                                        
+	                        if(err){
+	                            console.log(err);
+	                        }else{
+	                        	var fileName = message[0];
+	                        	var mac = message[1];
+	                            var type = fileName.substring(fileName.length-3, fileName.length);
+
+	                            io.emit(mac, fileName, buf, type);
+	                            
+
+	                        }
+	                    });
+					}
+					old_file[0] = message[0];
+					old_file[1] = message[1];
+					
+                   
 				});
 			}
 		});

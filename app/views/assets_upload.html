@@ -102,6 +102,70 @@
 		}
 		
 	</script>
+	<script>
+		function validateForm() {
+		    var x = document.forms["myForm"]["fileName"].value;
+		    var xl = document.forms["myForm"]["file"].value;
+		    
+		    if (x == null || x == "") {
+		        document.getElementById('errorinput').style.display = "block";
+		        return false;
+		    }else {
+		    	  document.getElementById('errorinput').style.display = "none";
+		    }
+		    if (xl == null || xl == "") {
+		        document.getElementById('errorinput2').style.display = "block";
+		        return false;
+		    }else {
+					document.getElementById('errorinput2').style.display = "none";
+		    }
+		    
+		   
+		    
+		}
+			
+		function div_hideerrorinput(){
+		document.getElementById('errorinput').style.display = "none";
+		}
+		
+		function div_hideerrorinput2(){
+		document.getElementById('errorinput2').style.display = "none";
+		}
+		
+	</script>
+	<script>
+		function validateForm2() {
+		    var x = document.forms["myForm2"]["fileName"].value;
+		    var xl = document.forms["myForm2"]["file"].value;
+		    
+		    if (x == null || x == "") {
+		        document.getElementById('errorinput3').style.display = "block";
+		        return false;
+		    }else {
+		    	  document.getElementById('errorinput3').style.display = "none";
+		    }
+		    if (xl == null || xl == "") {
+		        document.getElementById('errorinput4').style.display = "block";
+		        return false;
+		    }else {
+					document.getElementById('errorinput4').style.display = "none";
+		    }
+		    
+		   
+		    
+		}
+			
+		function div_hideerrorinput3(){
+		document.getElementById('errorinput3').style.display = "none";
+		}
+		
+		function div_hideerrorinput4(){
+		document.getElementById('errorinput4').style.display = "none";
+		}
+		
+	</script>
+	
+
 	<script src="js/w3data.js"></script>
 
 </head>
@@ -114,10 +178,26 @@
 						<!-- Popup Div Starts Here -->
 						<div id="popupContact">
 						<!-- Contact Us Form -->
-						<form id="videoUpload" action="/assets/uploadVideo" method="post" enctype="multipart/form-data">
+						<form name="myForm" id="videoUpload" onsubmit="return validateForm()" action="/assets/uploadVideo" method="post" enctype="multipart/form-data">
 						<img id="close" src="images/3.png" onclick ="div_hide()">
 						<h2>Upload Videos</h2>
 						<hr>
+						
+						<div id="errorinput">
+						<div class="alert alert-danger">
+						  Please enter Name File fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput();</script> 		
+						
+						
+						<div id="errorinput2">
+						<div class="alert alert-danger">
+						  Please enter Select File fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput2();</script> 
+						
 						 Name: <input type="text" name="fileName" id="fileName"><br><br>
 				       Select video: <input id="videoFile" class="button" type="file" name="file" accept="video/*" require="require" onChange="checkVideo(this.id, this.value)"><br><br>
 				       <input id="buttonsub" class="btn btn-success" type="submit"  value="Upload"><br><br>
@@ -144,10 +224,25 @@
 						<!-- Popup Div Starts Here -->
 						<div id="popupContact">
 						<!-- Contact Us Form -->
-						<form id="imageUpload" action="/assets/uploadImage" method="post" enctype="multipart/form-data">
+						<form name="myForm2" id="imageUpload" onsubmit="return validateForm2()" action="/assets/uploadImage" method="post" enctype="multipart/form-data">
 						<img id="close" src="images/3.png" onclick ="div_hideimage()">
 						<h2>Upload Images</h2>
 						<hr>
+						
+						<div id="errorinput3">
+						<div class="alert alert-danger">
+						  Please enter Name File fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput3();</script>
+						
+						<div id="errorinput4">
+						<div class="alert alert-danger">
+						   Please enter Select File fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput4();</script> 						
+						
 						  Name: <input type="text" name="fileName" id="fileName"><br><br>
 				        Select image: <input id="imageFile" class="button" type="file" name="file"  accept="image/*" require="require" onChange="checkImage(this.id, this.value)"><br><br>
 				        <input id="buttonsub" class="btn btn-success" type="submit" value="Upload"><br><br>

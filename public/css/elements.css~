@@ -4,12 +4,12 @@
 CSS settings for HTML div Exact Center
 ------------------------------------------------*/
 div#abc {
-		
+	margin: 5px;
 	width:100%;
 	height:100%;
 	opacity:.95;
-	top:-30px;
-	left:-30px;
+	top:-5px;
+	left:-5px;
 	display: none;
 	position: fixed;
 	background-color:#313131;
@@ -18,48 +18,60 @@ div#abc {
 
 }
 div#abcd{
-	
+	margin: 5px;
 	width:100%;
 	height:100%;
 	opacity:.95;
-	top:-30px;
-	left:-30px;
+	top:-5px;
+	left:-5px;
 	display:none;
 	position: fixed;
 	background-color:#313131;
 	overflow:auto;
 }
 div#abcplaylist{
-	
+	margin: 5px;
 	width:100%;
 	height:100%;
 	opacity:.95;
-	top:-30px;
-	left:-30px;
+	top:-5px;
+	left:-5px;
 	display:none;
 	position: fixed;
 	background-color:#313131;
 	overflow:auto;
 }
 div#abcregplay{
-	
+	margin: 5px;
 	width:100%;
 	height:100%;
 	opacity:.95;
-	top:-30px;
-	left:-30px;
+	top:-5px;
+	left:-5px;
 	display:none;
 	position: fixed;
 	background-color:#313131;
 	overflow:auto;
 }
 div#abcgroup{
-	
+	margin: 5px;
 	width:100%;
 	height:100%;
 	opacity:.95;
-	top:-30px;
-	left:-30px;
+	top:-5px;
+	left:-5px;
+	display:none;
+	position: fixed;
+	background-color:#313131;
+	overflow:auto;
+}
+div#deploy_form{
+	margin: 5px;
+	width:100%;
+	height:100%;
+	opacity:.95;
+	top:-5px;
+	left:-5px;
 	display:none;
 	position: fixed;
 	background-color:#313131;
@@ -75,12 +87,13 @@ div#popupContact {
 	position:absolute;
 	left:50%;
 	top:17%;
+	margin-top: -150px;
 	margin-left:-350px;
 	font-family:'Raleway',sans-serif;
 }
 form {
-	max-width:650px;
-	min-width:450px;
+	max-width:700px;
+	min-width:700px;
 	padding:10px 50px;
 	border:2px solid gray;
 	border-radius:10px;

@@ -42,13 +42,43 @@
 			for(i = 0; i < message.length; i++){
 				string += "<tr><td><a href=\"/group_player?id="+message[i].groupId+"\">"+message[i].groupName+"</a></td>";
 				string += "<td>"+message[i].description+ "</td>";
-				string += "<td><a href=\"deploy?groupId="+message[i].groupId+"\"><input id=\"buttonsub\" class=\"btn btn-success\" type=\"submit\" value=\"Deploy\">"+"</a></td></tr>";
+				string += "<td></td></tr>";
 			}
 			list.innerHTML = string;
 			
 			
 		});
 	</script>
+	
+	<script>
+		function validateForm() {
+		    var x = document.forms["myForm"]["add"].value;
+		    var xl = document.forms["myForm"]["description"].value;
+		    if (x == null || x == "") {
+		        document.getElementById('errorinput').style.display = "block";
+		        return false;
+		    }else {
+		    	  document.getElementById('errorinput').style.display = "none";
+		    }
+		    if (xl == null || xl == "") {
+		        document.getElementById('errorinput2').style.display = "block";
+		        return false;
+		    }else {
+					document.getElementById('errorinput2').style.display = "none";		    	
+		    }
+		}
+		
+		function div_hideerrorinput(){
+		document.getElementById('errorinput').style.display = "none";
+		
+		}
+		
+		function div_hideerrorinput2(){
+		document.getElementById('errorinput2').style.display = "none";
+		
+		}
+	</script>
+	
 	<script src="js/w3data.js"></script>
 </head>
 <body>
@@ -60,10 +90,26 @@
 		<!-- Popup Div Starts Here -->
 		<div id="popupContact">
 			<!-- Contact Us Form -->
-			<form id="addGroup" method="post" action="/group/add">
+			<form name="myForm" onsubmit="return validateForm()" id="addGroup" method="post" action="/group/add">
 				<img id="close" src="images/3.png" onclick ="div_hidegroup()">
 				<h2>Players Group</h2>
 				<hr>
+				
+						<div id="errorinput">
+						<div class="alert alert-danger">
+						   Please enter Group fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput();</script> 		
+						
+						
+						<div id="errorinput2">
+						<div class="alert alert-danger">
+						   Please enter Short Description fields.
+						</div>
+						</div>
+						<script >div_hideerrorinput2();</script> 		
+
 				<label for="group">Group</label><br>
 				<input type="text" id="add" name="add"><br><br>
 				<label for="description">Short Description</label><br>

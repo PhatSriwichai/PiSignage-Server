@@ -79,7 +79,7 @@
 					<tr>
 						<th id="front"></th>
 						<th>Assets</th>
-						<th id="check"><input  class="btn btn-primary" type="submit" value="Save"></th>
+						<th id="check"><input  class="btn btn-primarytype="submit" value="Save"></th>
 					</tr>
 					<tbody id="list">
 						

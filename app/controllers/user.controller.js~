@@ -167,6 +167,21 @@ exports.groupRender = function(req, res){
     else res.sendFile(pathView + '/views/group.html');
 };
 
+exports.groupPlayer = function(req, res){
+ var path = __dirname;
+    var pathLength = path.length;
+    var pathView = path.substring(0, pathLength-12);
+   
+    if(req.session.userId == null)  res.redirect('/');
+    else res.sendFile(pathView + '/views/group_player.html');
+};
+
+exports.deploy = function(req, res){
+    console.log(req.body.group);
+    console.log(req.body.playlist);
+    res.redirect('back');
+};
+
 exports.registerPlayer = function(req, res){
   var db = require('../models/connectdb');
   var mysql = db.connectdb();

@@ -80,9 +80,9 @@
 								<option value="dd">testt</option>
 							</select><br><br>
 							<label for="playerName">Name for the Player</label><br>
-							<input id="playerName" type="text" name="playerName" placeholder="e.g. location of the player"><br>
+							<input id="playerName" type="text" name="playerName" placeholder="e.g. location of the player"><br><br>
 							<label for="location">Location</label><br>
-							<input id="location" type="text" name="location" placeholder="e.g. Nakhon Ratchasima"><br>
+							<input id="location" type="text" name="location" placeholder="e.g. Nakhon Ratchasima"><br><br>
 							<input id="buttonsub" class="btn btn-success" type="submit" value="Register"></input>
 				    	
 				      </form>

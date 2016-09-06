@@ -19,7 +19,8 @@
 			var list = document.getElementById("list");
 			for(i = 0; i < message.length; i++){
 				string += "<tr><td><a href=\"/playlist/list?id="+message[i].playlistId+"\">"+message[i].playlistName+"</a></td>";
-				string += "<td>"+message[i].description+ "</td></tr>";
+				string += "<td>"+message[i].description+ "</td>";
+				string += "<td></td></tr>";
 			}
 			list.innerHTML = string;
 			

@@ -62,10 +62,10 @@ module.exports = function(app, io){
                                     listFile.push(fileName);
                                    
                                     
-                                    //console.log("send "+fileName+" to "+mac);
+                                    //console.log("send "+fileName+" to "+mac); 
                                 }
                                 console.log(listFile);
-                                io.emit(mac+"_check", listFile);
+                                io.emit(mac+"_check", listFile, rows[0].playlistName);
                             }
                         }
                     });

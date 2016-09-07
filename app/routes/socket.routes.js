@@ -66,6 +66,7 @@ module.exports = function(app, io){
                                 }
                                 console.log(listFile);
                                 io.emit(mac+"_check", listFile, rows[0].playlistName);
+                                io.emit(mac+"_control", rows[0].playlistName);
                             }
                         }
                     });

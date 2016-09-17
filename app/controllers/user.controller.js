@@ -167,6 +167,15 @@ exports.groupRender = function(req, res){
     else res.sendFile(pathView + '/views/group.html');
 };
 
+exports.groupeditRender = function(req, res){
+ var path = __dirname;
+    var pathLength = path.length;
+    var pathView = path.substring(0, pathLength-12);
+   
+    if(req.session.userId == null)  res.redirect('/');
+    else res.sendFile(pathView + '/views/group_edit.html');
+};
+
 exports.groupPlayer = function(req, res){
  var path = __dirname;
     var pathLength = path.length;
@@ -234,6 +243,24 @@ exports.playListRender = function(req, res){
     //console.log(pathView);
     if(req.session.userId == null)  res.redirect('/');
     else res.sendFile(pathView + '/views/playlist.html');
+};
+
+exports.playListeditRender = function(req, res){
+ var path = __dirname;
+    var pathLength = path.length;
+    var pathView = path.substring(0, pathLength-12);
+    //console.log(pathView);
+    if(req.session.userId == null)  res.redirect('/');
+    else res.sendFile(pathView + '/views/playlist_edit.html');
+};
+
+exports.playereditRender = function(req, res){
+ var path = __dirname;
+    var pathLength = path.length;
+    var pathView = path.substring(0, pathLength-12);
+    //console.log(pathView);
+    if(req.session.userId == null)  res.redirect('/');
+    else res.sendFile(pathView + '/views/player_edit.html');
 };
 
 exports.addPlayList = function(req, res){
@@ -412,9 +439,190 @@ exports.deleteAssets = function(req, res){
     
     }
 
+ 
+    res.redirect('back');
+};
+
+
+exports.deletePlaylist = function(req, res){
+    var db = require('../models/connectdb');
+    var mysql = db.connectdb();
+    var fs = require('fs');
+    var playlist_id = req.body.a;
+    var i, j;
+
+    var queryString = 'SELECT * FROM Playlist';
 
     
+    for(i = 0; i < playlist_id.length; i++){
+        var queryString = 'DELETE FROM AddPlaylist WHERE assetsId = ?';
+        var insert = [playlist_id[i]];
+        queryString = mysql.format(queryString, insert);
+
+        mysql.query(queryString,
+              function(err, result){
+                  //console.log(pass);
+                  if(err){
+                      console.log(err);
+                  }else{
+                      console.log('delete AddtoPlaylistt id '+ playlist_id[i]);
+                  }
+              }
+        );
     
+    }
+
+    for(i = 0; i < playlist_id.length; i++){
+        var queryString = 'DELETE FROM Playlist WHERE playlistId = ?';
+        var insert = [playlist_id[i]];
+        queryString = mysql.format(queryString, insert);
+
+        mysql.query(queryString,
+              function(err, result){
+                  //console.log(pass);
+                  if(err){
+                      console.log(err);
+                  }else{
+                      console.log('delete Playlist id '+ playlist_id[i]);
+                  }
+              }
+        );
     
+    }
+
+ 
+    res.redirect('back');
+};
+
+exports.deletePlayer = function(req, res){
+    var db = require('../models/connectdb');
+    var mysql = db.connectdb();
+    var fs = require('fs');
+    var player_id = req.body.a;
+    var i, j;
+
+    var queryString = 'SELECT * FROM Player';
+
+    
+
+    for(i = 0; i < player_id.length; i++){
+        var queryString = 'DELETE FROM Player WHERE playerId = ?';
+        var insert = [player_id[i]];
+        queryString = mysql.format(queryString, insert);
+
+        mysql.query(queryString,
+              function(err, result){
+                  //console.log(pass);
+                  if(err){
+                      console.log(err);
+                  }else{
+                      console.log('delete Playlist id '+ player_id[i]);
+                  }
+              }
+        );
+    
+    }
+
+ 
+    res.redirect('back');
+};
+
+exports.deleteGroup = function(req, res){
+    var db = require('../models/connectdb');
+    var mysql = db.connectdb();
+    var fs = require('fs');
+    var group_id = req.body.a;
+    var i, j;
+
+    var queryString = 'SELECT * FROM Groups';
+
+    
+    for(i = 0; i < group_id.length; i++){
+        var queryString = 'DELETE FROM Player WHERE groupId = ?';
+        var insert = [group_id[i]];
+        queryString = mysql.format(queryString, insert);
+
+        mysql.query(queryString,
+              function(err, result){
+                  //console.log(pass);
+                  if(err){
+                      console.log(err);
+                  }else{
+                      console.log('delete Player id '+ group_id[i]);
+                  }
+              }
+        );
+    
+    }
+
+    for(i = 0; i < group_id.length; i++){
+        var queryString = 'DELETE FROM Groups WHERE groupId = ?';
+        var insert = [group_id[i]];
+        queryString = mysql.format(queryString, insert);
+
+        mysql.query(queryString,
+              function(err, result){
+                  //console.log(pass);
+                  if(err){
+                      console.log(err);
+                  }else{
+                      console.log('delete Groups id '+ group_id[i]);
+                  }
+              }
+        );
+    
+    }
+
+ 
+    res.redirect('back');
+};
+
+exports.deleteGroupplayer = function(req, res){
+    var db = require('../models/connectdb');
+    var mysql = db.connectdb();
+    var fs = require('fs');
+    var group_id = req.body.a;
+    var i, j;
+
+    var queryString = 'SELECT * FROM Groups';
+
+    
+    for(i = 0; i < group_id.length; i++){
+        var queryString = 'DELETE FROM Player WHERE groupId = ?';
+        var insert = [group_id[i]];
+        queryString = mysql.format(queryString, insert);
+
+        mysql.query(queryString,
+              function(err, result){
+                  //console.log(pass);
+                  if(err){
+                      console.log(err);
+                  }else{
+                      console.log('delete Player id '+ group_id[i]);
+                  }
+              }
+        );
+    
+    }
+
+    for(i = 0; i < group_id.length; i++){
+        var queryString = 'DELETE FROM Groups WHERE groupId = ?';
+        var insert = [group_id[i]];
+        queryString = mysql.format(queryString, insert);
+
+        mysql.query(queryString,
+              function(err, result){
+                  //console.log(pass);
+                  if(err){
+                      console.log(err);
+                  }else{
+                      console.log('delete Groups id '+ group_id[i]);
+                  }
+              }
+        );
+    
+    }
+
+ 
     res.redirect('back');
 };

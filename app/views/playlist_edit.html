@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta charset="UTF-8">
+    <title>Playlist Edit</title>
+    <link rel="stylesheet" type="text/css" href="/css/menu.css">
+    <link rel="stylesheet" type="text/css" href="/css/assets_edit.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
+    <script src="/js/w3data.js"></script>
+	 <div w3-include-html="/menu.html"></div>
+	 <script>w3IncludeHTML();</script> 
+	</head>
+<body>
+	
+	
+		<div id="wrapper" class="container">
+  			<div class="panel-group">
+   			<div class="panel panel-success">
+   	   		<div class="panel-heading">Playlist Edit</div>
+      			<div class="panel-body">
+      			
+      			
+	<div id="wrapper">
+		<div id="sec_wrapper" name="sec_wrapper">
+			<aside>
+
+
+				<form action="/playlist/edit/delete" method="POST">
+					<table class="table table-bordered">
+					<tr>
+						<th id="front">Playlist Name</th>
+						<th>Description</th>
+						<th id="back"><input type="submit" class="btn btn-warning"  value="Delete"></th>
+					</tr>
+					<tbody id="list">
+						
+					</tbody>
+				</table>
+				</form>
+				
+				
+			</aside>
+		</div>
+	
+	</div>
+					
+					  </div>							
+				</div>
+	 		</div>
+ 		</div>
+			
+
+	<script type="text/javascript">
+		var socket = io();
+		var i;
+		var string = '';
+		socket.emit('route', 'playlist');
+		socket.on('playlist', function(message){
+			var list = document.getElementById("list");
+			for(i = 0; i < message.length; i++){
+			
+				
+				string += "<td id=\"data\">"+message[i].playlistName+"<br>";
+				string += "<td id=\"by\">Description : "+message[i].description+ "</td>";
+				string += "<td id=\"delete\"><input type=\"checkbox\" name=\"a\" value="+message[i].playlistId+"><br></td></tr>";
+			}
+			list.innerHTML = string;
+			
+			
+		});
+	</script>
+</body>
+</html>

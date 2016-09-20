@@ -31,6 +31,20 @@
 				}
 				string += "<td>Name: <a href=\"/show?id="+message[i].assetsId+"\">"+message[i].assetsName+"</a><br>";
 				string += "Type: "+message[i].type+"<br></td>";
+				if(message[i].format == 'file'){
+					string += "<td><select name=\"format\">\
+							<option value=\"file\" selected>File</option>\
+							<option value=\"url\">URL</option></select><br></td>";
+				}else if(message[i].format == 'url'){
+					string += "<td><select name=\"format\">\
+							<option value=\"file\">File</option>\
+							<option value=\"url\" selected>URL</option></select><br></td>";
+				}else{
+					string += "<td><select name=\"format\">\
+							<option value=\"file\" selected>File</option>\
+							<option value=\"url\" >URL</option></select><br></td>";
+				}
+				
 				if(message[i].apId != null){
 					string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" checked><br></td></tr>";
 				}else{
@@ -79,6 +93,7 @@
 					<tr>
 						<th id="front"></th>
 						<th>Assets</th>
+						<th>Format</th>
 						<th id="check"><input  class="btn btn-primary" type="submit" value="Save"></th>
 					</tr>
 					<tbody id="list">

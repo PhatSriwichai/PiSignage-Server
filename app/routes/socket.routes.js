@@ -1,6 +1,7 @@
-module.exports = function(app, io){
+module.exports = function(app, io, server){
 	var fs = require('fs');
-
+  var ip = require('ip');
+  //console.log(app.address().port);
 	//var socket = require('../controllers/socket.controller');
 	app.get('/socket/send', function(req, res){
       var path = __dirname;
@@ -33,6 +34,7 @@ module.exports = function(app, io){
       var queryString = 'SELECT * FROM Player WHERE groupId = ?';
       var insert = [req.body.group];
       queryString = mysql.format(queryString, insert);
+      console.log(ip.address());
       mysql.query(queryString,function(err, rows, fields){
                 //console.log(pass);
           playerIP = rows;  
@@ -55,17 +57,39 @@ module.exports = function(app, io){
                             var i;
                             var j; 
                             for(i=0; i<play.length; i++){
-                              var mac = play[i].playerMac;
+                              var mac = play[i].playerMac.toLowerCase();
+                              
+                              var package = [];
                               var listFile = [];
+                              var listFormat = [];
                                 for(j=0; j<rows.length; j++){
-                                    var fileName = rows[j].assetsName; 
-                                    listFile.push(fileName);
+                                  var fileName = '';
+                                  
+                                    if(rows[j].format == 'url'){
+                                        fileName = "http://"+ip.address()+":"+server.address().port+
+                                                  "/assets/"+rows[j].assetsName;
+                                        listFile.push(fileName);
+                                        listFormat.push('url');
+                                        
+                                    }else{
+                                        fileName = rows[j].assetsName;
+                                        listFile.push(fileName);
+                                        listFormat.push('file'); 
+                                        
+                                    }
+                                    
+                                    
                                    
                                     
                                     //console.log("send "+fileName+" to "+mac); 
                                 }
+                                package.push(listFile);
+                                package.push(listFormat);
+                                console.log(listFormat);
                                 console.log(listFile);
-                                io.emit(mac+"_check", listFile, rows[0].playlistName);
+                                console.log(package);
+                                console.log(mac);
+                                io.emit(mac+"_check", package, rows[0].playlistName);
                                 io.emit(mac+"_control", rows[0].playlistName);
                             }
                         }

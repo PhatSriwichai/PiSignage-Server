@@ -324,11 +324,11 @@ exports.addToPlaylist = function(req, res){
     );
     var assets_id = req.body.a;
     var i;
-
+    console.log(req.body.format[0]);
     if(assets_id instanceof Array){
         for(i=0; i<assets_id.length; i++){
-          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??) VALUES(?, ?, ?)';
-          var insert = ['ownId', 'playlistId', 'assetsId' , req.session.userId, req.session.playListId, assets_id[i]];
+          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??) VALUES(?, ?, ?, ?)';
+          var insert = ['ownId', 'format', 'playlistId', 'assetsId' , req.session.userId, req.body.format[i], req.session.playListId, assets_id[i]];
           queryString = mysql.format(queryString, insert);
 
           mysql.query(queryString,

@@ -1,8 +1,8 @@
-module.exports = function(app, io){
+module.exports = function(app, io, server){
 	//var io = require('socket.io').listen(server);
 	var db = require('../app/models/connectdb');
 	var mysql = db.connectdb();
-	require('../app/routes/socket.routes')(app, io);
+	require('../app/routes/socket.routes')(app, io, server);
 	var fs = require('fs');
 
 
@@ -74,7 +74,7 @@ module.exports = function(app, io){
 		socket.on('playlist-assets', function(message){
 			var id;
 			id = message;
-		   	var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, Assets.time, Assets.ownId, \
+		   	var queryString = "SELECT AddPlaylist.format, Assets.assetsId, Assets.assetsName, Assets.type, Assets.time, Assets.ownId, \
 		   				AddPlaylist.apId, AddPlaylist.playlistId FROM Assets LEFT JOIN AddPlaylist \
 		   				ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId = "+id+" ORDER BY apId DESC"
 	   		//var queryString = 'SELECT * FROM Assets';

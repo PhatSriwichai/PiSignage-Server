@@ -101,6 +101,7 @@ exports.home = function(req, res){
 exports.uploadVideo = function(req, res){
 	//console.log(req.files.file.name);
 	//console.log(req.session.userId);
+  console.log(req.files);
 	var db = require('../models/connectdb');
 	var mysql = db.connectdb();
 

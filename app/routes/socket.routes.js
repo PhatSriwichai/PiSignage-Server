@@ -62,6 +62,7 @@ module.exports = function(app, io, server){
                               var package = [];
                               var listFile = [];
                               var listFormat = [];
+                              var listType = [];
                                 for(j=0; j<rows.length; j++){
                                   var fileName = '';
                                   
@@ -70,11 +71,12 @@ module.exports = function(app, io, server){
                                                   "/assets/"+rows[j].assetsName;
                                         listFile.push(fileName);
                                         listFormat.push('url');
-                                        
+                                        listType.push(rows[j].type);
                                     }else{
                                         fileName = rows[j].assetsName;
                                         listFile.push(fileName);
                                         listFormat.push('file'); 
+                                        listType.push(rows[j].type);
                                         
                                     }
                                     
@@ -85,10 +87,8 @@ module.exports = function(app, io, server){
                                 }
                                 package.push(listFile);
                                 package.push(listFormat);
-                                console.log(listFormat);
-                                console.log(listFile);
+                                package.push(listType);
                                 console.log(package);
-                                console.log(mac);
                                 io.emit(mac+"_check", package, rows[0].playlistName);
                                 io.emit(mac+"_control", rows[0].playlistName);
                             }

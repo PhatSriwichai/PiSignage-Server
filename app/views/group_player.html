@@ -10,67 +10,77 @@
     <script src="js/my_js.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script>
-		$(document).ready(function(){
-		    $("#regGroup").click(function(){
-		        $("#register").slideToggle("fast");
-		        /*if($("#manage").is(":visible")){
-		        	$("#manage").slideToggle("fast");
-		        }*/
-		    });
-		});
-		
-	</script>
+	
 	<script type="text/javascript">
+		var listPlaylist = [];
+		var index=0;
 		var socket = io();
-		var i;
-		socket.emit('route', 'group');
-		socket.on('group', function(message){
-			var list = document.getElementById("group");
-			var string = "<option disabled selected value> -- select group for deploy--</option>";
-			for(i = 0; i < message.length; i++){
-				string += "<option value=\""+message[i].groupId+"\">"+message[i].groupName+"</option>";
-			}
-			list.innerHTML = string;
-			
-			
-		});
-
 		socket.emit('route', 'playlist');
 		socket.on('playlist', function(message){
 			var list = document.getElementById("playlist");
 			var string = "<option disabled selected value> -- select playlist for deploy--</option>";
+			var play = [];
+			var dex = [];
 			for(i = 0; i < message.length; i++){
 				string += "<option value=\""+message[i].playlistId+"\">"+message[i].playlistName+"</option>";
+				play.push(message[i].playlistName);
+				dex.push(message[i].playlistId);
+			}
+			listPlaylist.push(dex);
+			listPlaylist.push(play);
+			list.innerHTML = string;	
+		});
+		var id = getUrlVars()['id'];
+		socket.emit('route', 'player_in_group');
+		socket.emit('player_in_group', id);
+		socket.on('player_in_group', function(message){
+			var list = document.getElementById("list");
+			var string = '';
+			for(i = 0; i < message.length; i++){
+				string += "<tr><td>"+message[i].name+"</td>";
+				string += "<td>"+message[i].ip+ "</td>";
+				string += "<td>"+message[i].playerMac+ "</td>";
+				string += "<td>"+message[i].location+ "</td>";
+				string += "<td>"+message[i].status+ "</td>";
+				string += "<td>"+message[i].groupName+ "</td></tr>";		
 			}
 			list.innerHTML = string;
-			
-			
+			var headText = document.getElementById("headText");
+			headText.innerHTML = "Group "+message[0].groupName;
 		});
 
-		function changeGroup(){
-			var id = document.getElementById("group").value;
-			var headText = document.getElementById("headText");
-			headText.innerHTML = "Group "+$('#group option:selected').text();
-			var socket = io();
-			var i;
-			socket.emit('route', 'player_in_group');
-			socket.emit('player_in_group', id);
-			socket.on('player_in_group', function(message){
-				var list = document.getElementById("list");
-				var string = '';
-				for(i = 0; i < message.length; i++){
-					string += "<tr><td>"+message[i].name+"</td>";
-					string += "<td>"+message[i].ip+ "</td>";
-					string += "<td>"+message[i].playerMac+ "</td>";
-					string += "<td>"+message[i].location+ "</td>";
-					string += "<td>"+message[i].status+ "</td>";
-					string += "<td>"+message[i].groupName+ "</td>";
-					string += "<td>"+"<a href=\"/group/deploy?group="+message[i].groupId+"\"><input id=\"buttonsub\" class=\"btn btn-success\" type=\"submit\" value=\"Deploy\">"+"</a></td></tr>";
+		var groupId = getUrlVars()['id'];
+		socket.emit('schedule', groupId);
+		socket.on('schedule', function(message){
+			var list = document.getElementById("addSchedule");
+			var string = '';
+			index = 0;
+			for(i = 0; i < message.length; i++){
+				index = index+1;
+				string += "<tr><td>"+index+"</td>";
+				string += "<td><select id=\"playlistToSch\">";
+				//string = "<option disabled selected value> -- select playlist for deploy--</option>";
+				for(var j = 0; j < listPlaylist[1].length; j++){
+					if(listPlaylist[0][j] == message[i].playlistId){
+						string += "<option value=\""+message[i].playlistId+"\" selected>"+listPlaylist[1][j]+"</option>";
+					}else{
+						string += "<option value=\""+message[i].playlistId+"\">"+listPlaylist[1][j]+"</option>";
+					}
 				}
-				list.innerHTML = string;
-			});
-			//alert(document.getElementById("group").value);
+				string += "</select></td>";
+				string += "<td><input id=\"dateStart\" type=\"date\" value=\""+getDateFormat(message[i].dateStart)+"\"></td>";
+				string += "<td><input id=\"timeStart\" type=\"time\" value=\""+message[i].timeStart+"\"></td>";
+				string += "<td><input id=\"dateEnd\" type=\"date\" value=\""+getDateFormat(message[i].dateEnd)+"\"></td>";
+				string += "<td><input id=\"timeEnd\" type=\"time\" value=\""+message[i].timeEnd+"\"></td>";	
+				string += "<td><input class=\"btn btn-success\" type=\"submit\" value=\"Delete\"></td></tr>";	
+			}
+			list.innerHTML = string;
+
+		});
+
+		function getDateFormat(date){
+			var string = date.substring(0, 10);
+			return string;
 		}
 
 		function getUrlVars()
@@ -85,7 +95,75 @@
 		    }
 		    return vars;
 		}
+		//var scheduleString = '';
+		
+		function addSchedule(){ 
+			/*index = index + 1;
+			id = document.getElementById('addSchedule');
+			scheduleString += "<tr><td>"+index+"</td>";
+			scheduleString += "<td><select id=\"playlistToSch\">";
+			scheduleString += "<option disabled selected value> -- select playlist for deploy--</option>";
+			for(var j = 0; j < listPlaylist[1].length; j++){
+				scheduleString += "<option value=\""+listPlaylist[0][j]+"\">"+listPlaylist[1][j]+"</option>";
+					
+			}
+			scheduleString += "</select></td>";
+			scheduleString += "<td><input id=\"dateStart\" type=\"date\"></td>";
+			scheduleString += "<td><input id=\"timeStart\" type=\"time\"><br></td>";
+			scheduleString += "<td><input id=\"dateEnd\" type=\"date\"></td>";
+			scheduleString += "<td><input id=\"timeEnd\" type=\"time\"></td>";
+			scheduleString += "<td><input class=\"btn btn-success\" type=\"submit\" value=\"Delete\"></td></tr>";
+			id.innerHTML = scheduleString;
+			//getPlaylist();*/
 
+		}
+
+		function getPlaylist(){
+			socket.emit('route', 'playlist');
+			socket.on('playlist', function(message){
+				var list = document.getElementById("playlistToSch");
+				var string = "<option disabled selected value> -- select playlist for deploy--</option>";
+				for(i = 0; i < message.length; i++){
+					string += "<option value=\""+message[i].playlistId+"\">"+message[i].playlistName+"</option>";
+				}
+				list.innerHTML = string;	
+			});
+		}
+
+		window.onload = function(){
+			var form1 = document.getElementById("form1");
+			var formString = "<form method=\"POST\" action=\"/deploy?id="+getUrlVars()['id']+"\">"
+						+"<table>"
+							+"<tr>"
+								+"<th id=\"first\">"
+									+"<label for=\"playlist\">Set Default Playlist </label>"
+									+"<select class=\"form-control\" id=\"playlist\" name=\"playlist\">"
+									+"</select>"
+								+"</th>"
+								+"<th>"
+									
+								+"</th>"
+								+"<th id=\"final\"><button id=\"deploy\" type=\"submit\" class=\"btn btn-success\" onclick=\"return confirm(\'Confirm for deploy\')\">Deploy</button>	</th>"
+							+"</tr>"
+						+"</table>"
+					+"</form>";
+			//var formString = "<button id=\"deploy\" type=\"submit\" class=\"btn btn-success\">Deploy</button>";
+			form1.innerHTML = formString;
+		};
+		
+		function setSchedule(){
+			var playlist = document.getElementById('playlistToSch').value;
+			var d2s = document.getElementById('dateStart').value;
+			var t2s = document.getElementById('timeStart').value;
+			var d2e = document.getElementById('dateEnd').value;
+			var t2e = document.getElementById('timeEnd').value;
+			var package = [d2s, d2e, t2s, t2e, playlist, getUrlVars()['id']];
+			alert(playlist);
+			socket.emit('setSchedule', package);
+			var groupId = getUrlVars()['id'];
+			socket.emit('schedule', groupId);
+		}
+		
 		function checkConfirm(){
 
 		}
@@ -111,41 +189,42 @@
 			
 			</section>
 			<aside>
-				<form method="POST" action="/deploy">
-					<table>
-						<tr>
-							<th id="first">
-								<label for="group">Groups</label>
-								<select id="group" name="group" onchange="changeGroup()">
-									
-								</select>
-							</th>
-								
-							<th>
-								<label for="playlist">Playlist</label>
-								<select id="playlist" name="playlist">
-									
-								</select>
-							</th>	
-							<th id="final"><button id="deploy" type="submit" class="btn btn-success" onclick="return confirm('Confirm for deploy')">Deploy</button>	</th>
-						</tr>
-					</table>
-					
-					<table class="table table-bordered">
-						<tr>
-							<th>Name</th>
-							<th>IP Address</th>
-							<th>Mac Address</th>
-							<th>Location</th>
-							<th>Status</th>
-							<th>Group</th>
-						</tr>
-						<tbody id="list">
-							
-						</tbody>
-					</table>
 
-				</form>
+				<div id="form1" class="form-group">
+					
+				</div>
+
+				
+
+				<button class="btn btn-success" onclick="addSchedule()">Add Schedule<br></button>
+				
+				<table class="table table-bordered">
+					<tr>
+						<th id="no">No.</th>
+						<th id="pList">Playlist</th>
+						<th id="d2s" >Date to start</th>
+						<th id="t2s" >Time to start</th>
+						<th id="d2e" >Date to end</th>
+						<th id="t2e" >Time to end</th>
+						<th id="save" ><button class="btn btn-success" type="submit" onclick="setSchedule()">Save</button></th>
+					</tr>
+					<tbody id="addSchedule"></tbody>
+				</table>
+				
+
+				<table class="table table-bordered">
+					<tr>
+						<th>Name</th>
+						<th>IP Address</th>
+						<th>Mac Address</th>
+						<th>Location</th>
+						<th>Status</th>
+						<th>Group</th>
+					</tr>
+					<tbody id="list">
+						
+					</tbody>
+				</table>
 				
 				
 			</aside>

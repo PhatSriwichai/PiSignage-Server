@@ -32,18 +32,15 @@ module.exports = function(app, io, server){
       var mysql = db.connectdb();
       var playerIP;
       var queryString = 'SELECT * FROM Player WHERE groupId = ?';
-      var insert = [req.body.group];
+      var insert = [req.query.id];
       queryString = mysql.format(queryString, insert);
-      console.log(ip.address());
       mysql.query(queryString,function(err, rows, fields){
                 //console.log(pass);
           playerIP = rows;  
                 if(err){
                     console.log(err);
                 }else{
-                    console.log(rows[0].ip);
                     var play = rows;
-                    console.log("out: "+play);
                     queryString = 'SELECT * FROM AddPlaylist, Assets, Playlist \
                                       WHERE AddPlaylist.playlistId=? and AddPlaylist.assetsId = Assets.assetsId and Playlist.playlistId=?';
                     insert = [req.body.playlist, req.body.playlist];
@@ -54,44 +51,47 @@ module.exports = function(app, io, server){
                         if(err){
                             console.log(err);
                         }else{
-                            var i;
-                            var j; 
-                            for(i=0; i<play.length; i++){
-                              var mac = play[i].playerMac.toLowerCase();
-                              
-                              var package = [];
-                              var listFile = [];
-                              var listFormat = [];
-                              var listType = [];
-                                for(j=0; j<rows.length; j++){
-                                  var fileName = '';
+                            if(rows.length > 0){
+                                var i;
+                                var j; 
+                                for(i=0; i<play.length; i++){
+                                  var mac = play[i].playerMac.toLowerCase();
                                   
-                                    if(rows[j].format == 'url'){
-                                        fileName = "http://"+ip.address()+":"+server.address().port+
-                                                  "/assets/"+rows[j].assetsName;
-                                        listFile.push(fileName);
-                                        listFormat.push('url');
-                                        listType.push(rows[j].type);
-                                    }else{
-                                        fileName = rows[j].assetsName;
-                                        listFile.push(fileName);
-                                        listFormat.push('file'); 
-                                        listType.push(rows[j].type);
+                                  var package = [];
+                                  var listFile = [];
+                                  var listFormat = [];
+                                  var listType = [];
+                                    for(j=0; j<rows.length; j++){
+                                      var fileName = '';
+                                      
+                                        if(rows[j].format == 'url'){
+                                            fileName = "http://"+ip.address()+":"+server.address().port+
+                                                      "/assets/"+rows[j].assetsName;
+                                            listFile.push(fileName);
+                                            listFormat.push('url');
+                                            listType.push(rows[j].type);
+                                        }else{
+                                            fileName = rows[j].assetsName;
+                                            listFile.push(fileName);
+                                            listFormat.push('file'); 
+                                            listType.push(rows[j].type);
+                                            
+                                        }
                                         
+                                        
+                                       
+                                        
+                                        //console.log("send "+fileName+" to "+mac); 
                                     }
-                                    
-                                    
-                                   
-                                    
-                                    //console.log("send "+fileName+" to "+mac); 
+                                    package.push(listFile);
+                                    package.push(listFormat);
+                                    package.push(listType);
+                                    console.log(package);
+                                    io.emit(mac+"_check", package, rows[0].playlistName);
+                                    io.emit(mac+"_control", rows[0].playlistName);
                                 }
-                                package.push(listFile);
-                                package.push(listFormat);
-                                package.push(listType);
-                                console.log(package);
-                                io.emit(mac+"_check", package, rows[0].playlistName);
-                                io.emit(mac+"_control", rows[0].playlistName);
                             }
+                            
                         }
                     });
                 }

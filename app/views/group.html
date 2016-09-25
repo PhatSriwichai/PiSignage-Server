@@ -31,22 +31,19 @@
 			for(i = 0; i < message.length; i++){
 				string += "<option value="+message[i].plailistId+">"+message[i].playlistName+"</option>";
 			}
-			list.innerHTML = string;
-			
-			
+			list.innerHTML = string;			
 		});
-		var string = '';
+		
 		socket.emit('route', 'group');
 		socket.on('group', function(message){
 			var list = document.getElementById("list");
+			var string = '';
 			for(i = 0; i < message.length; i++){
 				string += "<tr><td><a href=\"/group_player?id="+message[i].groupId+"\">"+message[i].groupName+"</a></td>";
 				string += "<td>"+message[i].description+ "</td>";
 				string += "<td></td></tr>";
 			}
-			list.innerHTML = string;
-			
-			
+			list.innerHTML = string;				
 		});
 	</script>
 	

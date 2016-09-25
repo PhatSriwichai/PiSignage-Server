@@ -4,6 +4,33 @@ input#editbtn{
 table{
 	margin: 10px;
 	width: 100%;
+	text-align: center;
+}
+th, tr{
+	text-align: center;
+}
+td{
+	text-align: center;
+}
+#no{
+	text-align: center;
+	width: 5%;
+}
+#save{
+	text-align: center;
+	width: 10%;
+}
+#d2s, #d2e{
+	text-align: center;
+	width: 20%;
+}
+#t2s, #t2e{
+	text-align: center;
+	width: 20%;
+}
+#pList{
+	text-align: center;
+	width: 20%;
 }
 
 #first{
@@ -19,6 +46,13 @@ table{
 .section{
 	
 }
+#playlistToSch{
+	width: 80%;
+}
+#group, #playlist{
+	width: 60%;
+}
+
 select, option{
 	width: 50%;
 	height: 120%;
@@ -27,4 +61,10 @@ select, option{
 }
 select, option:hover{
 	
+}
+input[type='date']{
+	width: 70%;
+}
+input[type='time']{
+	width: 50%;
 }

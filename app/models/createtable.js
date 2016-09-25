@@ -103,6 +103,26 @@ exports.createtable = function(req, res){
     		}
     	}
     );
+    connection.query('CREATE TABLE Schedule(\
+        scheduleId int NOT NULL AUTO_INCREMENT,\
+        dateStart DATE NOT NULL,\
+        dateEnd DATE NOT NULL,\
+        timeStart TIME NOT NULL,\
+        timeEnd TIME NOT NULL,\
+        playlistId int NOT NULL,\
+        groupId int NOT NULL,\
+        PRIMARY KEY(scheduleId),\
+        FOREIGN KEY(groupId) REFERENCES Groups(groupId),\
+        FOREIGN KEY(playlistId) REFERENCES Playlist(playlistId))',
+        function(err, result){
+            if(err){
+                console.log(err);
+            }else{
+                console.log('Table Schedule created.')
+            }
+        }
+    );
+
     var pass = md5('admin');
 
     connection.query('INSERT INTO User VALUES(1, \'admin\',\'admin\')',

@@ -55,7 +55,7 @@ module.exports = function(app, io, server){
 			   	});
 			}else if(message == 'playlist'){
 
-				var queryString = 'SELECT *FROM Playlist';
+				var queryString = 'SELECT * FROM Playlist';
 		   	//var queryString = 'SELECT * FROM User)';
 			   	mysql.query(queryString, function(err, rows, fields){
 			   		if(err){
@@ -70,6 +70,22 @@ module.exports = function(app, io, server){
 		});
 		
 		//==========================================================================================
+		socket.on('schedule', function(message){
+			var group = message;
+			var queryString = 'SELECT * FROM Schedule WHERE groupId='+group;
+		   	//var queryString = 'SELECT * FROM User)';
+			   	mysql.query(queryString, function(err, rows, fields){
+			   		if(err){
+			   			console.log(err);
+			   		}else{
+			   			//console.log(rows);
+			   			io.emit('schedule', rows);
+			   		}
+			   	});
+		});
+
+				
+			
 
 		socket.on('playlist-assets', function(message){
 			var id;
@@ -147,6 +163,24 @@ module.exports = function(app, io, server){
                 }
             });
 			          
+		});
+
+		socket.on('setSchedule', function(message){
+			
+			var queryString = 'INSERT INTO Schedule(??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?)';
+			var insert = ['dateStart', 'dateEnd', 'timeStart', 'timeEnd', 'playlistId', 'groupId',
+				message[0], message[1], message[2], message[3], message[4], message[5]];
+			queryString = mysql.format(queryString, insert);
+
+			mysql.query(queryString, function(err, result){
+			   	if(err){
+			   		console.log(err);
+			   	}else{
+			   		console.log(result);
+			   	}
+			   		
+			});
+
 		});
 		
 		socket.on('mac', function(message){

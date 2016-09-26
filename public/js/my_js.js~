@@ -13,7 +13,7 @@ function div_show() {
 }
 //Function to Hide Popup
 function div_hide(){
-	 document.getElementById("myForm").reset();
+
 	 document.getElementById('abc').style.display = "none";
 }
 
@@ -23,7 +23,7 @@ function div_showimage() {
 }
 //Function to Hide Popup
 function div_hideimage(){
-	document.getElementById("myForm").reset();	
+
 	document.getElementById('abcd').style.display = "none";
 }
 
@@ -33,7 +33,7 @@ function div_showplaylist() {
 }
 //Function to Hide Popup
 function div_hideplaylist(){
-	document.getElementById("myForm").reset();
+
 	document.getElementById('abcplaylist').style.display = "none";
 }
 
@@ -42,7 +42,7 @@ function div_showregplay() {
 }
 //Function to Hide Popup
 function div_hideregplay(){
-	document.getElementById("myForm").reset();	
+
 	document.getElementById('abcregplay').style.display = "none";
 }
 
@@ -51,7 +51,7 @@ function div_showgroup() {
 }
 //Function to Hide Popup
 function div_hidegroup(){
-	document.getElementById("myForm").reset();	
+
 	document.getElementById('abcgroup').style.display = "none";
 }
 
@@ -60,6 +60,14 @@ function div_showDeploy() {
 }
 //Function to Hide Popup
 function div_hideDeploy(){
-	document.getElementById("myForm").reset();	
+		
 	document.getElementById('deploy_form').style.display = "none";
+}
+function div_showadddate() {
+	document.getElementById('abcadddate').style.display = "block";
+}
+//Function to Hide Popup
+function div_hideadddate(){
+		
+	document.getElementById('abcadddate').style.display = "none";
 }

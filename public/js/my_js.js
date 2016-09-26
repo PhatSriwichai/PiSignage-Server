@@ -63,3 +63,12 @@ function div_hideDeploy(){
 		
 	document.getElementById('deploy_form').style.display = "none";
 }
+function div_showadddate() {
+	getPlaylist();
+	document.getElementById('abcadddate').style.display = "block";
+}
+//Function to Hide Popup
+function div_hideadddate(){
+		
+	document.getElementById('abcadddate').style.display = "none";
+}

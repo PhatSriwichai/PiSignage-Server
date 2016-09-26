@@ -53,6 +53,7 @@
 				string += "<td>"+message[i].location+"</td>";
 				string += "<td>"+message[i].status+"</td>";
 				string += "<td>"+message[i].groupName+ "</td>";
+				string += "<td id=\"update\"><input type=\"checkbox\" name=\"a\" value="+message[i].playerId+"><br></td>";
 				string += "<td></td></tr>";
 			}
 			list.innerHTML = string;
@@ -65,9 +66,8 @@
 		function validateForm() {
 		    var x = document.forms["myForm"]["playerId"].value;
 		    var xl = document.forms["myForm"]["group"].value;
-		    var y = document.forms["myForm"]["group"].value;
-		    var yl = document.forms["myForm"]["playerName"].value;
-		    var z = document.forms["myForm"]["location"].value;
+		    var y = document.forms["myForm"]["playerName"].value;
+		    var yl = document.forms["myForm"]["location"].value;
 		    if (x == null || x == "") {
 		        document.getElementById('errorinput').style.display = "block";
 		        return false;
@@ -185,8 +185,7 @@
       			<div class="panel-body">
       			
 			<section>
-				<button id="videobtn" type="button" onclick="div_showregplay()" class="btn btn-success">Register Player</button>
-			
+				<button id="videobtn" type="button" onclick="div_showregplay()" class="btn btn-success">Register Player</button>			
 			</section>
 			
 			
@@ -200,7 +199,8 @@
 						<th>Location</th>
 						<th>Status</th>
 						<th>Group</th>
-						<th><a href="#"><input type="submit" id="editbtn" class="btn btn-warning" value="Edit"></th></a></th>
+						<th><a href="/player/update"><input type="submit" id="editbtn" class="btn btn-warning" value="Upadte"></th></a></th>
+						<th><a href="/player/edit"><input type="submit" id="editbtn" class="btn btn-warning" value="Edit Player"></a></th>
 					</tr>
 					<tbody id="list">
 						

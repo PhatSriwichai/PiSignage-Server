@@ -35,6 +35,9 @@
 	overflow: auto;
 
 }
+#clear{
+	margin-bottom: 15px;
+}
 .popup{
 	max-width:700px;
 	min-width:700px;

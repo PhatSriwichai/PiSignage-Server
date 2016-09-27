@@ -136,6 +136,38 @@ module.exports = function(app, io, server){
 			});
 		});
 
+		socket.on('ticker', function(message){
+			var id;
+			id = message;
+			var queryString = 'SELECT * FROM Ticker WHERE Ticker.playlistId = ?';
+			var insert = [id];
+			queryString = mysql.format(queryString, insert);
+
+			mysql.query(queryString, function(err, rows, fields){
+			    if(err){
+			      	console.log(err);
+			    }else{
+			        io.emit('ticker', rows)
+			    }
+			});
+		});
+
+		socket.on('clear_ticker', function(message){
+			var id;
+			id = message;
+			var queryString = 'DELETE FROM Ticker WHERE playlistId = ?';
+			var insert = [id];
+			queryString = mysql.format(queryString, insert);
+
+			mysql.query(queryString, function(err, result){
+			    if(err){
+			      	console.log(err);
+			    }else{
+			        console.log('delete ticker');
+			    }
+			});
+		});
+
 		socket.on('action', function(message){
 			console.log("action: "+message);
 			io.emit('action', message);

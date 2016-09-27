@@ -1,3 +1,17 @@
 table{
 	margin-top: 10px;
+	align: center;
+}
+.title_table{
+	text-align: center;
+}
+
+aside{
+	width: 100%;
+}
+#insert, #edit{
+	margin-right: 10px;
+}
+input, #add, #description{
+	width: 100%;
 }

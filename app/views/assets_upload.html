@@ -17,14 +17,15 @@
     				$('#progressbox').show();
     			},
     			uploadProgress:function(event, position, total, percentcomplete){
-    				$('#progressbar').width(percentcomplete+"%");
+    				$('.progress-bar').width(percentcomplete+"%");
     				$('#statustxt').text(percentcomplete+"%");
     			},
     			success:function(){
-    				alert("Upload Complete.");
+    				
     				$('#progressbox').hide();
     			},
     			complete:function(){
+    				alert("Upload Complete.");
     				location.reload();
     			}
     		});
@@ -34,37 +35,22 @@
     				$('#progressbox').show();
     			},
     			uploadProgress:function(event, position, total, percentcomplete){
-    				$('#progressbar').width(percentcomplete+"%");
-    				$('#statustxt').text(percentcomplete+"%");
+    				$('#progressbar2').width(percentcomplete+"%");
+    				$('#statustxt2').text(percentcomplete+"%");
     			},
     			success:function(){
-    				alert("Upload Complete.");
+    				
     				$('#progressbox').hide();
     			},
     			complete:function(){
+    				alert("Upload Complete.");
     				location.reload();
     			}
     		});
     		$('#progressbox').hide();
     	});
     </script>
-	<script>
-		$(document).ready(function(){
-		    $("#video").click(function(){
-		        $("#videoUpload").slideToggle("fast");
-		        if($("#imageUpload").is(":visible")){
-		        	$("#imageUpload").slideToggle("fast");
-		        }
-		    });
-		    $("#image").click(function(){
-		        $("#imageUpload").slideToggle("fast");
-		        if($("#videoUpload").is(":visible")){
-		        	$("#videoUpload").slideToggle("fast");
-		        }
-		    });
-		});
-		
-	</script>
+	
 	<script type="text/javascript">
 		function checkImage(id, ext){
 			if(validateExtension(ext) == false){
@@ -202,9 +188,9 @@
 				       Select video: <input id="videoFile" class="button" type="file" name="file" accept="video/*" require="require" onChange="checkVideo(this.id, this.value)"><br><br>
 				       <input id="buttonsub" class="btn btn-success" type="submit"  value="Upload"><br><br>
 				     	<div class="container">
-						     	<div class="progress progress-striped active">
-									  <div class="progress-bar" style="0%">
-									    <p id="barpro"></p>
+						     	<div class="progress progress-striped active" style="width:50%">
+									  <div id="progressbar" class="progress-bar" style="width:0%">
+									    <p id="statustxt"></p>
 									  </div>
 								</div>
 						</div>
@@ -248,8 +234,8 @@
 				        <input id="buttonsub" class="btn btn-success" type="submit" value="Upload"><br><br>
 				     	<div class="container">
 						     	<div class="progress progress-striped active">
-									  <div class="progress-bar" style="0%">
-									    <p id="barpro"></p>
+									  <div id="progressbar2" class="progress-bar" style="0%">
+									    <p id="statustxt2"></p>
 									  </div>
 								</div>
 						</div>

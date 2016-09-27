@@ -58,6 +58,32 @@
 			
 		});
 
+		getTicker();
+
+		function getTicker(){
+			var id = getUrlVars()["id"];
+			socket.emit('ticker', id);
+
+			socket.on('ticker', function(message){
+				var string = ' ';
+				if(message != null){
+					string += "<p>Message : "+message[0].tickerMessage+'<br>';
+					string += "Behavior : "+message[0].behavior+'</p>';
+					string += "<input id=\"clear\" class=\"btn btn-success\" type=\"submit\" value=\"Clear Ticker\" onclick=\"clearTicker()\">";
+				}
+				
+				var list = document.getElementById("show_ticker");
+				list.innerHTML = string;	
+			});
+		}
+
+		function clearTicker(){
+			var id= getUrlVars()['id'];
+			socket.emit('clear_ticker', id);
+			var list = document.getElementById("show_ticker");
+			list.innerHTML = ' ';
+		}
+
 		function getUrlVars()
 		{
 		    var vars = [], hash;
@@ -117,6 +143,10 @@
       			<div class="panel-body">	
 	
 	<button id="button" class="btn btn-success" type="submit" onclick="div_showTicker()">Set Ticker</button>
+	
+	<div id="show_ticker">
+		
+	</div>
 	
 	<div id="form_ticker">
 		<div id="popupContact">

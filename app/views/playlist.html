@@ -18,9 +18,9 @@
 		socket.on('playlist', function(message){
 			var list = document.getElementById("list");
 			for(i = 0; i < message.length; i++){
-				string += "<tr><td><a href=\"/playlistList?id="+message[i].playlistId+"\">"+message[i].playlistName+"</a></td>";
-				string += "<td>"+message[i].description+ "</td>";
-				string += "<td></td></tr>";
+				string += "<tr><td><h4><a href=\"/playlistList?id="+message[i].playlistId+"\">"+message[i].playlistName+"</a></h4></td>";
+				string += "<td><h4>"+message[i].description+ "<h4></td>";
+				string += "</tr>";
 			}
 			list.innerHTML = string;
 			
@@ -106,16 +106,16 @@
       			
       			
 			<section>
-				<button id="videobtn" type="button" onclick="div_showplaylist()" class="btn btn-success">Insert Playlist</button>
+				<button id="insert" type="button" onclick="div_showplaylist()" class="btn btn-success">Insert Playlist</button><a href="/playlist/edit"><button type="submit" id="edit" class="btn btn-success">Edit</button></a>
 				
 			</section>
 
 			<aside>
 				<table class="table table-bordered">
 					<tr>
-						<th>Playlist</th>
-						<th>Description</th>
-						<th><a href="/playlist/edit"><input type="submit" id="editbtn" class="btn btn-warning" value="Edit"></th></a></th>
+						<th><h4 class="title_table">Playlist</h4></th>
+						<th><h4 class="title_table">Description</h4></th>
+						
 					</tr>
 					<tbody id="list">
 						

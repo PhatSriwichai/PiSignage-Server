@@ -32,3 +32,6 @@ input#editbtn{
 label{
 	text-align: center;
 }
+input, #fileName, #videoFile, #imageFile{
+	width: 100%;
+}

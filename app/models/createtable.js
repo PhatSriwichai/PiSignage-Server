@@ -5,6 +5,7 @@ exports.createtable = function(req, res){
     	host	: 'localhost',
     	user	: 'root',
     	password: 'meroot',
+        charset : "utf8_general_ci" ,
     	database: 'pisignage'
     });
     
@@ -35,6 +36,21 @@ exports.createtable = function(req, res){
     			console.log("Table Playlist created.");
     		}
     	}
+    );
+    connection.query('CREATE TABLE Ticker(\
+        tickerId int NOT NULL AUTO_INCREMENT, \
+        tickerMessage VARCHAR(500) NOT NULL,\
+        behavior VARCHAR(10) NOT NULL,\
+        playlistId int NOT NULL, \
+        PRIMARY KEY(tickerId),\
+        FOREIGN KEY(playlistId) REFERENCES Playlist(playlistId))',
+        function(err, result){
+            if(err){
+                console.log(err);
+            }else{
+                console.log("Table Ticker created.");
+            }
+        }
     );
     connection.query('CREATE TABLE Groups(\
         groupId int NOT NULL AUTO_INCREMENT, \

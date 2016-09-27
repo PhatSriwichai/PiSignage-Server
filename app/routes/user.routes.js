@@ -12,7 +12,7 @@ module.exports = function(app){
 	app.get('/group_player', user.groupPlayer);
 	app.get('/playlist', user.playListRender);
 	app.get('/playlist/edit', user.playListeditRender);
-	app.get('/playlist/list', user.playListOrder);
+	app.get('/playlistList', user.playListOrder);
 	app.get('/show', user.showAsset);
 	app.get('/setting', user.setting);
 	//app.get('/deploy', user.deploy);
@@ -23,6 +23,7 @@ module.exports = function(app){
 	app.post('/playlist/add', user.addPlayList);
 	app.post('/playlist/addTo', user.addToPlaylist);
 	app.post('/playlist/edit/delete', user.deletePlaylist);
+	app.post('/playlist/ticker', user.setTicker);
 	app.post('/player/register', user.registerPlayer);
 	app.post('/player/edit/delete', user.deletePlayer);
 	app.post('/assets/uploadVideo', user.uploadVideo);

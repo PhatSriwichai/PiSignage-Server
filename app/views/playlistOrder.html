@@ -8,7 +8,8 @@
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
     <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	
+	<script src="js/my_js.js"></script>
+	<script src="js/w3data.js"></script>
 	<script type="text/javascript">
 		var socket = io();
 		var i;
@@ -70,8 +71,39 @@
 		    return vars;
 		}
 
+		window.onload = function(){
+			var form = document.getElementById('popupContact');
+			var string = 
+			"<form class=\"popup\" name=\"setTicker\" method=\"POST\" action=\"/playlist/ticker?id="+getUrlVars()['id']+ "\" onsubmit=\"return validateForm()\">"
+				+"<img id=\"close\" src=\"images/3.png\" onclick =\"div_hideTicker()\">"
+				+"<h2>Set Ticker</h2>"
+				+"<label for=\"ticker\">Ticker : </label>"
+				+"<textarea id=\"ticker\" name=\"ticker\" class=\"form-control\" rows=\"4\"></textarea>"
+				+"<label for=\"behavior\">Behavior : </label>"
+				+"<select class=\"form-control\" name=\"behavior\" id=\"behavior\">"
+					+"<option value=\"scoll\">Scoll</option>"
+					+"<option value=\"slide\">Slide</option>"
+				+"</select>"
+				+"<button id=\"save\" class=\"btn btn-success\" type=\"submit\">Save</button>"
+			+"</form>";
+			form.innerHTML = string;
+		}
+
+		/*<form class="popup" name="setTicker" method="POST" action="/playlist/ticker" onsubmit="return validateForm()">
+				<img id="close" src="images/3.png" onclick ="div_hideTicker()">
+				<h2>Set Ticker</h2>
+				<label for="ticker">Ticker : </label>
+				<textarea id="ticker" name="ticker" class="form-control" rows="4"></textarea>
+				<label for="behavior">Behavior : </label>
+				<select class="form-control" name="behavior" id="behavior">
+					<option value="scoll">Scoll</option>
+					<option value="slide">Slide</option>
+				</select>
+				<button id="save"class="btn btn-success" type="submit">Save</button>
+			</form>*/
+		
+
 	</script>
-	<script src="/js/w3data.js"></script>
 </head>
 <body>
 	<div  w3-include-html="/menu.html"></div>
@@ -81,14 +113,23 @@
 	<div id="wrapper" class="container">
   			<div class="panel-group">
    			<div class="panel panel-success">
-   	   		<div class="panel-heading"><p id="headText">Players Group</p></div>
+   	   		<div class="panel-heading"><p id="headText">Playlist</p></div>
       			<div class="panel-body">	
 	
+	<button id="button" class="btn btn-success" type="submit" onclick="div_showTicker()">Set Ticker</button>
 	
+	<div id="form_ticker">
+		<div id="popupContact">
+
+			
+		</div>
+	</div>
+	
+
 	<div id="wrapper">
 		<div id="sec_wrapper" name="sec_wrapper">
 			<aside>
-				<form name="addToPlaylist" method="post" action="/playlist/addTo">
+				<form id="addToPlaylist" name="addToPlaylist" method="post" action="/playlist/addTo">
 					<table class="table table-bordered">
 					<tr>
 						<th id="front"></th>

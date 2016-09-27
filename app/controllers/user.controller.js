@@ -627,3 +627,40 @@ exports.deleteGroupplayer = function(req, res){
  
     res.redirect('back');
 };
+
+exports.setTicker = function(req, res){
+    var db = require('../models/connectdb');
+    var mysql = db.connectdb();
+
+    var queryString = 'DELETE FROM Ticker WHERE playlistId = ?';
+    var insert = [req.query.id];
+    queryString = mysql.format(queryString, insert);
+
+    mysql.query(queryString,
+          function(err, result){
+              //console.log(pass);
+              if(err){
+                  console.log(err);
+              }else{
+                  console.log('delete ticker playlistId '+req.query.id);
+              }
+          }
+    );
+
+    queryString = 'INSERT INTO Ticker(??, ??, ??) VALUES(?, ?, ?)';
+    insert = ['tickerMessage', 'behavior', 'playlistId', req.body.ticker, req.body.behavior, req.query.id];
+    queryString = mysql.format(queryString, insert);
+
+    mysql.query(queryString,
+          function(err, result){
+              //console.log(pass);
+              if(err){
+                  console.log(err);
+              }else{
+                  console.log('added');
+              }
+          }
+    );
+    //db.close();
+    res.redirect('back');
+}

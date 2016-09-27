@@ -1,0 +1,64 @@
+@import "http://fonts.googleapis.com/css?family=Raleway";
+
+#button{
+	margin-bottom: 10px;
+	width: 100px;
+}
+#ticker{
+	width: 100%;
+	margin: 10px;
+}
+#behavior{
+	width: 100%;
+	margin: 10px;
+}
+#save{
+	width: 100%;
+	margin: 10px;
+}
+#addToPlaylist{
+	width: 100%;
+	height: 100%;
+	padding: none;
+	border: none;
+}
+#form_ticker{
+	margin: 5px;
+	width:100%;
+	height:100%;
+	opacity:.95;
+	top:-5px;
+	left:-5px;
+	display: none;
+	position: fixed;
+	background-color:#313131;
+	overflow: auto;
+
+}
+.popup{
+	max-width:700px;
+	min-width:700px;
+	padding:10px 50px;
+	border:2px solid gray;
+	border-radius:10px;
+	font-family:raleway;
+	background-color:#fff;
+}
+img#close {
+	position:absolute;
+	right:-14px;
+	top:-14px;
+	cursor:pointer;
+}
+div#popupContact {
+	position:absolute;
+	left:50%;
+	top:17%;
+	margin-top: -50px;
+	margin-left:-350px;
+	font-family:'Raleway',sans-serif;
+}
+h2{
+	text-align: center;
+	font-size: 6;
+}

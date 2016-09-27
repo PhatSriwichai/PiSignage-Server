@@ -41,8 +41,15 @@ module.exports = function(app, io, server){
                     console.log(err);
                 }else{
                     var play = rows;
+                    /*queryString = 'SELECT * FROM AddPlaylist, Assets, Playlist \
+                                      WHERE AddPlaylist.playlistId=? \
+                                      and AddPlaylist.assetsId = Assets.assetsId and Playlist.playlistId=?';*/
+
                     queryString = 'SELECT * FROM AddPlaylist, Assets, Playlist \
-                                      WHERE AddPlaylist.playlistId=? and AddPlaylist.assetsId = Assets.assetsId and Playlist.playlistId=?';
+                                  LEFT JOIN Ticker ON Ticker.playlistId = Playlist.playlistId \
+                                  WHERE AddPlaylist.playlistId=? and AddPlaylist.assetsId = Assets.assetsId \
+                                  and Playlist.playlistId=?';
+
                     insert = [req.body.playlist, req.body.playlist];
                     queryString = mysql.format(queryString, insert);
 
@@ -83,10 +90,20 @@ module.exports = function(app, io, server){
                                         
                                         //console.log("send "+fileName+" to "+mac); 
                                     }
+                                    var ticker = [];
+                                    if(rows[0].tickerMessage == null){
+                                        ticker.push('none');
+                                        ticker.push('none');
+                                    }else{
+                                        ticker.push(rows[0].tickerMessage);
+                                        ticker.push(rows[0].behavior);
+                                    }
                                     package.push(listFile);
                                     package.push(listFormat);
                                     package.push(listType);
+                                    package.push(ticker);
                                     console.log(package);
+                                    console.log("send");
                                     io.emit(mac+"_check", package, rows[0].playlistName);
                                     io.emit(mac+"_control", rows[0].playlistName);
                                 }

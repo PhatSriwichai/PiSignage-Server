@@ -72,3 +72,11 @@ function div_hideadddate(){
 		
 	document.getElementById('abcadddate').style.display = "none";
 }
+function div_showTicker() {
+	document.getElementById('form_ticker').style.display = "block";
+}
+//Function to Hide Popup
+function div_hideTicker(){
+		
+	document.getElementById('form_ticker').style.display = "none";
+}

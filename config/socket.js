@@ -152,6 +152,24 @@ module.exports = function(app, io, server){
 			});
 		});
 
+		socket.on('layout', function(message){
+			var id;
+			id = message;
+			var queryString = 'SELECT AddPlaylist.apId, Layout.layoutId, Layout.layoutCode,\
+							 	Layout.layoutName FROM Layout LEFT JOIN AddPlaylist \
+								ON AddPlaylist.playlistId=? AND AddPlaylist.layoutId = Layout.layoutId';
+			var insert = [id];		
+			queryString = mysql.format(queryString, insert);
+
+			mysql.query(queryString, function(err, rows, fields){
+			    if(err){
+			      	console.log(err);
+			    }else{
+			        io.emit('layout', rows);
+			    }
+			});
+		});
+
 		socket.on('clear_ticker', function(message){
 			var id;
 			id = message;

@@ -24,6 +24,7 @@ module.exports = function(app){
 	app.post('/playlist/addTo', user.addToPlaylist);
 	app.post('/playlist/edit/delete', user.deletePlaylist);
 	app.post('/playlist/ticker', user.setTicker);
+	app.post('/playlist/layout', user.setLayout);
 	app.post('/player/register', user.registerPlayer);
 	app.post('/player/edit/delete', user.deletePlayer);
 	app.post('/assets/uploadVideo', user.uploadVideo);

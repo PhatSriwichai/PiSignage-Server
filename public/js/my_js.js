@@ -80,3 +80,11 @@ function div_hideTicker(){
 		
 	document.getElementById('form_ticker').style.display = "none";
 }
+function div_showLayout() {
+	document.getElementById('form_layout').style.display = "block";
+}
+//Function to Hide Popup
+function div_hideLayout(){
+		
+	document.getElementById('form_layout').style.display = "none";
+}

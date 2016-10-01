@@ -328,8 +328,9 @@ exports.addToPlaylist = function(req, res){
     console.log(req.body.format[0]);
     if(assets_id instanceof Array){
         for(i=0; i<assets_id.length; i++){
-          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??) VALUES(?, ?, ?, ?)';
-          var insert = ['ownId', 'format', 'playlistId', 'assetsId' , req.session.userId, req.body.format[i], req.session.playListId, assets_id[i]];
+          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?)';
+          var insert = ['ownId', 'format', 'playlistId', 'assetsId', , 'layoutId', req.session.userId, 
+                      req.body.format[i], req.session.playListId, assets_id[i], 1];
           queryString = mysql.format(queryString, insert);
 
           mysql.query(queryString,
@@ -344,8 +345,8 @@ exports.addToPlaylist = function(req, res){
           );
         }
     }else{
-          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??) VALUES(?, ?, ?)';
-          var insert = ['ownId', 'playlistId', 'assetsId' , req.session.userId, req.session.playListId, assets_id];
+          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??) VALUES(?, ?, ?, ?)';
+          var insert = ['ownId', 'playlistId', 'assetsId', 'layoutId', req.session.userId, req.session.playListId, assets_id, 1];
           queryString = mysql.format(queryString, insert);
 
           mysql.query(queryString,
@@ -662,5 +663,29 @@ exports.setTicker = function(req, res){
           }
     );
     //db.close();
+    res.redirect('back');
+}
+
+exports.setLayout = function(req, res){
+    var db = require('../models/connectdb');
+    var mysql = db.connectdb();
+    
+    var queryString = 'UPDATE AddPlaylist SET layoutId=? WHERE playlistId = ?';
+    var insert = [req.body.select, req.query.id];
+    queryString = mysql.format(queryString, insert);
+    console.log(req.body.select);
+    mysql.query(queryString,
+          function(err, result){
+              //console.log(pass);
+              if(err){
+                  console.log(err);
+              }else{
+                  console.log('update playlistId '+req.query.id);
+              }
+          }
+    );
+
+    //db.close();
+
     res.redirect('back');
 }

@@ -76,6 +76,33 @@
 				list.innerHTML = string;	
 			});
 		}
+		function getLayout(){
+			var id = getUrlVars()["id"];
+			socket.emit('layout', id);
+
+			socket.on('layout', function(message){
+				var string = ' ';
+				var text = ' ';
+				if(message != null){
+
+					for(var i=0; i<message.length; i++){
+						if(message[i].apId == null){
+							string += '<tr><td><input type=\"radio\" name=\"select\" value=\"'+message[i].layoutId+'\"> '+message[i].layoutCode+' : '+message[i].layoutName+'</td><tr>';
+						}else{
+							string += '<tr><td><input type=\"radio\" name=\"select\" value=\"'+message[i].layoutId+'\" checked> '+message[i].layoutCode+' : '+message[i].layoutName+'</td><tr>';
+							text = message[i].layoutCode;
+						}
+						
+					}
+					
+				}
+				
+				var list = document.getElementById("list_layout");
+				list.innerHTML = string;
+				var button_text = document.getElementById("button_text");
+				button_text.innerHTML = 'Layout ('+text+')';		
+			});
+		}
 
 		function clearTicker(){
 			var id= getUrlVars()['id'];
@@ -113,6 +140,19 @@
 				+"<button id=\"save\" class=\"btn btn-success\" type=\"submit\">Save</button>"
 			+"</form>";
 			form.innerHTML = string;
+
+			form = document.getElementById('popupLayout');
+			string = 
+			"<form class=\"popup\" name=\"setTicker\" method=\"POST\" action=\"/playlist/layout?id="+getUrlVars()['id']+ "\" onsubmit=\"return validateForm()\">"
+				+"<img id=\"close\" src=\"images/3.png\" onclick =\"div_hideLayout()\">"
+				+"<h2>Set Layout</h2>"
+				+"<button id=\"save\" class=\"btn btn-success\" type=\"submit\">Save</button>"
+				+"<table class=\"table table-bordered\"><tr>"
+					
+					+"<tbody id=\"list_layout\"></tbody>"
+				+"</tr></table>"
+			+"</form>";
+			form.innerHTML = string;
 		}
 
 		/*<form class="popup" name="setTicker" method="POST" action="/playlist/ticker" onsubmit="return validateForm()">
@@ -127,7 +167,7 @@
 				</select>
 				<button id="save"class="btn btn-success" type="submit">Save</button>
 			</form>*/
-		
+		getLayout();
 
 	</script>
 </head>
@@ -141,8 +181,13 @@
    			<div class="panel panel-success">
    	   		<div class="panel-heading"><p id="headText">Playlist</p></div>
       			<div class="panel-body">	
+	<table>
+		<tr>
+			<th id="ticker"><button id="button" class="btn btn-success" type="submit" onclick="div_showTicker()">Set Ticker</button></th>
+			<th id="layout"><button id="button" class="btn btn-success" type="submit" onclick="div_showLayout()"><font id="button_text">Layout</font></button></th>
+		</tr>
+	</table>
 	
-	<button id="button" class="btn btn-success" type="submit" onclick="div_showTicker()">Set Ticker</button>
 	
 	<div id="show_ticker">
 		
@@ -150,6 +195,13 @@
 	
 	<div id="form_ticker">
 		<div id="popupContact">
+
+			
+		</div>
+	</div>
+
+	<div id="form_layout">
+		<div id="popupLayout">
 
 			
 		</div>
@@ -163,8 +215,8 @@
 					<table class="table table-bordered">
 					<tr>
 						<th id="front"></th>
-						<th>Assets</th>
-						<th>Setting</th>
+						<th id="mid">Assets</th>
+						<th id="mid">Setting</th>
 						<th id="check"><input  class="btn btn-primary" type="submit" value="Save"></th>
 					</tr>
 					<tbody id="list">

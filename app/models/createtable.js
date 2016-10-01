@@ -24,6 +24,19 @@ exports.createtable = function(req, res){
     		}
     	}
     );
+    connection.query('CREATE TABLE Layout(\
+        layoutId int NOT NULL AUTO_INCREMENT, \
+        layoutCode VARCHAR(5) NOT NULL,\
+        layoutName VARCHAR(150) NOT NULL,\
+        PRIMARY KEY(layoutId))',
+        function(err, result){
+            if(err){
+                console.log(err);
+            }else{
+                console.log("Table Layout created.");
+            }
+        }
+    );
     connection.query('CREATE TABLE Playlist(\
     	playlistId int NOT NULL AUTO_INCREMENT, \
     	playlistName VARCHAR(100) NOT NULL,\
@@ -107,9 +120,11 @@ exports.createtable = function(req, res){
     	ownId int NOT NULL,\
     	playlistId int NOT NULL,\
     	assetsId int NOT NULL,\
+        layoutId int NOT NULL,\
     	PRIMARY KEY(apId),\
     	FOREIGN KEY(ownId) REFERENCES User(userId),\
     	FOREIGN KEY(playlistId) REFERENCES Playlist(playlistId),\
+        FOREIGN KEY(layoutId) REFERENCES Layout(layoutId),\
     	FOREIGN KEY(assetsId) REFERENCES Assets(assetsId))',
     	function(err, result){
     		if(err){
@@ -148,6 +163,42 @@ exports.createtable = function(req, res){
                 console.log(err);
             }else{
                 console.log('User admin added.');
+            }
+        }
+    );
+    connection.query('INSERT INTO Layout VALUES(1,\'1\', \'Single Zone Display\')',
+        function(err, result){
+            if(err){
+                console.log(err);
+            }else{
+                console.log('Layout 1 added.');
+            }
+        }
+    );
+    connection.query('INSERT INTO Layout VALUES(2, \'2a\', \'Two Zone with Main Zone on right\')',
+        function(err, result){
+            if(err){
+                console.log(err);
+            }else{
+                console.log('Layout 2a added.');
+            }
+        }
+    );
+    connection.query('INSERT INTO Layout VALUES(3, \'2b\', \'Two Zone with Main Zone on left\')',
+        function(err, result){
+            if(err){
+                console.log(err);
+            }else{
+                console.log('Layout 2b added.');
+            }
+        }
+    );
+    connection.query('INSERT INTO Layout VALUES(4, \'3\', \'Three Zone with Main Zone on center\')',
+        function(err, result){
+            if(err){
+                console.log(err);
+            }else{
+                console.log('Layout 3 added.');
             }
         }
     );

@@ -35,6 +35,19 @@
 	overflow: auto;
 
 }
+#form_layout{
+	margin: 5px;
+	width:100%;
+	height:100%;
+	opacity:.95;
+	top:-5px;
+	left:-5px;
+	display: none;
+	position: fixed;
+	background-color:#313131;
+	overflow: auto;
+
+}
 #clear{
 	margin-bottom: 15px;
 }
@@ -47,6 +60,9 @@
 	font-family:raleway;
 	background-color:#fff;
 }
+th#check, th#mid{
+	text-align: center;
+}
 img#close {
 	position:absolute;
 	right:-14px;
@@ -54,6 +70,14 @@ img#close {
 	cursor:pointer;
 }
 div#popupContact {
+	position:absolute;
+	left:50%;
+	top:17%;
+	margin-top: -50px;
+	margin-left:-350px;
+	font-family:'Raleway',sans-serif;
+}
+div#popupLayout {
 	position:absolute;
 	left:50%;
 	top:17%;

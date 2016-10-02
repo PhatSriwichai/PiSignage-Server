@@ -19,7 +19,6 @@
 		socket.emit('playlist-assets', id);
 
 		socket.on('playlist-assets', function(message){
-
 			var list = document.getElementById("list");
 			
 			for(i = 0; i < message.length; i++){
@@ -47,9 +46,52 @@
 				}
 				
 				if(message[i].apId != null){
-					string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" checked><br></td></tr>";
+					if(message[i].layoutCode == '1'){
+						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" checked> Main<br></td></tr>";
+					}else if(message[i].layoutCode == '2a' || message[i].layoutCode == '2b'){
+						//alert(message[i].position);
+						if(message[i].position == 'M'){
+							string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" checked> Main<br>";
+							string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+"> Slide<br></td></tr>";
+						}else{
+							string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br>";
+							string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+" checked> Slide<br></td></tr>";
+						}
+
+					}else if(message[i].layoutCode == '3'){
+						if(message[i].position == 'M'){
+							string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" checked> Main<br>";
+							string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+"> Left Slide<br>";
+							string += "<input type=\"checkbox\" name=\"c\" value="+message[i].assetsId+"> Right Slide<br></td></tr>";
+						}else if(message[i].position == 'RS'){
+							string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br>";
+							string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+"> Left Slide<br>";
+							string += "<input type=\"checkbox\" name=\"c\" value="+message[i].assetsId+" checked> Right Slide<br></td></tr>";
+						}else if(message[i].position == 'LS'){
+							string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br>";
+							string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+" checked> Left Slide<br>";
+							string += "<input type=\"checkbox\" name=\"c\" value="+message[i].assetsId+"> Right Slide<br></td></tr>";
+						}
+					}else{
+						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br></td></tr>";
+					}
+					
 				}else{
-					string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"><br></td></tr>";
+					if(message[0].layoutCode == '1'){
+						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br></td></tr>";
+
+					}else if(message[0].layoutCode == '2a' || message[0].layoutCode == '2b'){
+						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br>";
+						string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+"> Slide<br></td></tr>";
+
+					}else if(message[0].layoutCode == '3'){
+						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br>";
+						string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+"> Left Slide<br>";
+						string += "<input type=\"checkbox\" name=\"c\" value="+message[i].assetsId+"> Right Slide<br></td></tr>";
+					}else{
+
+						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br></td></tr>";
+					}
 				}
 				
 			}
@@ -83,14 +125,20 @@
 			socket.on('layout', function(message){
 				var string = ' ';
 				var text = ' ';
+				var index = 0;
 				if(message != null){
 
 					for(var i=0; i<message.length; i++){
 						if(message[i].apId == null){
 							string += '<tr><td><input type=\"radio\" name=\"select\" value=\"'+message[i].layoutId+'\"> '+message[i].layoutCode+' : '+message[i].layoutName+'</td><tr>';
 						}else{
-							string += '<tr><td><input type=\"radio\" name=\"select\" value=\"'+message[i].layoutId+'\" checked> '+message[i].layoutCode+' : '+message[i].layoutName+'</td><tr>';
-							text = message[i].layoutCode;
+							if(index == 0){
+								string += '<tr><td><input type=\"radio\" name=\"select\" value=\"'+message[i].layoutId+'\" checked> '+message[i].layoutCode+' : '+message[i].layoutName+'</td><tr>';
+								text = message[i].layoutCode;
+								index = index+1;
+							}
+							
+
 						}
 						
 					}
@@ -143,7 +191,7 @@
 
 			form = document.getElementById('popupLayout');
 			string = 
-			"<form class=\"popup\" name=\"setTicker\" method=\"POST\" action=\"/playlist/layout?id="+getUrlVars()['id']+ "\" onsubmit=\"return validateForm()\">"
+			"<form class=\"popup\" name=\"setLayout\" method=\"POST\" action=\"/playlist/layout?id="+getUrlVars()['id']+ "\" onsubmit=\"return validateForm()\">"
 				+"<img id=\"close\" src=\"images/3.png\" onclick =\"div_hideLayout()\">"
 				+"<h2>Set Layout</h2>"
 				+"<button id=\"save\" class=\"btn btn-success\" type=\"submit\">Save</button>"

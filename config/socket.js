@@ -90,15 +90,19 @@ module.exports = function(app, io, server){
 		socket.on('playlist-assets', function(message){
 			var id;
 			id = message;
-		   	var queryString = "SELECT AddPlaylist.format, Assets.assetsId, Assets.assetsName, Assets.type, Assets.time, Assets.ownId, \
-		   				AddPlaylist.apId, AddPlaylist.playlistId FROM Assets LEFT JOIN AddPlaylist \
-		   				ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId = "+id+" ORDER BY apId DESC"
+		   	//var queryString = "SELECT * FROM Assets LEFT JOIN AddPlaylist \
+		   	//			ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId = "+id+" ORDER BY apId DESC"
 	   		//var queryString = 'SELECT * FROM Assets';
+
+	   		var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, AddPlaylist.position, AddPlaylist.format, AddPlaylist.apId,\
+	   							Layout.layoutId, Layout.layoutCode, Layout.layoutName\
+	   							 FROM Assets LEFT JOIN AddPlaylist ON AddPlaylist.assetsId = Assets.assetsId \
+						   		and AddPlaylist.playlistId = "+id+" \
+						   		LEFT JOIN Layout ON Layout.layoutId = AddPlaylist.layoutId ORDER BY apId DESC";
 		   	mysql.query(queryString, function(err, rows, fields){
 		   		if(err){
 		   			console.log(err);
 		   		}else{
-		   			//console.log(rows);
 		   			io.emit('playlist-assets', rows);
 		   		}
 		   	});
@@ -155,19 +159,36 @@ module.exports = function(app, io, server){
 		socket.on('layout', function(message){
 			var id;
 			id = message;
-			var queryString = 'SELECT AddPlaylist.apId, Layout.layoutId, Layout.layoutCode,\
-							 	Layout.layoutName FROM Layout LEFT JOIN AddPlaylist \
-								ON AddPlaylist.playlistId=? AND AddPlaylist.layoutId = Layout.layoutId';
-			var insert = [id];		
+			//var queryString = 'SELECT AddPlaylist.apId, Layout.layoutId, Layout.layoutCode,\
+			//				 	Layout.layoutName FROM Layout LEFT JOIN AddPlaylist \
+			//					ON AddPlaylist.playlistId=? AND AddPlaylist.layoutId = Layout.layoutId';
+			/*var queryString = "SELECT layoutId FROM AddPlaylist WHERE playlistId=? LIMIT 1"
+			var insert = [id];		 
 			queryString = mysql.format(queryString, insert);
 
 			mysql.query(queryString, function(err, rows, fields){
 			    if(err){
 			      	console.log(err);
 			    }else{
+
+			    }
+			});*/
+
+			var queryString = 'SELECT AddPlaylist.apId, Layout.layoutId, Layout.layoutCode,\
+					 	Layout.layoutName FROM Layout LEFT JOIN AddPlaylist \
+						ON AddPlaylist.playlistId=? AND AddPlaylist.layoutId = Layout.layoutId';
+			var insert = [id];		 
+			queryString = mysql.format(queryString, insert);
+
+			mysql.query(queryString, function(err, rows, fields){
+			    if(err){
+			      	console.log(err);
+			    }else{
+			    	//console.log(rows);
 			        io.emit('layout', rows);
 			    }
 			});
+
 		});
 
 		socket.on('clear_ticker', function(message){

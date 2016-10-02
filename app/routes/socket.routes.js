@@ -45,10 +45,10 @@ module.exports = function(app, io, server){
                                       WHERE AddPlaylist.playlistId=? \
                                       and AddPlaylist.assetsId = Assets.assetsId and Playlist.playlistId=?';*/
 
-                    queryString = 'SELECT * FROM AddPlaylist, Assets, Playlist \
+                    queryString = 'SELECT * FROM AddPlaylist, Assets, Layout, Playlist \
                                   LEFT JOIN Ticker ON Ticker.playlistId = Playlist.playlistId \
                                   WHERE AddPlaylist.playlistId=? and AddPlaylist.assetsId = Assets.assetsId \
-                                  and Playlist.playlistId=?';
+                                  and Playlist.playlistId=? and AddPlaylist.layoutId = Layout.layoutId';
 
                     insert = [req.body.playlist, req.body.playlist];
                     queryString = mysql.format(queryString, insert);
@@ -68,9 +68,10 @@ module.exports = function(app, io, server){
                                   var listFile = [];
                                   var listFormat = [];
                                   var listType = [];
+                                  var listPosition = []
                                     for(j=0; j<rows.length; j++){
                                       var fileName = '';
-                                      
+                                      listPosition.push(rows[j].position);
                                         if(rows[j].format == 'url'){
                                             fileName = "http://"+ip.address()+":"+server.address().port+
                                                       "/assets/"+rows[j].assetsName;
@@ -91,6 +92,7 @@ module.exports = function(app, io, server){
                                         //console.log("send "+fileName+" to "+mac); 
                                     }
                                     var ticker = [];
+
                                     if(rows[0].tickerMessage == null){
                                         ticker.push('none');
                                         ticker.push('none');
@@ -98,10 +100,14 @@ module.exports = function(app, io, server){
                                         ticker.push(rows[0].tickerMessage);
                                         ticker.push(rows[0].behavior);
                                     }
+                                    var layout = [];
+                                    layout.push(rows[0].layoutCode);
                                     package.push(listFile);
                                     package.push(listFormat);
                                     package.push(listType);
                                     package.push(ticker);
+                                    package.push(listPosition);
+                                    package.push(layout);
                                     console.log(package);
                                     console.log("send");
                                     io.emit(mac+"_check", package, rows[0].playlistName);

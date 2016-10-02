@@ -309,28 +309,132 @@ exports.addToPlaylist = function(req, res){
     var db = require('../models/connectdb');
     var mysql = db.connectdb();
 
-    var queryString = 'DELETE FROM AddPlaylist WHERE playlistId = ?';
+    var queryString = 'SELECT * FROM AddPlaylist WHERE playlistId = ?';
     var insert = [req.session.playListId];
     queryString = mysql.format(queryString, insert);
 
     mysql.query(queryString,
-          function(err, result){
+          function(err, rows, fields){
               //console.log(pass);
               if(err){
                   console.log(err);
               }else{
-                  console.log('delete playlist id '+req.session.id);
+                  var queryString = 'DELETE FROM AddPlaylist WHERE playlistId = ?';
+                  var insert = [req.session.playListId];
+                  queryString = mysql.format(queryString, insert);
+
+                  mysql.query(queryString,
+                        function(err, result){
+                            //console.log(pass);
+                            if(err){
+                                console.log(err);
+                            }else{
+                                //console.log('delete playlist id '+req.session.id);
+                            }
+                        }
+                  );
+
+
+                    var assets_id = req.body.a;
+                    var slide_id = req.body.b;
+                    var lSlide_id = req.body.c;
+
+                    var l_id = null;
+                    if(rows.length > 0){
+                      l_id = rows[0].layoutId;
+                    }
+                    console.log(req.body.format);
+                    if(l_id == null) l_id = 1;
+                    
+                    if(assets_id instanceof Array){
+
+                        for(var i=0; i<assets_id.length; i++){
+                          
+                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
+                          var insert = ['ownId', 'format', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
+                                      req.body.format[i], req.session.playListId, assets_id[i], l_id, 'M'];
+                          queryString = mysql.format(queryString, insert);
+
+                          mysql.query(queryString,
+                                function(err, result){
+                                    //console.log(pass);
+                                    if(err){
+                                        console.log(err);
+                                    }else{
+                                        console.log('added');
+                                    }
+                                }
+                          );
+                        }
+                    }else{
+                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?)';
+                          var insert = ['ownId', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
+                                        req.session.playListId, assets_id, l_id, 'M'];
+                          queryString = mysql.format(queryString, insert);
+
+                          mysql.query(queryString,
+                                function(err, result){
+                                    //console.log(pass);
+                                    if(err){
+                                        console.log(err);
+                                    }else{
+                                        console.log('added');
+                                    }
+                                }
+                          );
+                    }
+
+                    if(slide_id instanceof Array){
+
+                        for(var i=0; i<slide_id.length; i++){
+                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
+                          var insert = ['ownId', 'format', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
+                                      req.body.format[i], req.session.playListId, slide_id[i], l_id, 'S'];
+                          queryString = mysql.format(queryString, insert);
+
+                          mysql.query(queryString,
+                                function(err, result){
+                                    //console.log(pass);
+                                    if(err){
+                                        console.log(err);
+                                    }else{
+                                        console.log('added');
+                                    }
+                                }
+                          );
+                        }
+                    }else{
+                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?)';
+                          var insert = ['ownId', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
+                                        req.session.playListId, slide_id, l_id, 'S'];
+                          queryString = mysql.format(queryString, insert);
+
+                          mysql.query(queryString,
+                                function(err, result){
+                                    //console.log(pass);
+                                    if(err){
+                                        console.log(err);
+                                    }else{
+                                        console.log('added');
+                                    }
+                                }
+                          );
+                    }
+                    
               }
           }
     );
+   
+    /*
     var assets_id = req.body.a;
+  
     var i;
-    console.log(req.body.format[0]);
     if(assets_id instanceof Array){
+
         for(i=0; i<assets_id.length; i++){
-          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?)';
-          var insert = ['ownId', 'format', 'playlistId', 'assetsId', , 'layoutId', req.session.userId, 
-                      req.body.format[i], req.session.playListId, assets_id[i], 1];
+          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
+          var insert = ['ownId', 'format', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
+                      req.body.format[i], req.session.playListId, assets_id[i], l_id, 'M'];
           queryString = mysql.format(queryString, insert);
 
           mysql.query(queryString,
@@ -345,8 +449,9 @@ exports.addToPlaylist = function(req, res){
           );
         }
     }else{
-          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??) VALUES(?, ?, ?, ?)';
-          var insert = ['ownId', 'playlistId', 'assetsId', 'layoutId', req.session.userId, req.session.playListId, assets_id, 1];
+          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?)';
+          var insert = ['ownId', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
+                        req.session.playListId, assets_id, 1, 'M'];
           queryString = mysql.format(queryString, insert);
 
           mysql.query(queryString,
@@ -360,7 +465,7 @@ exports.addToPlaylist = function(req, res){
                 }
           );
     }
-
+*/
     
     
     

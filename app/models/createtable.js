@@ -117,6 +117,7 @@ exports.createtable = function(req, res){
     connection.query('CREATE TABLE AddPlaylist(\
     	apId int NOT NULL AUTO_INCREMENT,\
         format VARCHAR(10) NOT NULL,\
+        position VARCHAR(3) NOT NULL,\
     	ownId int NOT NULL,\
     	playlistId int NOT NULL,\
     	assetsId int NOT NULL,\

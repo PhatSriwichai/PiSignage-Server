@@ -347,7 +347,7 @@ exports.addToPlaylist = function(req, res){
                     if(l_id == null) l_id = 1;
                     
                     if(assets_id instanceof Array){
-
+                        console.log("is Array");
                         for(var i=0; i<assets_id.length; i++){
                           
                           var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
@@ -367,9 +367,18 @@ exports.addToPlaylist = function(req, res){
                           );
                         }
                     }else{
-                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?)';
-                          var insert = ['ownId', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
-                                        req.session.playListId, assets_id, l_id, 'M'];
+                          console.log("no Array");
+                          console.log(req.body.format);
+                          console.log(assets_id);
+                          var format = '';
+                          if(req.body.format instanceof Array){
+                              format = req.body.format[0];
+                          }else{
+                              format = req.body.format;
+                          }
+                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
+                          var insert = ['ownId', 'format', 'playlistId', 'assetsId', 'layoutId', 'position', 
+                                        req.session.userId, format, req.session.playListId, assets_id, l_id, 'M'];
                           queryString = mysql.format(queryString, insert);
 
                           mysql.query(queryString,
@@ -383,13 +392,13 @@ exports.addToPlaylist = function(req, res){
                                 }
                           );
                     }
-
-                    if(slide_id instanceof Array){
+                    if(slide_id != null){
+                        if(slide_id instanceof Array){
 
                         for(var i=0; i<slide_id.length; i++){
                           var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
                           var insert = ['ownId', 'format', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
-                                      req.body.format[i], req.session.playListId, slide_id[i], l_id, 'S'];
+                                      req.body.formats[i], req.session.playListId, slide_id[i], l_id, 'S'];
                           queryString = mysql.format(queryString, insert);
 
                           mysql.query(queryString,
@@ -404,9 +413,15 @@ exports.addToPlaylist = function(req, res){
                           );
                         }
                     }else{
-                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?)';
-                          var insert = ['ownId', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
-                                        req.session.playListId, slide_id, l_id, 'S'];
+                          var format = '';
+                          if(req.body.format instanceof Array){
+                              format = req.body.formats[0];
+                          }else{
+                              format = req.body.formats;
+                          }
+                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
+                          var insert = ['ownId', 'format', 'playlistId', 'assetsId', 'layoutId', 'position', 
+                                        req.session.userId, format, req.session.playListId, slide_id, l_id, 'S'];
                           queryString = mysql.format(queryString, insert);
 
                           mysql.query(queryString,
@@ -420,6 +435,8 @@ exports.addToPlaylist = function(req, res){
                                 }
                           );
                     }
+                    }
+                    
                     
               }
           }

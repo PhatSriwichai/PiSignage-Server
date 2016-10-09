@@ -20,7 +20,7 @@
 		socket.on('playlist-assets-main-zone', function(message){
 			if(message[0].layoutCode != '1' && message[0].layoutCode != null){
 				getSlideZone();
-			}else if(message[0].layoutCode == null || message[0].layoutCode == '1'){
+			}else if(message[0].layoutCode == null || message[0].layoutCode == '1' || message.length <= 0){
 				var slide = document.getElementById("sec_slide");
 				slide.style.display = 'none';
 				var main = document.getElementById("sec_main");
@@ -44,30 +44,30 @@
 				string += "<td>Name: <a href=\"/show?id="+message[i].assetsId+"\">"+message[i].assetsName+"</a><br>";
 				string += "Type: "+message[i].type+"<br></td>";
 			
-
-				if(message[i].format == 'file'){
-					string += "<td>Format <select name=\"format\">\
-							<option value=\"file\" selected>File</option>\
-							<option value=\"url\">URL</option></select><br></td>";
-				}else if(message[i].format == 'url'){
-					string += "<td>Format <select name=\"format\">\
-							<option value=\"file\">File</option>\
-							<option value=\"url\" selected>URL</option></select><br></td>";		
-				}else{
-					string += "<td>Format <select name=\"format\">\
-							<option value=\"file\" selected>File</option>\
-							<option value=\"url\" >URL</option></select><br></td>";
-				}
-				
 				if(message[i].apId != null){
-					if(message[i].position == 'M'){
-						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" checked><br></td></tr>";
+					if(message[i].format == 'file'){
+						string += "<td id=\""+message[i].assetsId+"select\">Format <select name=\"format\">\
+								<option value=\"file\" selected>File</option>\
+								<option value=\"url\">URL</option></select><br></td>";
+					}else if(message[i].format == 'url'){
+						string += "<td id=\""+message[i].assetsId+"select\">Format <select name=\"format\">\
+								<option value=\"file\">File</option>\
+								<option value=\"url\" selected>URL</option></select><br></td>";		
 					}else{
-						string += "<td><input type=\"checkbox\" name=\"as\" value="+message[i].assetsId+"><br></td></tr>"
+						string += "<td id=\""+message[i].assetsId+"select\">Format <select name=\"format\">\
+								<option value=\"file\" selected>File</option>\
+								<option value=\"url\" >URL</option></select><br></td>";
 					}
-					
+
+					if(message[i].position == 'M'){
+						string += "<td><input id=\""+message[i].assetsId+"\" type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" onclick=\"showFormat("+message[i].assetsId+")\" checked=\"a\"><br></td></tr>";
+					}else{
+						string += "<td><input id=\""+message[i].assetsId+"\" type=\"checkbox\" name=\"as\" value="+message[i].assetsId+" onclick=\"showFormat("+message[i].assetsId+")\" checked=\"a\"><br></td></tr>"
+					}
+
 				}else{
-					string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"><br></td></tr>";
+					string += "<td id=\""+message[i].assetsId+"select\"></td>";
+					string += "<td><input id=\""+message[i].assetsId+"\" type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" onclick=\"showFormat("+message[i].assetsId+")\"><br></td></tr>";
 				}
 				
 			}
@@ -75,7 +75,22 @@
 			
 			
 		});
+		function showFormat(id){
+			var eId = document.getElementById(id);
+			var formatId = document.getElementById(id+"select");
+			string = '';
+			if(!eId.checked){
+				string = ' ';
 
+			}else{
+
+				string += "Format <select name=\"format\">\
+							<option value=\"file\" selected>File</option>\
+							<option value=\"url\" >URL</option></select><br>";
+			}
+
+			formatId.innerHTML = string;
+		}
 		function getSlideZone(){
 			var id = getUrlVars()["id"];
 			socket.emit('playlist-assets-slide-zone', id);

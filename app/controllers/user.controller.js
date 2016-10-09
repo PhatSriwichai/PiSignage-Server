@@ -335,9 +335,9 @@ exports.addToPlaylist = function(req, res){
                   );
 
 
-                    var assets_id = req.body.a;
-                    var slide_id = req.body.b;
-                    var lSlide_id = req.body.c;
+                    var assets_id = req.body.a; 
+                    var slide_id = req.body.as;
+                    
 
                     var l_id = null;
                     if(rows.length > 0){

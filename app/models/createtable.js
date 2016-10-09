@@ -194,12 +194,21 @@ exports.createtable = function(req, res){
             }
         }
     );
-    connection.query('INSERT INTO Layout VALUES(4, \'3\', \'Three Zone with Main Zone on center\')',
+    connection.query('INSERT INTO Layout VALUES(4, \'3a\', \'Two Zone with Main Zone on bottom\')',
         function(err, result){
             if(err){
                 console.log(err);
             }else{
-                console.log('Layout 3 added.');
+                console.log('Layout 3a added.');
+            }
+        }
+    );
+    connection.query('INSERT INTO Layout VALUES(5, \'3b\', \'Two Zone with Main Zone on top\')',
+        function(err, result){
+            if(err){
+                console.log(err);
+            }else{
+                console.log('Layout 3b added.');
             }
         }
     );

@@ -60,6 +60,27 @@
 	font-family:raleway;
 	background-color:#fff;
 }
+b{
+	float: right;
+	margin: 10px;
+}
+aside{
+	max-width: 550px;
+	width: 100%;
+	float: left;
+}
+
+table{
+	width: 100%;
+}
+section{
+	max-width: 550px;
+	width: 100%;
+	float: right;
+}
+th#main{
+	text-align: center;
+}
 th#check, th#mid{
 	text-align: center;
 }

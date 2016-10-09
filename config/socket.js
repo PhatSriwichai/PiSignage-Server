@@ -87,26 +87,53 @@ module.exports = function(app, io, server){
 				
 			
 
-		socket.on('playlist-assets', function(message){
+		socket.on('playlist-assets-main-zone', function(message){
 			var id;
+			var position = 'M';
 			id = message;
 		   	//var queryString = "SELECT * FROM Assets LEFT JOIN AddPlaylist \
 		   	//			ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId = "+id+" ORDER BY apId DESC"
 	   		//var queryString = 'SELECT * FROM Assets';
 
-	   		var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, AddPlaylist.position, AddPlaylist.format, AddPlaylist.apId,\
-	   							Layout.layoutId, Layout.layoutCode, Layout.layoutName\
-	   							 FROM Assets LEFT JOIN AddPlaylist ON AddPlaylist.assetsId = Assets.assetsId \
-						   		and AddPlaylist.playlistId = "+id+" \
-						   		LEFT JOIN Layout ON Layout.layoutId = AddPlaylist.layoutId ORDER BY apId DESC";
+	   		var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, AddPlaylist.position, AddPlaylist.format,\
+	   							AddPlaylist.apId, Layout.layoutId, Layout.layoutCode, Layout.layoutName \
+	   							FROM Assets LEFT JOIN AddPlaylist ON AddPlaylist.assetsId = Assets.assetsId \
+						   		and AddPlaylist.playlistId = "+id+" and AddPlaylist.position = \'M\'"+ 
+						   		" LEFT JOIN Layout ON Layout.layoutId = AddPlaylist.layoutId ORDER BY apId DESC";
+			//var insert = ['M'];
+			//queryString = mysql.format(queryString, insert);
 		   	mysql.query(queryString, function(err, rows, fields){
 		   		if(err){
 		   			console.log(err);
 		   		}else{
-		   			io.emit('playlist-assets', rows);
+		   			io.emit('playlist-assets-main-zone', rows);
 		   		}
 		   	});
 		});
+		socket.on('playlist-assets-slide-zone', function(message){
+			var id;
+			var position = 'M';
+			id = message;
+		   	//var queryString = "SELECT * FROM Assets LEFT JOIN AddPlaylist \
+		   	//			ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId = "+id+" ORDER BY apId DESC"
+	   		//var queryString = 'SELECT * FROM Assets';
+
+	   		var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, AddPlaylist.position, AddPlaylist.format,\
+	   							AddPlaylist.apId, Layout.layoutId, Layout.layoutCode, Layout.layoutName \
+	   							FROM Assets LEFT JOIN AddPlaylist ON AddPlaylist.assetsId = Assets.assetsId \
+						   		and AddPlaylist.playlistId = "+id+" and AddPlaylist.position = \'S\'"+ 
+						   		" LEFT JOIN Layout ON Layout.layoutId = AddPlaylist.layoutId ORDER BY apId DESC";
+			//var insert = ['M'];
+			//queryString = mysql.format(queryString, insert);
+		   	mysql.query(queryString, function(err, rows, fields){
+		   		if(err){
+		   			console.log(err);
+		   		}else{
+		   			io.emit('playlist-assets-slide-zone', rows);
+		   		}
+		   	});
+		});
+
 
 		socket.on('show', function(message){
 			var id;

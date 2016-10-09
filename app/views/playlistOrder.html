@@ -281,6 +281,8 @@
 				+"</tr></table>"
 			+"</form>";
 			form.innerHTML = string;
+			var hide = document.getElementById('hide');
+			hide.innerHTML = "<input name=\"playlistId\" type=\"hidden\" value=\"getUrlVars[\"id\"]\">";
 		}
 
 		/*<form class="popup" name="setTicker" method="POST" action="/playlist/ticker" onsubmit="return validateForm()">
@@ -337,7 +339,8 @@
 	
 	
 	
-	<form id="addToPlaylist" name="addToPlaylist" method="post" action="/playlist/addTo">	
+	<form id="addToPlaylist" name="addToPlaylist" method="post" action="/playlist/addTo">
+		<div id="hide"></div>
 		<aside id="sec_main">
 			<div id="wrapper">
 				<div id="sec_wrapper" name="sec_wrapper">

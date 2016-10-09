@@ -118,6 +118,7 @@ exports.createtable = function(req, res){
     	apId int NOT NULL AUTO_INCREMENT,\
         format VARCHAR(10) NOT NULL,\
         position VARCHAR(3) NOT NULL,\
+        time_sec int,\
     	ownId int NOT NULL,\
     	playlistId int NOT NULL,\
     	assetsId int NOT NULL,\

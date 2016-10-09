@@ -95,7 +95,7 @@ module.exports = function(app, io, server){
 		   	//			ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId = "+id+" ORDER BY apId DESC"
 	   		//var queryString = 'SELECT * FROM Assets';
 
-	   		var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, AddPlaylist.position, AddPlaylist.format,\
+	   		var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, AddPlaylist.time_sec, AddPlaylist.position, AddPlaylist.format,\
 	   							AddPlaylist.apId, Layout.layoutId, Layout.layoutCode, Layout.layoutName \
 	   							FROM Assets LEFT JOIN AddPlaylist ON AddPlaylist.assetsId = Assets.assetsId \
 						   		and AddPlaylist.playlistId = "+id+" and AddPlaylist.position = \'M\'"+ 
@@ -118,7 +118,7 @@ module.exports = function(app, io, server){
 		   	//			ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId = "+id+" ORDER BY apId DESC"
 	   		//var queryString = 'SELECT * FROM Assets';
 
-	   		var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, AddPlaylist.position, AddPlaylist.format,\
+	   		var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, AddPlaylist.time_sec, AddPlaylist.position, AddPlaylist.format,\
 	   							AddPlaylist.apId, Layout.layoutId, Layout.layoutCode, Layout.layoutName \
 	   							FROM Assets LEFT JOIN AddPlaylist ON AddPlaylist.assetsId = Assets.assetsId \
 						   		and AddPlaylist.playlistId = "+id+" and AddPlaylist.position = \'S\'"+ 

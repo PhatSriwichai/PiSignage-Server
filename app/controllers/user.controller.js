@@ -337,7 +337,8 @@ exports.addToPlaylist = function(req, res){
 
                     var assets_id = req.body.a; 
                     var slide_id = req.body.as;
-                    
+                    var time_sec = req.body.time;
+                     var time_secs = req.body.times;
 
                     var l_id = null;
                     if(rows.length > 0){
@@ -350,9 +351,9 @@ exports.addToPlaylist = function(req, res){
                         console.log("is Array");
                         for(var i=0; i<assets_id.length; i++){
                           
-                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
-                          var insert = ['ownId', 'format', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
-                                      req.body.format[i], req.session.playListId, assets_id[i], l_id, 'M'];
+                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??,??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?, ?)';
+                          var insert = ['ownId', 'format', 'time_sec', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
+                                      req.body.format[i], req.session.playListId, time_sec[i],assets_id[i], l_id, 'M'];
                           queryString = mysql.format(queryString, insert);
 
                           mysql.query(queryString,
@@ -376,9 +377,9 @@ exports.addToPlaylist = function(req, res){
                           }else{
                               format = req.body.format;
                           }
-                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
-                          var insert = ['ownId', 'format', 'playlistId', 'assetsId', 'layoutId', 'position', 
-                                        req.session.userId, format, req.session.playListId, assets_id, l_id, 'M'];
+                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?, ?)';
+                          var insert = ['ownId', 'format', 'time_sec', 'playlistId', 'assetsId', 'layoutId', 'position', 
+                                        req.session.userId, format, time_sec, req.session.playListId, assets_id, l_id, 'M'];
                           queryString = mysql.format(queryString, insert);
 
                           mysql.query(queryString,
@@ -396,9 +397,9 @@ exports.addToPlaylist = function(req, res){
                         if(slide_id instanceof Array){
 
                         for(var i=0; i<slide_id.length; i++){
-                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
-                          var insert = ['ownId', 'format', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
-                                      req.body.formats[i], req.session.playListId, slide_id[i], l_id, 'S'];
+                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?, ?)';
+                          var insert = ['ownId', 'format', 'time_sec', 'playlistId', 'assetsId', 'layoutId', 'position', req.session.userId, 
+                                      req.body.formats[i], time_secs[i], req.session.playListId, slide_id[i], l_id, 'S'];
                           queryString = mysql.format(queryString, insert);
 
                           mysql.query(queryString,
@@ -419,9 +420,9 @@ exports.addToPlaylist = function(req, res){
                           }else{
                               format = req.body.formats;
                           }
-                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
-                          var insert = ['ownId', 'format', 'playlistId', 'assetsId', 'layoutId', 'position', 
-                                        req.session.userId, format, req.session.playListId, slide_id, l_id, 'S'];
+                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?, ?)';
+                          var insert = ['ownId', 'format', 'time_sec', 'playlistId', 'assetsId', 'layoutId', 'position', 
+                                        req.session.userId, format, time_secs, req.session.playListId, slide_id, l_id, 'S'];
                           queryString = mysql.format(queryString, insert);
 
                           mysql.query(queryString,

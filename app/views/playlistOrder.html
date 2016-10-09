@@ -15,22 +15,36 @@
 		var i;
 		var string = '';
 		var id = getUrlVars()["id"];
-		socket.emit('route', 'playlist-assets');
-		socket.emit('playlist-assets', id);
+		socket.emit('playlist-assets-main-zone', id);
 
-		socket.on('playlist-assets', function(message){
+		socket.on('playlist-assets-main-zone', function(message){
+			if(message[0].layoutCode != '1' && message[0].layoutCode != null){
+				getSlideZone();
+			}else if(message[0].layoutCode == null || message[0].layoutCode == '1'){
+				var slide = document.getElementById("sec_slide");
+				slide.style.display = 'none';
+				var main = document.getElementById("sec_main");
+				main.style.maxWidth = "1100px";
+				main.style.width = "100%";
+			}
 			var list = document.getElementById("list");
-			
+
+			var string = '';
+
 			for(i = 0; i < message.length; i++){
 				//string += "<tr><td>"+message[+"</a></td></tr>";
 				//string += "<td>"+message[i].description+ "</td></tr>";
 				if(message[i].type == 'image'){
 					string += "<tr><td><img src=\"/assets/"+message[i].assetsName+"\" width=\"50px\" height=\"50px\"></td>";
+					
 				}else if(message[i].type == 'video'){
-					string += "<tr><td><video src=\"/assets/"+message[i].assetsName+"\" width=\"50px\" height=\"50px\" controls></td>";
+					string += "<tr><td><video src=\"/assets/"+message[i].assetsName+"\" width=\"50px\" height=\"50px\" 	controls></td>";
+					
 				}
 				string += "<td>Name: <a href=\"/show?id="+message[i].assetsId+"\">"+message[i].assetsName+"</a><br>";
 				string += "Type: "+message[i].type+"<br></td>";
+			
+
 				if(message[i].format == 'file'){
 					string += "<td>Format <select name=\"format\">\
 							<option value=\"file\" selected>File</option>\
@@ -38,7 +52,7 @@
 				}else if(message[i].format == 'url'){
 					string += "<td>Format <select name=\"format\">\
 							<option value=\"file\">File</option>\
-							<option value=\"url\" selected>URL</option></select><br></td>";
+							<option value=\"url\" selected>URL</option></select><br></td>";		
 				}else{
 					string += "<td>Format <select name=\"format\">\
 							<option value=\"file\" selected>File</option>\
@@ -46,52 +60,14 @@
 				}
 				
 				if(message[i].apId != null){
-					if(message[i].layoutCode == '1'){
-						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" checked> Main<br></td></tr>";
-					}else if(message[i].layoutCode == '2a' || message[i].layoutCode == '2b'){
-						//alert(message[i].position);
-						if(message[i].position == 'M'){
-							string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" checked> Main<br>";
-							string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+"> Slide<br></td></tr>";
-						}else{
-							string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br>";
-							string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+" checked> Slide<br></td></tr>";
-						}
-
-					}else if(message[i].layoutCode == '3'){
-						if(message[i].position == 'M'){
-							string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" checked> Main<br>";
-							string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+"> Left Slide<br>";
-							string += "<input type=\"checkbox\" name=\"c\" value="+message[i].assetsId+"> Right Slide<br></td></tr>";
-						}else if(message[i].position == 'RS'){
-							string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br>";
-							string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+"> Left Slide<br>";
-							string += "<input type=\"checkbox\" name=\"c\" value="+message[i].assetsId+" checked> Right Slide<br></td></tr>";
-						}else if(message[i].position == 'LS'){
-							string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br>";
-							string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+" checked> Left Slide<br>";
-							string += "<input type=\"checkbox\" name=\"c\" value="+message[i].assetsId+"> Right Slide<br></td></tr>";
-						}
+					if(message[i].position == 'M'){
+						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" checked><br></td></tr>";
 					}else{
-						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br></td></tr>";
+						string += "<td><input type=\"checkbox\" name=\"as\" value="+message[i].assetsId+"><br></td></tr>"
 					}
 					
 				}else{
-					if(message[0].layoutCode == '1'){
-						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br></td></tr>";
-
-					}else if(message[0].layoutCode == '2a' || message[0].layoutCode == '2b'){
-						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br>";
-						string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+"> Slide<br></td></tr>";
-
-					}else if(message[0].layoutCode == '3'){
-						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br>";
-						string += "<input type=\"checkbox\" name=\"b\" value="+message[i].assetsId+"> Left Slide<br>";
-						string += "<input type=\"checkbox\" name=\"c\" value="+message[i].assetsId+"> Right Slide<br></td></tr>";
-					}else{
-
-						string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"> Main<br></td></tr>";
-					}
+					string += "<td><input type=\"checkbox\" name=\"a\" value="+message[i].assetsId+"><br></td></tr>";
 				}
 				
 			}
@@ -99,6 +75,61 @@
 			
 			
 		});
+
+		function getSlideZone(){
+			var id = getUrlVars()["id"];
+			socket.emit('playlist-assets-slide-zone', id);
+
+		}
+		socket.on('playlist-assets-slide-zone', function(message){
+			var list = document.getElementById("slide");
+			var string = '';
+
+			for(i = 0; i < message.length; i++){
+				//string += "<tr><td>"+message[+"</a></td></tr>";
+				//string += "<td>"+message[i].description+ "</td></tr>";
+				if(message[i].type == 'image'){
+					string += "<tr><td><img src=\"/assets/"+message[i].assetsName+"\" width=\"50px\" height=\"50px\"></td>";
+					
+				}else if(message[i].type == 'video'){
+					string += "<tr><td><video src=\"/assets/"+message[i].assetsName+"\" width=\"50px\" height=\"50px\" 	controls></td>";
+					
+				}
+				string += "<td>Name: <a href=\"/show?id="+message[i].assetsId+"\">"+message[i].assetsName+"</a><br>";
+				string += "Type: "+message[i].type+"<br></td>";
+			
+
+				if(message[i].format == 'file'){
+					string += "<td>Format <select name=\"formats\">\
+							<option value=\"file\" selected>File</option>\
+							<option value=\"url\">URL</option></select><br></td>";
+				}else if(message[i].format == 'url'){
+					string += "<td>Format <select name=\"formats\">\
+							<option value=\"file\">File</option>\
+							<option value=\"url\" selected>URL</option></select><br></td>";		
+				}else{
+					string += "<td>Format <select name=\"formats\">\
+							<option value=\"file\" selected>File</option>\
+							<option value=\"url\" >URL</option></select><br></td>";
+				}
+				
+				if(message[i].apId != null){
+					if(message[i].position == 'S'){
+						string += "<td><input type=\"checkbox\" name=\"as\" value="+message[i].assetsId+" checked><br></td></tr>";
+					}else{
+						string += "<td><input type=\"checkbox\" name=\"as\" value="+message[i].assetsId+"><br></td></tr>"
+					}
+					
+				}else{
+					string += "<td><input type=\"checkbox\" name=\"as\" value="+message[i].assetsId+"><br></td></tr>";
+				}
+				
+			}
+			list.innerHTML = string;
+			
+			
+		});
+
 
 		getTicker();
 
@@ -223,20 +254,6 @@
 	<div  w3-include-html="/menu.html"></div>
 	<script id="menu">w3IncludeHTML();</script> 
 	
-		
-	<div id="wrapper" class="container">
-  			<div class="panel-group">
-   			<div class="panel panel-success">
-   	   		<div class="panel-heading"><p id="headText">Playlist</p></div>
-      			<div class="panel-body">	
-	<table>
-		<tr>
-			<th id="ticker"><button id="button" class="btn btn-success" type="submit" onclick="div_showTicker()">Set Ticker</button></th>
-			<th id="layout"><button id="button" class="btn btn-success" type="submit" onclick="div_showLayout()"><font id="button_text">Layout</font></button></th>
-		</tr>
-	</table>
-	
-	
 	<div id="show_ticker">
 		
 	</div>
@@ -254,29 +271,75 @@
 			
 		</div>
 	</div>
+	<div id="wrapper" class="container">
+  			<div class="panel-group">
+   			<div class="panel panel-success">
+   	   		<div class="panel-heading"><p id="headText">Playlist</p></div>
+      			<div class="panel-body">	
 	
-
-	<div id="wrapper">
-		<div id="sec_wrapper" name="sec_wrapper">
-			<aside>
-				<form id="addToPlaylist" name="addToPlaylist" method="post" action="/playlist/addTo">
-					<table class="table table-bordered">
-					<tr>
-						<th id="front"></th>
-						<th id="mid">Assets</th>
-						<th id="mid">Setting</th>
-						<th id="check"><input  class="btn btn-primary" type="submit" value="Save"></th>
-					</tr>
-					<tbody id="list">
+	<table>
+		<tr>
+			<th id="ticker"><button id="button" class="btn btn-success" type="submit" onclick="div_showTicker()">Set Ticker</button></th>
+			<th id="layout"><button id="button" class="btn btn-success" type="submit" onclick="div_showLayout()"><font id="button_text">Layout</font></button>
+			</th>
+		</tr>
+	</table>
+	
+	
+	
+	
+	<form id="addToPlaylist" name="addToPlaylist" method="post" action="/playlist/addTo">	
+		<aside id="sec_main">
+			<div id="wrapper">
+				<div id="sec_wrapper" name="sec_wrapper">
+					
 						
-					</tbody>
-				</table>
-				</form>
-				
-				
-			</aside>
-		</div>
-	</div>
+							<table class="table table-bordered">	
+								<tr>
+									<th id="main" colspan="4">Main Zone</th>
+								</tr>
+								
+								<tr>
+									<th id="front"></th>
+									<th id="mid">Assets</th>
+									<th id="mid">Setting</th>
+									<th id="check"><input  class="btn btn-primary" type="submit" value="Save"></th>
+								</tr>
+								<tbody id="list">
+									
+								</tbody>
+							</table>
+				</div>
+			</div>
+		</aside>
+		
+		<section id="sec_slide">
+			<div id="wrapper">
+				<div id="sec_wrapper" name="sec_wrapper">
+					
+							<table class="table table-bordered">	
+								<tr>
+									<th id="main" colspan="4">Slide Zone</th>
+								</tr>
+								
+								<tr>
+									<th id="front"></th>
+									<th id="mid">Assets</th>
+									<th id="mid">Setting</th>
+									<th id="check"><input  class="btn btn-primary" type="submit" value="Save"></th>
+								</tr>
+								<tbody id="slide">
+									
+								</tbody>
+							</table>
+						
+						
+					
+				</div>
+			</div>
+		</section>
+	</form>
+	
 	
 				</div>							
       			</div>

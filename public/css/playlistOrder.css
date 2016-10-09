@@ -51,6 +51,7 @@
 #clear{
 	margin-bottom: 15px;
 }
+
 .popup{
 	max-width:700px;
 	min-width:700px;
@@ -81,8 +82,20 @@ section{
 th#main{
 	text-align: center;
 }
-th#check, th#mid{
+th#front{
+	width: 10%;
+}
+th#ass{
 	text-align: center;
+	width: 30%;
+}
+th#mid{
+	text-align: center;
+	width: 50%;
+}
+th#check{
+	text-align: center;
+	width: 10%;
 }
 img#close {
 	position:absolute;
@@ -109,4 +122,10 @@ div#popupLayout {
 h2{
 	text-align: center;
 	font-size: 6;
+}
+input[type="number"]{
+	width: 10%;
+}
+#time{
+	width: 50%;
 }

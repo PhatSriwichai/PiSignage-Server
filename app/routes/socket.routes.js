@@ -68,9 +68,11 @@ module.exports = function(app, io, server){
                                   var listFile = [];
                                   var listFormat = [];
                                   var listType = [];
-                                  var listPosition = []
+                                  var listPosition = [];
+                                  var listTime = [];
                                     for(j=0; j<rows.length; j++){
                                       var fileName = '';
+                                      listTime.push(rows[j].time_sec);
                                       listPosition.push(rows[j].position);
                                         if(rows[j].format == 'url'){
                                             fileName = "http://"+ip.address()+":"+server.address().port+
@@ -105,6 +107,7 @@ module.exports = function(app, io, server){
                                     package.push(listFile);
                                     package.push(listFormat);
                                     package.push(listType);
+                                    package.push(listTime);
                                     package.push(ticker);
                                     package.push(listPosition);
                                     package.push(layout);

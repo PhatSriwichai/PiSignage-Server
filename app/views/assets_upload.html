@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Assets</title>
+    <link href="css/elements.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/assets.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link href="css/elements.css" rel="stylesheet">
+    
     <script src="js/my_js.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -199,7 +200,22 @@
 						</div>
 						<!-- Popup Div Ends Here -->
 						</div>	
-	
+						
+						<div id="stream">
+							<div id="popupContact">
+								<form name="link" method="POST" action="/assets/uploadStream" enctype="multipart/form-data">
+									<img id="close" src="images/3.png" onclick ="div_hideStream()">
+									<h2>Upload Streaming URL</h2>
+									Name : <input class="form-control" type="text" name="name"><br>
+									URL : <input class="form-control" type="text" name="streamURL"><br>
+									from : <select id="from" class="form-control" name="from">
+										<option value="youtube">Youtube</option>
+										<option value="other">Other</option>
+									</select>
+									<input id="buttonsub" class="btn btn-success" type="submit"  value="Upload">
+								</form>
+							</div>
+						</div>
 	
 	
 	
@@ -258,19 +274,22 @@
 			<section>
 					<button id="videobtn" type="button" onclick="div_show()" class="btn btn-success">Upload Videos</button>
 					<button id="imagebtn" type="button" onclick="div_showimage()" class="btn btn-success">Upload Images</button>
+					<button id="imagebtn" type="button" onclick="div_showStream()" class="btn btn-success">Upload URL</button>
 			</section>
 			<aside>
 				<div class="container2">
 				  <table class="table table-bordered">
 				    <thead>
 				      <tr>
-				        <th id="front">Media</th>
-				        <th id="assetst">Assets</th>
+				        <th id="front"><h4>Media</h4></th>
+				        <th id="assetst"><h4>Assets</h4></th>
 				        <th id="back">
 				        <a href="/assets/edit"><input type="submit" id="editbtn" class="btn btn-warning" value="Edit"></th></a>
 				      </tr>
 				    </thead>
-				    <tbody id="list"></tbody>
+				    <tbody id="list">
+				    	
+				    </tbody>
 				  </table>
 				  </div>	
 			</aside>
@@ -285,15 +304,21 @@
 	<script type="text/javascript">
 		var socket = io();
 		var i;
-		var string = '';
+		
 		socket.emit('route', 'asset');
 		socket.on('assets', function(message){
+			var string = ' ';
 			var list = document.getElementById("list");
-			for(i = 0; i < message.length; i++){
+			if(message.length <= 0){
+				string += "<tr><td colspan=3 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Assets</h4></td></tr>";
+			}else{
+				for(i = 0; i < message.length; i++){
 				if(message[i].type == 'image'){
-					string += "<tr><td><img src=\"/assets/"+message[i].assetsName+"\" width=\"50px\" height=\"50px\"></td>";
+					string += "<tr><td><img src=\"/assets/thumbnail/"+message[i].assetsName+".png\" width=\"70px\" height=\"50px\"></td>";
 				}else if(message[i].type == 'video'){
-					string += "<tr><td><video src=\"/assets/"+message[i].assetsName+"\" width=\"50px\" height=\"50px\" controls></td>";
+					string += "<tr><td><img src=\"/assets/thumbnail/"+message[i].assetsName+".png\" width=\"70px\" height=\"50px\" controls></td>";
+				}else{
+					string += "<tr><td></td>";
 				}
 				
 				string += "<td>"+message[i].assetsName+"<br>";
@@ -301,6 +326,8 @@
 				string += "Upload time : "+message[i].time+ "<br></td>";
 				string += "<td>Upload by : "+message[i].userName + "</td></tr>"
 			}
+			}
+			
 			list.innerHTML = string;
 			
 			

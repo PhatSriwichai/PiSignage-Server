@@ -29,6 +29,7 @@ module.exports = function(app){
 	app.post('/player/edit/delete', user.deletePlayer);
 	app.post('/assets/uploadVideo', user.uploadVideo);
 	app.post('/assets/uploadImage', user.uploadImage);
+	app.post('/assets/uploadStream', user.uploadStream);
 	app.post('/assets/edit/delete', user.deleteAssets);
 	app.post('//edit/delete', user.deleteAssets);
 	app.post('/login', user.login);

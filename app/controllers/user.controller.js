@@ -1,4 +1,7 @@
 var os = require('os');
+var fs = require('fs');
+var ffmpeg = require('fluent-ffmpeg');
+
 exports.login = function(req, res){
   
 	var db = require('../models/connectdb');
@@ -84,7 +87,7 @@ exports.setting = function(req, res){
 
 
 exports.home = function(req, res){
-	   var path = __dirname;
+	  var path = __dirname;
     var pathLength = path.length;
     var pathView = path.substring(0, pathLength-12);
     //console.log(pathView);
@@ -120,6 +123,38 @@ exports.uploadVideo = function(req, res){
             }
         }
   );
+  var path = __dirname;
+  var pathLength = path.length;
+  var pathFile = path.substring(0, pathLength-15);
+
+  /*var proc = new ffmpeg(pathFile+'public/assets/ae.mp4')
+    .takeScreenshots({
+      count: 1,
+      timemarks: ['10']
+    }, pathFile+'public/assets/thumbnail', function(err){
+      if(err){
+        console.log(err);
+      }
+  });*/
+
+  var thumb = require('video-thumb');
+  thumb.extract(pathFile+'public/assets/'+req.files.file.name, pathFile+'public/assets/thumbnail/'+req.files.file.name+'.png', 
+    '00:00:10', '200x125', function(err){
+    if(err){
+      console.log(err);
+    }
+  })
+
+  /*var thumb = require('node-thumbnail').thumb;
+  thumb({
+    source: pathFile+'public/assets/ae.mp4',
+    destination: pathFile+'public/assets/thumbnail',
+    concurrency: 4
+  }, function(err){
+      if(err){
+        console.log(err);
+      }
+  });*/
 
   res.redirect('back');
 };
@@ -146,6 +181,66 @@ exports.uploadImage = function(req, res){
             }
         }
   );
+  var path = __dirname;
+  var pathLength = path.length;
+  var pathFile = path.substring(0, pathLength-15);
+
+  /*var thumb = require('node-thumbnail').thumb;
+  thumb({
+    source: pathFile+'public/assets/'+req.files.file.name,
+    destination: pathFile+'public/assets/thumbnail/'+req.files.file.name+'.png',
+    concurrency: 4
+  }, function(err){
+      if(err){
+        console.log(err);
+      }
+  });*/
+  var jimp = require('jimp');
+
+  jimp.read(pathFile+'public/assets/'+req.files.file.name, function(err, lenna){
+    if(err) throw err;
+    lenna.resize(200, 125)
+          .write(pathFile+'public/assets/thumbnail/'+req.files.file.name+".png");
+  });
+
+  res.redirect('back');
+};
+
+exports.uploadStream = function(req, res){
+  //console.log(req.files.file.name);
+  //console.log(req.session.userId)
+
+  var db = require('../models/connectdb');
+  var mysql = db.connectdb();
+
+  var path = __dirname;
+  var pathLength = path.length;
+  var pathFile = path.substring(0, pathLength-15);
+  var name = req.body.name+".txt";
+  var url = req.body.streamURL;
+  var from = req.body.from;
+  //var queryString = 'INSERT INTO Assets(assetsName, ownId) VALUES(\''+req.files.file.name+'\','+req.session.userId+')';
+  var queryString = 'INSERT INTO ??(??,??,??,??) VALUES(?, NOW(), ?, ?)';
+  var insert = ['Assets', 'assetsName', 'time','type','ownId', name, from, req.session.userId];
+  queryString = mysql.format(queryString, insert);
+
+  mysql.query(queryString,
+        function(err, result){
+            //console.log(pass);
+            if(err){
+                console.log(err);
+            }else{
+                console.log('added new assets');
+            }
+        }
+  );
+  fs.writeFile(pathFile+"public/assets/"+name, url, function(err){
+      if(err){
+        console.log(err);
+      }else{
+        console.log("add "+name);
+      }
+  });
 
   res.redirect('back');
 };
@@ -792,7 +887,22 @@ exports.setTicker = function(req, res){
 exports.setLayout = function(req, res){
     var db = require('../models/connectdb');
     var mysql = db.connectdb();
-    
+    if(req.body.select == 1){
+      var queryString = 'DELETE FROM AddPlaylist WHERE playlistId = ? and position = ?';
+      var insert = [req.query.id, 'S'];
+      queryString = mysql.format(queryString, insert);
+
+      mysql.query(queryString,
+            function(err, result){
+                //console.log(pass);
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log('deleted');
+                }
+            }
+      );
+    }
     var queryString = 'UPDATE AddPlaylist SET layoutId=? WHERE playlistId = ?';
     var insert = [req.body.select, req.query.id];
     queryString = mysql.format(queryString, insert);

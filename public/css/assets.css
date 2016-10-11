@@ -16,14 +16,24 @@ table{
 div.container2{
 	width: 98%;
 }
+th{
+	text-align: center;
+}
 th#assetst{
 	width: 650px;
+	text-align: center;
 }
 thead{
 	width: 100%;	
 }
 th#back{
 	width: 200px;
+	text-align: center;
+	
+}
+th#front{
+	width: 200px;
+	text-align: center;
 	
 }
 input#editbtn{
@@ -35,3 +45,52 @@ label{
 input, #fileName, #videoFile, #imageFile{
 	width: 100%;
 }
+div#popupContact {
+	position:absolute;
+	left:50%;
+	top:17%;
+	margin-top: -50px;
+	margin-left:-350px;
+	font-family:'Raleway',sans-serif;
+}
+div#stream{
+	margin: 5px;
+	width:100%;
+	height:100%;
+	opacity:.95;
+	top:-5px;
+	left:-5px;
+	display:none;
+	position: fixed;
+	background-color:#313131;
+	overflow:auto;
+}
+img#close {
+	position:absolute;
+	right:-14px;
+	top:-14px;
+	cursor:pointer;
+}
+form {
+	max-width:700px;
+	min-width:700px;
+	padding:10px 50px;
+	border:2px solid gray;
+	border-radius:10px;
+	font-family:raleway;
+	background-color:#fff;
+}
+input[type=text] {
+	width:100%;
+	padding:10px;
+	border:1px solid #ccc;
+	padding-left:40px;
+	font-size:16px;
+	font-family:raleway;
+}
+#from {
+	width:100%;
+	margin-bottom: 20px;
+}
+
+

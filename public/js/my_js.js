@@ -88,3 +88,15 @@ function div_hideLayout(){
 		
 	document.getElementById('form_layout').style.display = "none";
 }
+function div_showStream(){
+	document.getElementById('stream').style.display = "block";
+}
+function div_hideStream(){
+	document.getElementById('stream').style.display = "none";
+}
+function div_showAssetsPlay(){
+	document.getElementById('assets_play').style.display = "block";
+}
+function div_hideAssetsPlay(){
+	document.getElementById('assets_play').style.display = "none";
+}

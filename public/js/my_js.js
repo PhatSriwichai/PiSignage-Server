@@ -100,3 +100,9 @@ function div_showAssetsPlay(){
 function div_hideAssetsPlay(){
 	document.getElementById('assets_play').style.display = "none";
 }
+function div_showUpdateStream(){
+	document.getElementById('show_stream').style.display = "block";
+}
+function div_hideUpdateStream(){
+	document.getElementById('show_stream').style.display = "none";
+}

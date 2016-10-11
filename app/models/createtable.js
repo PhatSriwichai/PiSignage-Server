@@ -103,6 +103,7 @@ exports.createtable = function(req, res){
     	assetsName VARCHAR(100) NOT NULL,\
         time DATETIME NOT NULL,\
         type VARCHAR(20) NOT NULL,\
+        url VARCHAR(1000),\
         ownId int NOT NULL, \
 		PRIMARY KEY(assetsId),\
         FOREIGN KEY(ownId) REFERENCES User(userId))',

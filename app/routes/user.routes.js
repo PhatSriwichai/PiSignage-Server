@@ -4,7 +4,7 @@ module.exports = function(app){
 	app.get('/home', user.home);
 	app.get('/assets/list', user.assetsList);
 	app.get('/assets', user.addAssets);
-	app.get('/assets/edit', user.editRender);
+	app.get('/assets_edit', user.editRender);
 	app.get('/player', user.playerRender);
 	app.get('/player/edit', user.playereditRender);
 	app.get('/group', user.groupRender);
@@ -30,6 +30,7 @@ module.exports = function(app){
 	app.post('/assets/uploadVideo', user.uploadVideo);
 	app.post('/assets/uploadImage', user.uploadImage);
 	app.post('/assets/uploadStream', user.uploadStream);
+	app.post('/assets/updateStream', user.updateStream);
 	app.post('/assets/edit/delete', user.deleteAssets);
 	app.post('//edit/delete', user.deleteAssets);
 	app.post('/login', user.login);

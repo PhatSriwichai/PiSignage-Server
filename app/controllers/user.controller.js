@@ -220,8 +220,8 @@ exports.uploadStream = function(req, res){
   var url = req.body.streamURL;
   var from = req.body.from;
   //var queryString = 'INSERT INTO Assets(assetsName, ownId) VALUES(\''+req.files.file.name+'\','+req.session.userId+')';
-  var queryString = 'INSERT INTO ??(??,??,??,??) VALUES(?, NOW(), ?, ?)';
-  var insert = ['Assets', 'assetsName', 'time','type','ownId', name, from, req.session.userId];
+  var queryString = 'INSERT INTO ??(??,??,??,??,??) VALUES(?, NOW(), ?, ?, ?)';
+  var insert = ['Assets', 'assetsName', 'time','type', 'url', 'ownId', name, from, url, req.session.userId];
   queryString = mysql.format(queryString, insert);
 
   mysql.query(queryString,
@@ -241,6 +241,68 @@ exports.uploadStream = function(req, res){
         console.log("add "+name);
       }
   });
+
+  res.redirect('back');
+};
+
+exports.updateStream = function(req, res){
+  //console.log(req.files.file.name);
+  //console.log(req.session.userId)
+
+  var db = require('../models/connectdb');
+  var mysql = db.connectdb();
+
+  var path = __dirname;
+  var pathLength = path.length;
+  var pathFile = path.substring(0, pathLength-15);
+  var name = req.body.name+".txt";
+  var url = req.body.streamURL;
+  var from = req.body.from;
+  //var queryString = 'INSERT INTO Assets(assetsName, ownId) VALUES(\''+req.files.file.name+'\','+req.session.userId+')';
+  var queryString = 'SELECT * FROM Assets WHERE assetsId=?';
+  var insert = [req.body.assetsId];
+  queryString = mysql.format(queryString, insert);
+
+  mysql.query(queryString,
+        function(err, rows, fields){
+            //console.log(pass);
+            if(err){
+                console.log(err);
+            }else{
+              try{
+
+                fs.unlinkSync(pathFile+"public/assets/"+rows[0].assetsName);
+              }catch(err){
+                console.log(err);
+              }
+            }
+        }
+  );
+
+  queryString = 'UPDATE Assets SET assetsName=?, url=?, type=? WHERE assetsId=?';
+  var insert = [name, url, from, req.body.assetsId];
+  queryString = mysql.format(queryString, insert);
+
+  mysql.query(queryString,
+        function(err, result){
+            //console.log(pass);
+            if(err){
+                console.log(err);
+            }else{
+                console.log('update assets');
+            }
+        }
+  );
+  
+  
+  fs.writeFile(pathFile+"public/assets/"+name, url, function(err){
+      if(err){
+        console.log(err);
+      }else{
+        console.log("add "+name);
+      }
+  });
+  
 
   res.redirect('back');
 };
@@ -609,39 +671,59 @@ exports.deleteAssets = function(req, res){
               if(err){
                    console.log(err);
               }else{
+                if(assets_id instanceof Array){
                    for(i = 0; i < assets_id.length; i++){
-                      for(j = 0; j < rows.length; j++){
-                          if(assets_id[i] == rows[j].assetsId){
-                              var path = __dirname;
-                              var pathLength = path.length;
-                              var pathFile = path.substring(0, pathLength-15)+"public/assets/"+rows[j].assetsName;
-                              fs.unlinkSync(pathFile);
+                        for(j = 0; j < rows.length; j++){
+                            if(assets_id[i] == rows[j].assetsId){
+                                var path = __dirname;
+                                var pathLength = path.length;
+                                var pathFile = path.substring(0, pathLength-15)+"public/assets/"+rows[j].assetsName;
+                                fs.unlinkSync(pathFile);
+                                if(rows[j].type == 'video' || rows[j].type == 'image'){
+                                  pathFile = path.substring(0, pathLength-15)+"public/assets/thumbnail/"+rows[j].assetsName+".png";
+                                  fs.unlinkSync(pathFile);
+                                }
+                                
+                            }
+                        }
+                      
+                   }
+                }else{
+                    for(j = 0; j < rows.length; j++){
+                      if(assets_id == rows[j].assetsId){
+                          var path = __dirname;
+                          var pathLength = path.length;
+                          var pathFile = path.substring(0, pathLength-15)+"public/assets/"+rows[j].assetsName;
+                          fs.unlinkSync(pathFile);
+                          if(rows[j].type == 'video' || rows[j].type == 'image'){
+                            pathFile = path.substring(0, pathLength-15)+"public/assets/thumbnail/"+rows[j].assetsName+".png";
+                            fs.unlinkSync(pathFile);
                           }
                       }
-                   }
+                  }
+                }
               }
            }
    );
-    
-    for(i = 0; i < assets_id.length; i++){
-        var queryString = 'DELETE FROM AddPlaylist WHERE assetsId = ?';
-        var insert = [assets_id[i]];
-        queryString = mysql.format(queryString, insert);
+    if(assets_id instanceof Array){
+      for(i = 0; i < assets_id.length; i++){
+          var queryString = 'DELETE FROM AddPlaylist WHERE assetsId = ?';
+          var insert = [assets_id[i]];
+          queryString = mysql.format(queryString, insert);
 
-        mysql.query(queryString,
-              function(err, result){
-                  //console.log(pass);
-                  if(err){
-                      console.log(err);
-                  }else{
-                      console.log('delete AddtoPlaylistt id '+ assets_id[i]);
-                  }
-              }
-        );
-    
-    }
-
-    for(i = 0; i < assets_id.length; i++){
+          mysql.query(queryString,
+                function(err, result){
+                    //console.log(pass);
+                    if(err){
+                        console.log(err);
+                    }else{
+                        console.log('delete AddtoPlaylistt id '+ assets_id[i]);
+                    }
+                }
+          );
+      
+      }
+      for(i = 0; i < assets_id.length; i++){
         var queryString = 'DELETE FROM Assets WHERE assetsId = ?';
         var insert = [assets_id[i]];
         queryString = mysql.format(queryString, insert);
@@ -657,7 +739,40 @@ exports.deleteAssets = function(req, res){
               }
         );
     
+      }
+    }else{
+      var queryString = 'DELETE FROM AddPlaylist WHERE assetsId = ?';
+      var insert = [assets_id];
+      queryString = mysql.format(queryString, insert);
+
+      mysql.query(queryString,
+            function(err, result){
+                //console.log(pass);
+                if(err){
+                    console.log(err);
+                }else{
+                     console.log('delete AddtoPlaylistt id '+ assets_id);
+                 }
+            }
+      );
+      var queryString = 'DELETE FROM Assets WHERE assetsId = ?';
+        var insert = [assets_id];
+        queryString = mysql.format(queryString, insert);
+
+        mysql.query(queryString,
+              function(err, result){
+                  //console.log(pass);
+                  if(err){
+                      console.log(err);
+                  }else{
+                      console.log('delete Asset id '+ assets_id);
+                  }
+              }
+        );
     }
+    
+
+    
 
  
     res.redirect('back');

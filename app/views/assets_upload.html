@@ -141,6 +141,66 @@
 		   
 		    
 		}
+
+		function showAssets(id, name, type){
+			var play = document.getElementById('assets_play');
+			var string = ' ';
+			if(type == 'image'){
+				string = "<div id=\"popupPlay\"><form class=\"popupPlay\">"
+						+"<h2>"+name+"</h2><br>"
+						+"<img id=\"closePlay\" src=\"images/3.png\" onclick =\"hideAssets()\">"
+						+"<img src=\"/assets/"+name+"\" width=\"100%\"></form></div>";
+			}else if(type == 'video'){
+				string = "<div id=\"popupPlay\"><form class=\"popupPlay\">"
+						+"<h2>"+name+"</h2><br>"
+						+"<img id=\"closePlay\" src=\"images/3.png\" onclick =\"hideAssets()\">"
+						+"<center><video src=\"/assets/"+name+"\"width=\"50%\" controls></center></form></div>";
+			}
+			
+
+							
+			play.innerHTML = string;
+			div_showAssetsPlay();
+		}
+		function hideAssets(){
+			var play = document.getElementById('assets_play');
+			var string = ' ';			
+			play.innerHTML = string;
+			div_hideAssetsPlay();
+		}
+
+		function showUpdateStream(id, name, url, type){
+			var play = document.getElementById('show_stream');
+			name = name.substring(0, name.length - 4);
+			var string = ' ';
+				string += "<div id=\"popupContact\"><form name=\"link\" method=\"POST\" action=\"/assets/updateStream\" enctype=\"multipart/form-data\">";
+				string	+="<img id=\"close\" src=\"images/3.png\" onclick =\"hideUpdateStream()\">";
+				string	+="<h2>Edit Streaming URL</h2>";
+				string	+="<input type=\"hidden\" name=\"assetsId\" value=\""+id+"\">";
+				string	+="Name : <input class=\"form-control\" type=\"text\" name=\"name\" value=\""+name+"\"><br>";
+				string	+="URL : <input class=\"form-control\" type=\"text\" name=\"streamURL\" value=\""+url+"\"><br>";
+				string	+="from : <select id=\"from\" class=\"form-control\" name=\"from\">";
+				if(type == 'youtube'){
+					string+="<option value=\"youtube\" selected>Youtube</option>";
+					string+="<option value=\"other\">Other</option>";
+				}else{
+					string+="<option value=\"youtube\">Youtube</option>";
+					string+="<option value=\"other\" selected>Other</option>";
+				}
+					
+				string	+= "</select>";
+				string 	+="<input id=\"buttonsub\" class=\"btn btn-success\" type=\"submit\"  value=\"Save\">";
+				string 	+="</form></div>";
+			
+			play.innerHTML = string;
+			div_showUpdateStream();
+		}
+		function hideUpdateStream(){
+			var play = document.getElementById('show_stream');
+			var string = ' ';			
+			play.innerHTML = string;
+			div_hideUpdateStream();
+		}
 			
 		function div_hideerrorinput3(){
 		document.getElementById('errorinput3').style.display = "none";
@@ -270,7 +330,17 @@
       			<div class="panel-body">
 							
 
-	
+			<div id="assets_play">
+				<div id="popupContact">
+
+					
+				</div>
+			</div>
+			<div id="show_stream">
+				<div id="popupContact">
+					
+				</div>
+			</div>
 			<section>
 					<button id="videobtn" type="button" onclick="div_show()" class="btn btn-success">Upload Videos</button>
 					<button id="imagebtn" type="button" onclick="div_showimage()" class="btn btn-success">Upload Images</button>
@@ -278,13 +348,13 @@
 			</section>
 			<aside>
 				<div class="container2">
-				  <table class="table table-bordered">
+				  <table class="table table-condensed">
 				    <thead>
 				      <tr>
 				        <th id="front"><h4>Media</h4></th>
 				        <th id="assetst"><h4>Assets</h4></th>
 				        <th id="back">
-				        <a href="/assets/edit"><input type="submit" id="editbtn" class="btn btn-warning" value="Edit"></th></a>
+				        <a href="/assets_edit"><input type="submit" id="editbtn" class="btn btn-warning" value="Edit"></th></a>
 				      </tr>
 				    </thead>
 				    <tbody id="list">
@@ -314,11 +384,11 @@
 			}else{
 				for(i = 0; i < message.length; i++){
 				if(message[i].type == 'image'){
-					string += "<tr><td><img src=\"/assets/thumbnail/"+message[i].assetsName+".png\" width=\"70px\" height=\"50px\"></td>";
+					string += "<tr><td><center><img src=\"/assets/thumbnail/"+message[i].assetsName+".png\" width=\"70px\" height=\"50px\" onclick=\"showAssets(\'"+message[i].assetsId+"\',\'"+message[i].assetsName+"\',\'"+message[i].type+"\')\"></center></td>";
 				}else if(message[i].type == 'video'){
-					string += "<tr><td><img src=\"/assets/thumbnail/"+message[i].assetsName+".png\" width=\"70px\" height=\"50px\" controls></td>";
+					string += "<tr><td><center><img src=\"/assets/thumbnail/"+message[i].assetsName+".png\" width=\"70px\" height=\"50px\"  onclick=\"showAssets(\'"+message[i].assetsId+"\',\'"+message[i].assetsName+"\',\'"+message[i].type+"\')\" controls></center></td>";
 				}else{
-					string += "<tr><td></td>";
+					string += "<tr><td id=\"thumb\"><img src=\"/images/url_icon.png\" width=\"50px\" height=\"50px\" onclick=\"showUpdateStream(\'"+message[i].assetsId+"\',\'"+message[i].assetsName+"\',\'"+message[i].url+"\',\'"+message[i].type+"\')\"></td>";
 				}
 				
 				string += "<td>"+message[i].assetsName+"<br>";

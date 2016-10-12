@@ -115,7 +115,36 @@ module.exports = function(app, io, server){
 		   	});
 
 		});
+		socket.on('update-player', function(message){
+			var group = message;
+			var queryString = 'UPDATE Player SET name=?, playerMac=?, location=?, groupId=? WHERE playerId=?';
+		   	var insert = [message.name, message.mac, message.location, message.group, message.id];
+		   	queryString = mysql.format(queryString, insert);
+		   	mysql.query(queryString, function(err, fields){
+		   		if(err){
+		   			console.log(err);
+		   		}else{
+		   			console.log("update player "+message.id);
+		   			
+		   		}
+		   	});
 
+		});
+		socket.on('delete-player', function(message){
+			var id = message;
+			var queryString = 'DELETE FROM Player WHERE playerId=?';
+		   	var insert = [id];
+		   	queryString = mysql.format(queryString, insert);
+		   	mysql.query(queryString, function(err, fields){
+		   		if(err){
+		   			console.log(err);
+		   		}else{
+		   			console.log("delete player "+id);
+		   			
+		   		}
+		   	});
+
+		});
 		socket.on('playlist-assets-main-zone', function(message){
 			var id;
 			var position = 'M';

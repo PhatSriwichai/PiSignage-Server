@@ -5,31 +5,16 @@
     <title>Players</title>
 	 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/css/player.css">
-    <link href="css/elements.css" rel="stylesheet">
+    
     <script src="js/my_js.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script>
-		$(document).ready(function(){
-		    $("#regPlayer").click(function(){
-		        $("#register").slideToggle("fast");
-		        if($("#manage").is(":visible")){
-		        	$("#manage").slideToggle("fast");
-		        }
-		    });
-		    $("#groupManage").click(function(){
-		        $("#manage").slideToggle("fast");
-		        if($("#register").is(":visible")){
-		        	$("#register").slideToggle("fast");
-		        }
-		    });
-		});
-		
-	</script>
+	
 	<script type="text/javascript">
 		var socket = io();
 		var i;
-		
+		var count = 0;
+
 		socket.emit('route', 'group');
 		socket.on('group', function(message){
 			var list = document.getElementById("groupPlayer");
@@ -38,28 +23,102 @@
 				string += "<option value="+message[i].groupId+">"+message[i].groupName+"</option>";
 			}
 			list.innerHTML = string;
-			
+			try{
+				var list2 = document.getElementById("groupEdit");
+				list2.innerHTML = string;
+			}catch(err){
+				//alert(err);
+			}
 			
 		});
+
 		socket.emit('route', 'player');
 
 		socket.on('player', function(message){
 			var list = document.getElementById("list");
 			var string = '';
-			for(i = 0; i < message.length; i++){
-				string += "<tr><td>"+message[i].name+"</td>";
-				string += "<td>"+message[i].ip+"</td>";
-				string += "<td>"+message[i].playerMac+"</td>";
-				string += "<td>"+message[i].location+"</td>";
-				string += "<td>"+message[i].status+"</td>";
-				string += "<td>"+message[i].groupName+ "</td>";
-				string += "<td id=\"update\"><input type=\"checkbox\" name=\"a\" value="+message[i].playerId+"><br></td>";
-				string += "<td></td></tr>";
+			if(message <= 0){
+				string += "<tr><td colspan=7 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Player</h4></td></tr>"; 
+			}else{
+				for(var i = 0; i < message.length; i++){
+					count=count+1;
+					var id 			= message[i].playerId;
+					var name 		= message[i].name;
+					var ip 			= message[i].ip;
+					var mac 		= message[i].playerMac;
+					var location 	= message[i].location;
+					var status 		= message[i].status;
+					var groupId 	= message[i].groupId;
+
+					string += "<tr id=\""+id+"\"><td>"+message[i].name+"</td>";
+					string += "<td>"+message[i].ip+"</td>";
+					string += "<td>"+message[i].playerMac+"</td>";
+					string += "<td>"+message[i].location+"</td>";
+					string += "<td>"+message[i].status+"</td>";
+					string += "<td>"+message[i].groupName+ "</td>";
+					string += "<td><a onclick=\"editPlayer(\'"+id+"\',\'"+name+"\',\'"+ip+"\',\'"+mac+"\',\'"+location+"\',\'"+status+"\',\'"+groupId+"\')\">Edit</a></td></tr>";
+				}
 			}
+			
 			list.innerHTML = string;
 			
 			
 		});
+		function getGroup(){
+			socket.emit('route', 'group');
+		}
+		function editPlayer(id, name, ip, mac, location, status, groupId){
+			var edit = document.getElementById(id);
+			var string=' ';
+			
+			string += "<td><input class=\"form-control\" type=\"text\" name=\""+id+"name\" value=\""+name+"\"></td>";
+			string += "<td><input class=\"form-control\" type=\"text\" name=\""+id+"ip\" value=\""+ip+"\" disabled></td>";
+			string += "<td><input class=\"form-control\" type=\"text\" name=\""+id+"mac\" value=\""+mac+"\"></td>";
+			string += "<td><input class=\"form-control\" type=\"text\" name=\""+id+"location\" value=\""+location+"\"></td>";
+			string += "<td><input class=\"form-control\" type=\"text\" name=\""+id+"status\" value=\""+status+"\" disabled></td>";
+			string += "<td><select id=\"groupEdit\" class=\"form-control\" name=\""+id+"group\"></select></td>";
+			string += "<td><a onclick=\"updatePlayer(\'"+id+"\')\">Save</a> <a onclick=\"deletePlayer(\'"+id+"\',\'"+name+"\')\">Delete</a></td>";
+			edit.innerHTML = string;
+			getGroup();
+		}
+		function updatePlayer(id){
+			var name = document.getElementsByName(id+'name')[0].value;
+			var mac = document.getElementsByName(id+'mac')[0].value;
+			var location = document.getElementsByName(id+'location')[0].value;
+			var group = document.getElementsByName(id+'group')[0].value;
+			var test = document.getElementsByName(id+'group')[0];
+			socket.emit('update-player', {id, name, mac, location, group});
+
+			var play = document.getElementById(id);
+			var groupName = test.options[test.selectedIndex].text;
+			var ip = document.getElementsByName(id+'ip')[0].value;
+			var status = document.getElementsByName(id+'status')[0].value;
+
+			var string = ' ';
+			string += "<tr id=\""+id+"\"><td>"+name+"</td>";
+			string += "<td>"+ip+"</td>";
+			string += "<td>"+mac+"</td>";
+			string += "<td>"+location+"</td>";
+			string += "<td>"+status+"</td>";
+			string += "<td>"+groupName+ "</td>";
+			string += "<td><a onclick=\"editPlayer(\'"+id+"\',\'"+name+"\',\'"+ip+"\',\'"+mac+"\',\'"+location+"\',\'"+status+"\',\'"+group+"\')\">Edit</a> </td></tr>";
+			
+			play.innerHTML = string;
+		}
+		function deletePlayer(id, name){
+			if(confirm("Delete "+name+"?")){
+				var play = document.getElementById(id);
+				var string = ' ';
+				
+				count=count-1;
+				socket.emit('delete-player', id);
+				if(count==0){
+					string += "<tr><td colspan=7 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Player</h4></td></tr>"; 
+				}
+				play.innerHTML = string;
+			}
+			
+		}
 	</script>
 	
 	<script>
@@ -160,16 +219,16 @@
 						<script >div_hideerrorinput4();</script>
 											
 						
-							 <label for="playerID">Enter 16 digits player ID (xx:xx:xx:xx)</label><br>
-							<input id="playerID" type="text" name="playerId" placeholder="Get from TV or Mac Address for Raspberry Pi"><br><br>
+							 <label for="playerID">Enter 16 digits player ID (xx : xx : xx : xx)</label><br>
+							<input id="playerID" class="form-control" type="text" name="playerId" placeholder="Get from TV or Mac Address for Raspberry Pi">
 							<label for="Group">Group</label><br>
-							<select id="groupPlayer" name="group">
+							<select id="groupPlayer" class="form-control" name="group">
 								<option value="dd">testt</option>
-							</select><br><br>
+							</select>
 							<label for="playerName">Name for the Player</label><br>
-							<input id="playerName" type="text" name="playerName" placeholder="e.g. location of the player"><br><br>
+							<input id="playerName" type="text" class="form-control" name="playerName" placeholder="e.g. location of the player">
 							<label for="location">Location</label><br>
-							<input id="location" type="text" name="location" placeholder="e.g. Nakhon Ratchasima"><br><br>
+							<input id="location" type="text" class="form-control" name="location" placeholder="e.g. Nakhon Ratchasima">
 							<input id="buttonsub" class="btn btn-success" type="submit" value="Register"></input>
 				    	
 				      </form>
@@ -191,16 +250,15 @@
 			
 			
 			<aside>
-				<table class="table table-bordered">
-					<tr>
-						<th>Name</th>
-						<th>IP Address</th>
-						<th>Mac Address</th>
-						<th>Location</th>
-						<th>Status</th>
-						<th>Group</th>
-						<th><a href="/player/update"><input type="submit" id="editbtn" class="btn btn-warning" value="Upadte"></th></a></th>
-						<th><a href="/player/edit"><input type="submit" id="editbtn" class="btn btn-warning" value="Edit Player"></a></th>
+				<table class="table table-condensed">
+					<tr id="head_table">
+						<th id="name"><h4>Name</h4></th>
+						<th id="ip"><h4>IP Address</h4></th>
+						<th id="mac"><h4>Mac Address</h4></th>
+						<th id="locate"><h4>Location</h4></th>
+						<th id="state"><h4>Status</h4></th>
+						<th id="group"><h4>Group</h4></th>
+						<th></th>
 					</tr>
 					<tbody id="list">
 						

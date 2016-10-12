@@ -13,15 +13,16 @@
 	<script type="text/javascript">
 		var socket = io();
 		var i;
-		
+		var count = 0;
 		socket.emit('route', 'playlist');
 		socket.on('playlist', function(message){
 			var string = '';
 			var list = document.getElementById("list");
 			if(message.length <= 0){
-				string += "<tr id=\""+message[i].playlistId+"\"><td colspan=3 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Playlist</h4></td></tr>";
+				string += "<tr><td colspan=3 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Playlist</h4></td></tr>";
 			}else{
 				for(i = 0; i < message.length; i++){
+					count = count+1;
 					string += "<tr id=\""+message[i].playlistId+"\"><td><h4><a href=\"/playlistList?id="+message[i].playlistId+"\">"+message[i].playlistName+"</a></h4></td>";
 					string += "<td><h4>"+message[i].description+ "<h4></td>";
 					string += "<td><a onclick=\"editPlaylist(\'"+message[i].playlistId+"\',\'"+message[i].playlistName+"\',\'"+message[i].description+"\')\">edit</a></td>";
@@ -38,7 +39,7 @@
 			var string = ' ';
 			string += "<td id=\"edit\"><center><input id=\"name\" name=\""+id+"name\" type=\"text\" class=\"form-control input-sm\" value=\""+name+"\"></center></td>";
 			string += "<td id=\"edit\"><center><input id=\"des\" name=\""+id+"des\" type=\"text\" class=\"form-control input-sm\" value=\""+description+"\"></center></td>";
-			string += "<td id=\"edit\"><center><a onclick=\"hideEditPlaylist(\'"+id+"\')\">save</a></center></td>";
+			string += "<td id=\"edit\"><center><a onclick=\"hideEditPlaylist(\'"+id+"\')\">Save</a> <a onclick=\"deletePlaylist(\'"+id+"\',\'"+name+"\')\">Delete</a></center></td>";
 			edit.innerHTML = string;
 		}
 
@@ -52,6 +53,21 @@
 			string += "<td><a onclick=\"editPlaylist(\'"+id+"\',\'"+name+"\',\'"+des+"\')\">edit</a></td>";
 			form.innerHTML = string;
 			socket.emit('update-playlist',{id, name, des});		
+		}
+		function deletePlaylist(id, name){
+			if(confirm("delete playlist: "+name)){
+				count = count-1;
+				var del = document.getElementById(id);
+				var string = ' ';
+				
+
+				socket.emit('delete-playlist', id);
+				if(count == 0){
+					//socket.emit('route', 'playlist');
+					string += "<tr><td colspan=3 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Playlist</h4></td></tr>";
+				}
+				del.innerHTML = string;
+			}
 		}
 	 </script>
 	 <script>
@@ -133,7 +149,7 @@
       			
       			
 			<section>
-				<button id="insert" type="button" onclick="div_showplaylist()" class="btn btn-success">Insert Playlist</button><a href="/playlist/edit"><button type="submit" id="edit" class="btn btn-success">Edit</button></a>
+				<button id="insert" type="button" onclick="div_showplaylist()" class="btn btn-success">Insert Playlist</button>
 				
 			</section>
 

@@ -46,19 +46,21 @@
 		socket.emit('playlist-assets-main-zone', id);
 
 		socket.on('playlist-assets-main-zone', function(message){
-
-			if(message[0].layoutCode != '1' && message[0].layoutCode != null){
-				getSlideZone();
-			}else if(message[0].layoutCode == null || message[0].layoutCode == '1' || message.length <= 0){
+			var string = '';
+			if(message.length <= 0 || message[0].layoutCode == '1'){
 				var slide = document.getElementById("sec_slide");
 				slide.style.display = 'none';
 				var main = document.getElementById("sec_main");
 				main.style.maxWidth = "1100px";
 				main.style.width = "100%";
+				if(message.length <= 0){
+					string += "<tr><td colspan=4 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Assets</h4></td></tr>";
+				}
+
+			}else{
+				getSlideZone();
 			}
 			var list = document.getElementById("list");
-
-			var string = '';
 
 			for(i = 0; i < message.length; i++){
 				//string += "<tr><td>"+message[+"</a></td></tr>";

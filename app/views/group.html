@@ -6,29 +6,21 @@
     <link rel="stylesheet" type="text/css" href="/css/menu.css">
     <link rel="stylesheet" type="text/css" href="/css/group.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link href="css/elements.css" rel="stylesheet">
+    
     <script src="js/my_js.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.3.3.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script>
-		$(document).ready(function(){
-		    $("#regGroup").click(function(){
-		        $("#register").slideToggle("fast");
-		        /*if($("#manage").is(":visible")){
-		        	$("#manage").slideToggle("fast");
-		        }*/
-		    });
-		});
-		
-	</script>
+
 	<script type="text/javascript">
 		var socket = io();
 		var i;
+		var count = 0;
 		socket.emit('route', 'playlist');
 		socket.on('playlist', function(message){
 			var list = document.getElementById("plailist");
 			var string = '';
 			for(i = 0; i < message.length; i++){
+
 				string += "<option value="+message[i].plailistId+">"+message[i].playlistName+"</option>";
 			}
 			list.innerHTML = string;			
@@ -37,14 +29,58 @@
 		socket.emit('route', 'group');
 		socket.on('group', function(message){
 			var list = document.getElementById("list");
-			var string = '';
-			for(i = 0; i < message.length; i++){
-				string += "<tr><td><a href=\"/group_player?id="+message[i].groupId+"\">"+message[i].groupName+"</a></td>";
-				string += "<td>"+message[i].description+ "</td>";
-				string += "<td></td></tr>";
+			var string = ' ';
+			if(message.length <= 0){
+				string += "<tr><td colspan=3 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Group</h4></td></tr>"; 
+			}else{
+				for(i = 0; i < message.length; i++){
+					var id = message[i].groupId;
+					var name = message[i].groupName;
+					var des = message[i].description;
+					count = count + 1;
+					string += "<tr id=\""+id+"\"><td><a href=\"/group_player?id="+message[i].groupId+"\"><h4>"+message[i].groupName+"</h4></a></td>";
+					string += "<td><h4>"+message[i].description+ "</h4></td>";
+					string += "<td id=\"edit\"><a onclick=\"editGroup(\'"+id+"\',\'"+name+"\',\'"+des+"\')\">Edit</a></td></tr>";
+				}
 			}
+			
 			list.innerHTML = string;				
 		});
+
+		function editGroup(id, name,des){
+			var edit = document.getElementById(id);
+			var string = " ";
+			string += "<td><input id=\"name\" name=\""+id+"name\" class=\"form-control\" type=\"text\" value=\""+name+"\"></td>";
+			string += "<td><input id=\"des\" name=\""+id+"des\" class=\"form-control\" type=\"text\" value=\""+des+"\"></td>"; 
+			string += "<td id=\"edit\"><a onclick=\"updateGroup(\'"+id+"\')\">Save</a>";
+			string += " <a onclick=\"deleteGroup(\'"+id+"\',\'"+name+"\')\">Delete</a></td>";
+			edit.innerHTML = string;
+		}
+		
+		function updateGroup(id){
+			var group = document.getElementById(id);
+			var name = document.getElementsByName(id+'name')[0].value;
+			var des = document.getElementsByName(id+'des')[0].value;
+			var string = ' ';
+			string += "<td><a href=\"/group_player?id="+id+"\"><h4>"+name+"</h4></a></td>";
+			string += "<td><h4>"+des+"</h4></td>";
+			string += "<td id=\"edit\"><a onclick=\"editGroup(\'"+id+"\',\'"+name+"\',\'"+des+"\')\">Edit</a></td></tr>";
+			socket.emit('update-groups',{id, name, des});
+			group.innerHTML = string;
+		}
+		function deleteGroup(id, name){
+			if(confirm("Delete group "+name)){
+				count = count - 1;
+				var group = document.getElementById(id);
+				var string = ' ';
+				if(count == 0){
+					string += "<tr><td colspan=3 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Group</h4></td></tr>"; 
+				}
+				group.innerHTML = string;
+				socket.emit('delete-groups', id);
+			}
+			
+		}
 	</script>
 	
 	<script>
@@ -108,10 +144,10 @@
 						<script >div_hideerrorinput2();</script> 		
 
 				<label for="group">Group</label><br>
-				<input type="text" id="add" name="add"><br><br>
+				<input class="form-control" type="text" id="add" name="add"><br><br>
 				<label for="description">Short Description</label><br>
-				<input type="text" id="description" name="description"><br><br>
-				<input id="buttonsub" class="btn btn-success" type="submit" value="Add">
+				<input class="form-control" type="text" id="description" name="description"><br><br>
+				<button  id="buttonsub" class="btn btn-success" type="submit">Add</button>
 		     </form>
 		</div>
 		<!-- Popup Div Ends Here -->
@@ -151,11 +187,11 @@
 		
 			</section>
 			<aside>
-				<table class="table table-bordered">
-					<tr>
-						<th>Groups</th>
-						<th id="description">Description</th>
-						<th><a href="/group/edit"><input type="submit" id="editbtn" class="btn btn-warning" value="Edit"></th></a></th>
+				<table class="table table-condensed">
+					<tr id="head_table">
+						<th id="group"><h4>Groups</h4></th>
+						<th id="description"><h4>Description</h4></th>
+						<th></th>
 					</tr>
 					<tbody id="list">
 						

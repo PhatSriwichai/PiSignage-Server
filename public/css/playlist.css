@@ -5,6 +5,19 @@ table{
 .title_table{
 	text-align: center;
 }
+th{
+	background-color: #D7643D;
+	color: white;
+}
+th#playlist, th#des{
+	width:45%;
+}
+td{
+	text-align: center;
+}
+td#edit{
+	text-align: center;
+}
 
 aside{
 	width: 100%;
@@ -14,4 +27,16 @@ aside{
 }
 input, #add, #description{
 	width: 100%;
+}
+#name, #des{
+	width: 100%;
+}
+input[type='text']{
+	width: 100%;
+}
+button{
+	width: 100%;
+}
+a{
+	cursor: pointer; 
 }

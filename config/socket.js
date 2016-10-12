@@ -84,8 +84,22 @@ module.exports = function(app, io, server){
 			   	});
 		});
 
-				
 			
+		socket.on('update-playlist', function(message){
+			var group = message;
+			var queryString = 'UPDATE Playlist SET playlistName=?, description=? WHERE playlistId=?';
+		   	var insert = [message.name, message.des, message.id];
+		   	queryString = mysql.format(queryString, insert);
+		   	mysql.query(queryString, function(err, fields){
+		   		if(err){
+		   			console.log(err);
+		   		}else{
+		   			console.log("update playlist "+message.id);
+		   			
+		   		}
+		   	});
+
+		});
 
 		socket.on('playlist-assets-main-zone', function(message){
 			var id;

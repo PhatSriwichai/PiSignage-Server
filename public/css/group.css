@@ -1,6 +1,90 @@
+@import "http://fonts.googleapis.com/css?family=Raleway";
+
 input#editbtn{
 	width: 100px;
 }
+div#abcgroup{
+	margin: 5px;
+	width:100%;
+	height:100%;
+	opacity:.95;
+	top:-5px;
+	left:-5px;
+	display:none;
+	position: fixed;
+	background-color:#313131;
+	overflow:auto;
+}
+div#deploy_form{
+	margin: 5px;
+	width:100%;
+	height:100%;
+	opacity:.95;
+	top:-5px;
+	left:-5px;
+	display:none;
+	position: fixed;
+	background-color:#313131;
+	overflow:auto;
+}
+div#popupContact {
+	position:absolute;
+	left:50%;
+	top:17%;
+	margin-top: -50px;
+	margin-left:-350px;
+	font-family:'Raleway',sans-serif;
+}
+form {
+	max-width:700px;
+	min-width:700px;
+	padding:10px 50px;
+	border:2px solid gray;
+	border-radius:10px;
+	font-family:raleway;
+	background-color:#fff;
+}
 table{
-	margin: 10px;
+	margin-top: 10px;
+}
+tr#head_table{
+	background-color: #E9700E;
+	color: white;
+}
+th#group{
+	text-align: center;
+	width: 30%;
+}
+th#description{
+	text-align: center;
+	width: 50%;
+}
+td#edit{
+	width: 10%;
+	text-align: center;
+}
+a{
+	cursor: pointer;
+}
+img#close {
+	position:absolute;
+	right:-14px;
+	top:-14px;
+	cursor:pointer;
+}
+input#name, input#des{
+	width: 100%;
+}
+button {
+	width:13%;
+	height:45px;
+	border-radius:3px;
+	background-color:#cd853f;
+	color:#fff;
+	font-family:'Raleway',sans-serif;
+	font-size:18px;
+	cursor:pointer;
+}	
+button#buttonsub{
+	width: 100%;
 }

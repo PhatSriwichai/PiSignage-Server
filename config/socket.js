@@ -100,6 +100,21 @@ module.exports = function(app, io, server){
 		   	});
 
 		});
+		socket.on('delete-playlist', function(message){
+			var id = message;
+			var queryString = 'DELETE FROM Playlist WHERE playlistId=?';
+		   	var insert = [id];
+		   	queryString = mysql.format(queryString, insert);
+		   	mysql.query(queryString, function(err, fields){
+		   		if(err){
+		   			console.log(err);
+		   		}else{
+		   			console.log("delete playlist "+message.id);
+		   			
+		   		}
+		   	});
+
+		});
 
 		socket.on('playlist-assets-main-zone', function(message){
 			var id;

@@ -13,19 +13,46 @@
 	<script type="text/javascript">
 		var socket = io();
 		var i;
-		var string = '';
+		
 		socket.emit('route', 'playlist');
 		socket.on('playlist', function(message){
+			var string = '';
 			var list = document.getElementById("list");
-			for(i = 0; i < message.length; i++){
-				string += "<tr><td><h4><a href=\"/playlistList?id="+message[i].playlistId+"\">"+message[i].playlistName+"</a></h4></td>";
-				string += "<td><h4>"+message[i].description+ "<h4></td>";
-				string += "</tr>";
+			if(message.length <= 0){
+				string += "<tr id=\""+message[i].playlistId+"\"><td colspan=3 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Playlist</h4></td></tr>";
+			}else{
+				for(i = 0; i < message.length; i++){
+					string += "<tr id=\""+message[i].playlistId+"\"><td><h4><a href=\"/playlistList?id="+message[i].playlistId+"\">"+message[i].playlistName+"</a></h4></td>";
+					string += "<td><h4>"+message[i].description+ "<h4></td>";
+					string += "<td><a onclick=\"editPlaylist(\'"+message[i].playlistId+"\',\'"+message[i].playlistName+"\',\'"+message[i].description+"\')\">edit</a></td>";
+					string += "</tr>";
+				}
 			}
+			
 			list.innerHTML = string;
 			
 			
 		});
+		function editPlaylist(id, name, description){
+			var edit = document.getElementById(id);
+			var string = ' ';
+			string += "<td id=\"edit\"><center><input id=\"name\" name=\""+id+"name\" type=\"text\" class=\"form-control input-sm\" value=\""+name+"\"></center></td>";
+			string += "<td id=\"edit\"><center><input id=\"des\" name=\""+id+"des\" type=\"text\" class=\"form-control input-sm\" value=\""+description+"\"></center></td>";
+			string += "<td id=\"edit\"><center><a onclick=\"hideEditPlaylist(\'"+id+"\')\">save</a></center></td>";
+			edit.innerHTML = string;
+		}
+
+		function hideEditPlaylist(id){
+			var name = document.getElementsByName(id+'name')[0].value;
+			var des = document.getElementsByName(id+'des')[0].value;
+			var form = document.getElementById(id);
+			var string = ' ';
+			string += "<td><h4><a href=\"/playlistList?id="+id+"\">"+name+"</a></h4></td>";
+			string += "<td><h4>"+des+"</h4></td>";
+			string += "<td><a onclick=\"editPlaylist(\'"+id+"\',\'"+name+"\',\'"+des+"\')\">edit</a></td>";
+			form.innerHTML = string;
+			socket.emit('update-playlist',{id, name, des});		
+		}
 	 </script>
 	 <script>
 		function validateForm() {
@@ -111,10 +138,11 @@
 			</section>
 
 			<aside>
-				<table class="table table-bordered">
+				<table class="table table-condensed">
 					<tr>
-						<th><h4 class="title_table">Playlist</h4></th>
-						<th><h4 class="title_table">Description</h4></th>
+						<th id="playlist"><h4 class="title_table">Playlist</h4></th>
+						<th id="des"><h4 class="title_table" colspan="2">Description</h4></th>
+						<th id="editBut"></th>
 						
 					</tr>
 					<tbody id="list">

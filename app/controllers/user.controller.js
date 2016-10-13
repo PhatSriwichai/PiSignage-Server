@@ -349,6 +349,30 @@ exports.deploy = function(req, res){
     res.redirect('back');
 };
 
+exports.regSchedule = function(req, res){
+    var db = require('../models/connectdb');
+    var mysql = db.connectdb();
+
+    var queryString = 'INSERT INTO Schedule(??, ??, ??, ??, ??, ??) VALUES (?, ?, ?, ?, ?, ?)';
+    var insert = ['dateStart', 'dateEnd', 'timeStart', 'timeEnd', 'playlistId', 'groupId',
+        req.body.dateStart, req.body.dateEnd, req.body.timeStart, req.body.timeEnd, req.body.playlistToSch,
+        req.body.groupId];
+    queryString = mysql.format(queryString, insert);
+
+    mysql.query(queryString,
+          function(err, result){
+              //console.log(pass);
+              if(err){
+                  console.log(err);
+              }else{
+                  console.log('added new Schedule');
+              }
+          }
+    );
+  
+  res.redirect('back');
+}
+
 exports.registerPlayer = function(req, res){
   var db = require('../models/connectdb');
   var mysql = db.connectdb();

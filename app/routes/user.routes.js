@@ -18,6 +18,8 @@ module.exports = function(app){
 	//app.get('/deploy', user.deploy);
 	app.get('/logout', user.logout);
 	
+	
+	app.post('/group_player/regSchedule', user.regSchedule);
 	app.post('/group/add', user.addGroup);
 	app.post('/group/edit/delete', user.deleteGroup);
 	app.post('/playlist/add', user.addPlayList);

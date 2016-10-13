@@ -15,12 +15,15 @@
 		var listPlaylist = [];
 		var index=0;
 		var socket = io();
+		var count = 0;
 		socket.emit('route', 'playlist');
 		socket.on('playlist', function(message){
+
 			var list = document.getElementById("playlist");
 			var string = "<option disabled selected value> -- select playlist for deploy--</option>";
 			var play = [];
 			var dex = [];
+
 			for(i = 0; i < message.length; i++){
 				string += "<option value=\""+message[i].playlistId+"\">"+message[i].playlistName+"</option>";
 				play.push(message[i].playlistName);
@@ -28,7 +31,13 @@
 			}
 			listPlaylist.push(dex);
 			listPlaylist.push(play);
-			list.innerHTML = string;	
+			list.innerHTML = string;
+			try{
+				var listPlay = document.getElementById('edit');
+				listPlay.innerHTML = string;
+			}catch(err){
+
+			}
 		});
 		var id = getUrlVars()['id'];
 		socket.emit('route', 'player_in_group');
@@ -41,7 +50,7 @@
 				string += "<td>"+message[i].ip+ "</td>";
 				string += "<td>"+message[i].playerMac+ "</td>";
 				string += "<td>"+message[i].location+ "</td>";
-				string += "<td>"+message[i].status+ "</td>";
+				string += "<td><p id=\"status\" target=\""+message[i].status+"\">"+message[i].status+"</p></td>";
 				string += "<td>"+message[i].groupName+ "</td></tr>";		
 			}
 			list.innerHTML = string;
@@ -55,32 +64,90 @@
 			var list = document.getElementById("addSchedule");
 			var string = '';
 			index = 0;
-			for(i = 0; i < message.length; i++){
-				index = index+1;
-				string += "<tr><td>"+index+"</td>";
-				string += "<td><select id=\"playlistToSch\">";
-				//string = "<option disabled selected value> -- select playlist for deploy--</option>";
-				for(var j = 0; j < listPlaylist[1].length; j++){
-					if(listPlaylist[0][j] == message[i].playlistId){
-						string += "<option value=\""+message[i].playlistId+"\" selected>"+listPlaylist[1][j]+"</option>";
-					}else{
-						string += "<option value=\""+message[i].playlistId+"\">"+listPlaylist[1][j]+"</option>";
-					}
+			if(message.length <= 0){
+				string += "<tr><td colspan=7 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Schedule</h4></td></tr>"; 
+			}else{
+				for(i = 0; i < message.length; i++){
+					index = index+1;
+					count = count+1;
+					var scheId = message[i].scheduleId;
+					var playlistId = message[i].playlistId;
+					var playlistName = message[i].playlistName;
+					var dateStart = getDateFormat(message[i].dateStart);
+					var timeStart = message[i].timeStart;
+					var dateEnd = getDateFormat(message[i].dateEnd);
+					var timeEnd = message[i].timeEnd;
+
+					string += "<tr id=\""+scheId+"\"><td>"+index+"</td>";
+					string += "<td>"+playlistName+"</td>";
+					string += "<td>"+dateStart+"</td>";
+					string += "<td>"+timeStart+"</td>";
+					string += "<td>"+dateEnd+"</td>";
+					string += "<td>"+timeEnd+"</td>";	
+					string += "<td><a onclick=\"editSchedule(\'"+scheId+"\',\'"+playlistId+"\',\'"+playlistName+
+					"\',\'"+dateStart+"\',\'"+timeStart+"\',\'"+dateEnd+"\',\'"+timeEnd+"\',\'"+index+"\')\">Edit</a></td></tr>";	
 				}
-				string += "</select></td>";
-				string += "<td><input id=\"dateStart\" type=\"date\" value=\""+getDateFormat(message[i].dateStart)+"\"></td>";
-				string += "<td><input id=\"timeStart\" type=\"time\" value=\""+message[i].timeStart+"\"></td>";
-				string += "<td><input id=\"dateEnd\" type=\"date\" value=\""+getDateFormat(message[i].dateEnd)+"\"></td>";
-				string += "<td><input id=\"timeEnd\" type=\"time\" value=\""+message[i].timeEnd+"\"></td>";	
-				string += "<td><input class=\"btn btn-success\" type=\"submit\" value=\"Delete\"></td></tr>";	
 			}
+			
 			list.innerHTML = string;
 
 		});
 
+		function editSchedule(id, playId, playName, dateStart, timeStart, dateEnd, timeEnd, index){
+			var sche = document.getElementById(id);
+			var string = ' ';
+			string += "<td>"+index+"</td>";
+			string += "<td><select name=\""+id+"playlistName\" id=\"edit\" class=\"form-control\">";
+			//alert(listPlaylist[0][1]);
+
+			for(var i = 0; i < listPlaylist.length; i++){
+				if(id == listPlaylist[i].dex){
+					string += "<option value=\""+id+"\" selected>"+playName+"</option>";
+				}else{
+					string += "<option value=\""+listPlaylist[0][i]+"\">"+listPlaylist[1][i]+"</option>";
+				}
+			}
+			string += "</select></td>";
+			string += "<td><input id=\""+id+"dateStart\" type=\"date\" value=\""+dateStart+"\" class=\"form-control\"></td>"; 
+			string += "<td><input id=\""+id+"timeStart\" type=\"time\" value=\""+timeStart+"\" class=\"form-control\"></td>"; 
+			string += "<td><input id=\""+id+"dateEnd\" type=\"date\" value=\""+dateEnd+"\" class=\"form-control\"></td>";
+			string += "<td><input id=\""+id+"timeEnd\" type=\"time\" value=\""+timeEnd+"\" class=\"form-control\"></td>";
+			string += "<td><a onclick=\"updateSchedule(\'"+id+"\')\">Save</a> <a onclick=\"deleteSchedule(\'"+id+"\',\'"+index+"\')\">Delete</a></td>";
+			sche.innerHTML = string;
+			//socket.emit('route', 'playlist');
+
+		}
+		function updateSchedule(id){
+			var sche = id;
+			var playlist = document.getElementsByName(id+'playlistName')[0].value;
+			var dateStart = document.getElementById(id+'dateStart').value;
+			var timeStart = document.getElementById(id+'timeStart').value; 
+			var dateEnd = document.getElementById(id+'dateEnd').value;
+			var timeEnd = document.getElementById(id+'timeEnd').value;
+
+			
+			var groupId = getUrlVars()['id'];
+			socket.emit('update-schedule', {sche, playlist, dateStart, timeStart, dateEnd, timeEnd, groupId});
+			socket.emit('schedule', groupId);
+		}
+		function deleteSchedule(id, index){
+			if(confirm('Delete Schedule No. = '+index+" ?")){
+				var sche = document.getElementById(id);
+				var string = ' '; 
+				count = count - 1;
+				if(count==0){
+					string += "<tr><td colspan=7 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Schedule</h4></td></tr>"; 
+				}
+				sche.innerHTML = string;
+				socket.emit('delete-schedule', id);
+			}else{
+
+			}
+		}
 		function getDateFormat(date){
-			var string = date.substring(0, 10);
-			return string;
+			var noneDate = date.substring(0, 7);
+			var haveDate = parseInt(date.substring(8, 10)) + 1;
+			return noneDate +"-"+haveDate.toString();
 		}
 
 		function getUrlVars()
@@ -150,6 +217,10 @@
 					+"</form>";
 			//var formString = "<button id=\"deploy\" type=\"submit\" class=\"btn btn-success\">Deploy</button>";
 			form1.innerHTML = formString;
+
+			var group = document.getElementById('groupId');
+			var string = "<input name=\"groupId\" type=\"hidden\" value=\""+getUrlVars()['id']+"\">";
+			group.innerHTML = string;
 		};
 		
 		function setSchedule(){
@@ -170,7 +241,7 @@
 		}
 		
 		for(var j = 0; j < listPlaylist[1].length; j++){
-								scheduleString += "<option value=\""+listPlaylist[0][j]+"\">"+listPlaylist[1][j]+"</option>";
+			scheduleString += "<option value=\""+listPlaylist[0][j]+"\">"+listPlaylist[1][j]+"</option>";
 					
 		}		
 	</script>
@@ -190,17 +261,18 @@
 						<!-- Contact Us Form -->
 						<form  name="myForm" onsubmit="return validateForm()" id="regsche" method="post" action="/group_player/regSchedule">
 						<img id="close" src="images/3.png" onclick ="div_hideadddate()">
-						<h2>Register Schedule</h2>
+						<h2>Add Schedule</h2>
 						<hr>
-							Playlist :				<select id="playlistToSch">
+							Playlist :<select id="playlistToSch" name="playlistToSch" class="form-control">
 							<option disabled selected value> -- select playlist for deploy--</option>
-							</select><br><br>
+							</select>
 			
-							DateStart : <input id="dateStart\" type="date"><br><br>
-							TimeStart : <input id="timeStart\" type="time"><br><br>
-							DateEnd : <input id="dateEnd\" type="date"><br><br>
-							TimeEnd : <input id="timeEnd\" type="time"><br><br>
-							<input class="btn btn-success" type="submit" value="Delete">			
+							DateStart : <input id="dateStart" name="dateStart" type="date" class="form-control">
+							TimeStart : <input id="timeStart" name="timeStart" type="time" class="form-control">
+							DateEnd : <input id="dateEnd" name="dateEnd" type="date" class="form-control">
+							TimeEnd : <input id="timeEnd" name="timeEnd" type="time" class="form-control">
+							<input id="add" class="btn btn-success" type="submit" value="Add">
+							<div id="groupId"></div>			
 							 
 				    	
 				      </form>
@@ -230,28 +302,28 @@
 
 				<button class="btn btn-success" onclick="div_showadddate()">Add Schedule<br></button>
 				
-				<table class="table table-bordered">
-					<tr>
-						<th id="no">No.</th>
-						<th id="pList">Playlist</th>
-						<th id="d2s" >Date to start</th>
-						<th id="t2s" >Time to start</th>
-						<th id="d2e" >Date to end</th>
-						<th id="t2e" >Time to end</th>
-						<th id="save" ><button id="save" class="btn btn-success" type="submit" onclick="setSchedule()">Save</button></th>
+				<table class="table table-condensed">
+					<tr id="head-schedule">
+						<th id="no"><h4>No.</h4></th>
+						<th id="pList"><h4>Playlist</h4></th>
+						<th id="d2s" ><h4>Date to start</h4></th>
+						<th id="t2s" ><h4>Time to start</h4></th>
+						<th id="d2e" ><h4>Date to end</h4></th>
+						<th id="t2e" ><h4>Time to end</h4></th>
+						<th id="save" ></th>
 					</tr>
 					<tbody id="addSchedule"></tbody>
-				</table>
+				</table><br><br>
 				
 
-				<table class="table table-bordered">
-					<tr>
-						<th>Name</th>
-						<th>IP Address</th>
-						<th>Mac Address</th>
-						<th>Location</th>
-						<th>Status</th>
-						<th>Group</th>
+				<table class="table table-condensed">
+					<tr id="head-player">
+						<th id="player"><h4>Name</h4></th>
+						<th id="player"><h4>IP Address</h4></th>
+						<th id="player"><h4>Mac Address</h4></th>
+						<th id="player"><h4>Location</h4></th>
+						<th id="player"><h4>Status</h4></th>
+						<th id="player"><h4>Group</h4></th>
 					</tr>
 					<tbody id="list">
 						

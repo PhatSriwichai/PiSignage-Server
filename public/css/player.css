@@ -94,3 +94,9 @@ input[type="text"], select#groupPlayer{
 a{
 	cursor: pointer;
 }
+p#status[target='online']{
+	color : green;
+}
+p#status[target='offline']{
+	color : red;
+}

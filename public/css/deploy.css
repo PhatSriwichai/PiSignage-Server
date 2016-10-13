@@ -2,12 +2,23 @@ input#editbtn{
 	width: 100px;
 }
 table{
-	margin: 10px;
+	margin-top: 10px;
 	width: 100%;
 	text-align: center;
 }
 th, tr{
 	text-align: center;
+}
+th#player{
+	text-align: center;
+}
+tr#head-schedule{
+	background-color: #971B97;
+	color: white;
+}
+tr#head-player{
+	background-color: #2E23C6;
+	color: white;
 }
 td{
 	text-align: center;
@@ -62,9 +73,24 @@ select, option{
 select, option:hover{
 	
 }
+select#playlistToSch{
+	width: 100%;
+	margin-bottom: 10px;
+}
+input#add{
+	width: 100%;
+}
 input[type='date']{
-	width: 70%;
+	width: 100%;
+	margin-bottom: 10px;
 }
 input[type='time']{
-	width: 50%;
+	width: 100%;
+	margin-bottom: 10px;
+}
+p#status[target='online']{
+	color : green;
+}
+p#status[target='offline']{
+	color : red;
 }

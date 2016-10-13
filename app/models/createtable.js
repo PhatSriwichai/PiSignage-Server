@@ -41,7 +41,9 @@ exports.createtable = function(req, res){
     	playlistId int NOT NULL AUTO_INCREMENT, \
     	playlistName VARCHAR(100) NOT NULL,\
         description VARCHAR(100),\
-		PRIMARY KEY(playlistId))',
+        layout int NOT NULL,\
+		PRIMARY KEY(playlistId),\
+        FOREIGN KEY(layout) REFERENCES Layout(layoutId))',
     	function(err, result){
     		if(err){
     			console.log(err);
@@ -123,11 +125,9 @@ exports.createtable = function(req, res){
     	ownId int NOT NULL,\
     	playlistId int NOT NULL,\
     	assetsId int NOT NULL,\
-        layoutId int NOT NULL,\
     	PRIMARY KEY(apId),\
     	FOREIGN KEY(ownId) REFERENCES User(userId),\
     	FOREIGN KEY(playlistId) REFERENCES Playlist(playlistId),\
-        FOREIGN KEY(layoutId) REFERENCES Layout(layoutId),\
     	FOREIGN KEY(assetsId) REFERENCES Assets(assetsId))',
     	function(err, result){
     		if(err){

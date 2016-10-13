@@ -72,7 +72,7 @@ module.exports = function(app, io, server){
 		//==========================================================================================
 		socket.on('schedule', function(message){
 			var group = message;
-			var queryString = 'SELECT * FROM Schedule WHERE groupId='+group;
+			var queryString = 'SELECT * FROM Schedule, Playlist WHERE groupId='+group+' and Schedule.playlistId = Playlist.playlistId';
 		   	//var queryString = 'SELECT * FROM User)';
 			   	mysql.query(queryString, function(err, rows, fields){
 			   		if(err){
@@ -110,6 +110,39 @@ module.exports = function(app, io, server){
 		   			console.log(err);
 		   		}else{
 		   			console.log("delete playlist "+message.id);
+		   			
+		   		}
+		   	});
+
+		});
+		socket.on('update-schedule', function(message){
+			var group = message;
+			console.log(message);
+			var queryString = 'UPDATE Schedule SET dateStart=?, timeStart=?, dateEnd=?, timeEnd=?, playlistId=?, \
+			groupId = ? WHERE scheduleId=?';
+		   	var insert = [message.dateStart, message.timeStart, message.dateEnd, message.timeEnd, message.playlist,
+		   					message.groupId, message.sche];
+		   	queryString = mysql.format(queryString, insert);
+		   	mysql.query(queryString, function(err, fields){
+		   		if(err){
+		   			console.log(err);
+		   		}else{
+		   			console.log("update Schedule "+message.sche);
+		   			
+		   		}
+		   	});
+
+		});
+		socket.on('delete-schedule', function(message){
+			var id = message;
+			var queryString = 'DELETE FROM Schedule WHERE scheduleId=?';
+		   	var insert = [id];
+		   	queryString = mysql.format(queryString, insert);
+		   	mysql.query(queryString, function(err, fields){
+		   		if(err){
+		   			console.log(err);
+		   		}else{
+		   			console.log("delete schedule "+message.id);
 		   			
 		   		}
 		   	});

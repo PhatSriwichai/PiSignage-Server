@@ -54,7 +54,7 @@
 					string += "<td>"+message[i].ip+"</td>";
 					string += "<td>"+message[i].playerMac+"</td>";
 					string += "<td>"+message[i].location+"</td>";
-					string += "<td>"+message[i].status+"</td>";
+					string += "<td><p id=\"status\" target=\""+message[i].status+"\">"+message[i].status+"</p></td>";
 					string += "<td>"+message[i].groupName+ "</td>";
 					string += "<td><a onclick=\"editPlayer(\'"+id+"\',\'"+name+"\',\'"+ip+"\',\'"+mac+"\',\'"+location+"\',\'"+status+"\',\'"+groupId+"\')\">Edit</a></td></tr>";
 				}
@@ -99,7 +99,7 @@
 			string += "<td>"+ip+"</td>";
 			string += "<td>"+mac+"</td>";
 			string += "<td>"+location+"</td>";
-			string += "<td>"+status+"</td>";
+			string += "<td><p id=\"status\" target=\""+status+"\">"+status+"</p></td>";
 			string += "<td>"+groupName+ "</td>";
 			string += "<td><a onclick=\"editPlayer(\'"+id+"\',\'"+name+"\',\'"+ip+"\',\'"+mac+"\',\'"+location+"\',\'"+status+"\',\'"+group+"\')\">Edit</a> </td></tr>";
 			

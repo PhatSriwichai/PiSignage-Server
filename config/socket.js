@@ -220,10 +220,10 @@ module.exports = function(app, io, server){
 	   		//var queryString = 'SELECT * FROM Assets';
 
 	   		var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, AddPlaylist.time_sec, AddPlaylist.position, AddPlaylist.format,\
-	   							AddPlaylist.apId, Layout.layoutId, Layout.layoutCode, Layout.layoutName \
+	   							AddPlaylist.apId \
 	   							FROM Assets LEFT JOIN AddPlaylist ON AddPlaylist.assetsId = Assets.assetsId \
 						   		and AddPlaylist.playlistId = "+id+" and AddPlaylist.position = \'M\'"+ 
-						   		" LEFT JOIN Layout ON Layout.layoutId = AddPlaylist.layoutId ORDER BY apId DESC";
+						   		"ORDER BY apId DESC";
 			//var insert = ['M'];
 			//queryString = mysql.format(queryString, insert);
 		   	mysql.query(queryString, function(err, rows, fields){
@@ -243,10 +243,10 @@ module.exports = function(app, io, server){
 	   		//var queryString = 'SELECT * FROM Assets';
 
 	   		var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, AddPlaylist.time_sec, AddPlaylist.position, AddPlaylist.format,\
-	   							AddPlaylist.apId, Layout.layoutId, Layout.layoutCode, Layout.layoutName \
+	   							AddPlaylist.apId \
 	   							FROM Assets LEFT JOIN AddPlaylist ON AddPlaylist.assetsId = Assets.assetsId \
 						   		and AddPlaylist.playlistId = "+id+" and AddPlaylist.position = \'S\'"+ 
-						   		" LEFT JOIN Layout ON Layout.layoutId = AddPlaylist.layoutId ORDER BY apId DESC";
+						   		"ORDER BY apId DESC";
 			//var insert = ['M'];
 			//queryString = mysql.format(queryString, insert);
 		   	mysql.query(queryString, function(err, rows, fields){
@@ -325,9 +325,9 @@ module.exports = function(app, io, server){
 			    }
 			});*/
 
-			var queryString = 'SELECT AddPlaylist.apId, Layout.layoutId, Layout.layoutCode,\
-					 	Layout.layoutName FROM Layout LEFT JOIN AddPlaylist \
-						ON AddPlaylist.playlistId=? AND AddPlaylist.layoutId = Layout.layoutId';
+			var queryString = 'SELECT Layout.layoutId, Layout.layoutCode,\
+					 	Layout.layoutName, Playlist.layout FROM Layout LEFT JOIN Playlist \
+						ON Playlist.playlistId=? AND Playlist.layout = Layout.layoutId';
 			var insert = [id];		 
 			queryString = mysql.format(queryString, insert);
 

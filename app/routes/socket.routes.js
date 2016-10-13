@@ -48,7 +48,7 @@ module.exports = function(app, io, server){
                     queryString = 'SELECT * FROM AddPlaylist, Assets, Layout, Playlist \
                                   LEFT JOIN Ticker ON Ticker.playlistId = Playlist.playlistId \
                                   WHERE AddPlaylist.playlistId=? and AddPlaylist.assetsId = Assets.assetsId \
-                                  and Playlist.playlistId=? and AddPlaylist.layoutId = Layout.layoutId';
+                                  and Playlist.playlistId=? and Playlist.layout = Layout.layoutId';
 
                     insert = [req.body.playlist, req.body.playlist];
                     queryString = mysql.format(queryString, insert);

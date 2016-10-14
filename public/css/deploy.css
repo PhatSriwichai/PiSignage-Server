@@ -94,3 +94,6 @@ p#status[target='online']{
 p#status[target='offline']{
 	color : red;
 }
+a{
+	cursor: pointer;
+}

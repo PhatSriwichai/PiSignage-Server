@@ -55,16 +55,16 @@
 					//string += "<tr><td>"+message[+"</a></td></tr>";
 					//string += "<td>"+message[i].description+ "</td></tr>";
 					if(message[i].type == 'image'){
-						string += "<tr><td id=\"thumb\"><img src=\"/assets/thumbnail/"+message[i].assetsName+".png\" width=\"50px\" height=\"50px\" onclick=\"showAssets(\'"+message[i].assetsId+"\',\'"+message[i].assetsName+"\',\'"+message[i].type+"\')\"></td>";
+						string += "<tr><td id=\"thumb\"><img src=\"/assets/thumbnail/"+message[i].assetsName+".png\" width=\"70px\" height=\"50px\" onclick=\"showAssets(\'"+message[i].assetsId+"\',\'"+message[i].assetsName+"\',\'"+message[i].type+"\')\"></td>";
 						
 					}else if(message[i].type == 'video'){
-						string += "<tr><td id=\"thumb\"><img src=\"/assets/thumbnail/"+message[i].assetsName+".png\" width=\"50px\" height=\"50px\" controls onclick=\"showAssets(\'"+message[i].assetsId+"\',\'"+message[i].assetsName+"\',\'"+message[i].type+"\')\"></td>";
+						string += "<tr><td id=\"thumb\"><img src=\"/assets/thumbnail/"+message[i].assetsName+".png\" width=\"70px\" height=\"50px\" controls onclick=\"showAssets(\'"+message[i].assetsId+"\',\'"+message[i].assetsName+"\',\'"+message[i].type+"\')\"></td>";
 						
 					}else{
-						string += "<tr><td id=\"thumb\"><img src=\"/images/url_icon.png\" width=\"50px\" height=\"50px\"></td>";
+						string += "<tr><td id=\"thumb\"><img src=\"/images/url_icon.png\" width=\"70px\" height=\"50px\"></td>";
 					}
 
-					string += "<td>Name: <a href=\"/show?id="+message[i].assetsId+"\">"+message[i].assetsName+"</a><br>";
+					string += "<td>Name: "+message[i].assetsName+"<br>";
 					string += "Type: "+message[i].type+"<br></td>";
 				
 					if(message[i].apId != null){
@@ -94,7 +94,7 @@
 
 					}else{
 						string += "<td id=\""+message[i].assetsId+"select\"></td>";
-						string += "<td id=\"tick\"><input id=\""+message[i].assetsId+"\" type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" onclick=\"showFormat("+message[i].assetsId+")\"><br></td></tr>";
+						string += "<td id=\"tick\"><input id=\""+message[i].assetsId+"\" type=\"checkbox\" name=\"a\" value="+message[i].assetsId+" onclick=\"showFormat("+message[i].assetsId+",\'"+message[i].type+"\')\"><br></td></tr>";
 					}
 					
 				}
@@ -104,7 +104,7 @@
 			
 			
 		});
-		function showFormat(id){
+		function showFormat(id, type){
 			var eId = document.getElementById(id);
 			var formatId = document.getElementById(id+"select");
 			string = '';
@@ -112,16 +112,22 @@
 				string = ' ';
 
 			}else{
-
-				string += "<div class=\"form-inline\">Format <select class=\"form-control\" name=\"format\">\
+				if(type == 'video'){
+					string += "<div class=\"form-inline\">Format <select class=\"form-control\" name=\"format\">\
 							<option value=\"file\"  selected>File</option>\
 							<option value=\"url\" >URL</option></select></div>\
 							<div class=\"form-inline\">time : <input id=\"time\" class=\"form-control\" type=\"number\" name=\"time\" min=\"-1\"> sec <br>(set -1 is display to end)</div>";
+				}else{
+					string += "<div class=\"form-inline\">Format <select class=\"form-control\" name=\"format\">\
+							<option value=\"file\"  selected>File</option></select></div>\
+							<div class=\"form-inline\">time : <input id=\"time\" class=\"form-control\" type=\"number\" name=\"time\" min=\"-1\"> sec <br>(set -1 is display to end)</div>";
+				}
+				
 			}
 
 			formatId.innerHTML = string;
 		}
-		function showFormats(id){
+		function showFormats(id, type){
 			
 			var eId = document.getElementById(id+"s");
 			var formatId = document.getElementById(id+"selects");
@@ -130,11 +136,16 @@
 				string = ' ';
 
 			}else{
-
-				string += "<div class=\"form-inline\">Format <select class=\"form-control\" name=\"formats\">\
+				if(type == 'video'){
+					string += "<div class=\"form-inline\">Format <select class=\"form-control\" name=\"format\">\
 							<option value=\"file\"  selected>File</option>\
 							<option value=\"url\" >URL</option></select></div>\
-							<div class=\"form-inline\">time : <input id=\"time\" class=\"form-control\" type=\"number\" name=\"times\" min=\"-1\"> sec <br>(set -1 is display to end)</div>";
+							<div class=\"form-inline\">time : <input id=\"time\" class=\"form-control\" type=\"number\" name=\"time\" min=\"-1\"> sec <br>(set -1 is display to end)</div>";
+				}else{
+					string += "<div class=\"form-inline\">Format <select class=\"form-control\" name=\"format\">\
+							<option value=\"file\"  selected>File</option></select></div>\
+							<div class=\"form-inline\">time : <input id=\"time\" class=\"form-control\" type=\"number\" name=\"time\" min=\"-1\"> sec <br>(set -1 is display to end)</div>";
+				}
 			}
 
 			formatId.innerHTML = string;
@@ -165,28 +176,34 @@
 					}else{
 						string += "<tr><td id=\"thumb\"><img src=\"/images/url_icon.png\" width=\"50px\" height=\"50px\"></td>";
 					}
-					string += "<td >Name: <a href=\"/show?id="+message[i].assetsId+"\">"+message[i].assetsName+"</a><br>";
+					string += "<td >Name: "+message[i].assetsId+"\">"+message[i].assetsName+"<br>";
 					string += "Type: "+message[i].type+"<br></td>";
 				
 
 					if(message[i].apId != null){
-						if(message[i].format == 'file'){
-
-							string += "<td id=\""+message[i].assetsId+"selects\"><div class=\"form-inline\">Format <select  class=\"form-control\" name=\"formats\">\
-									<option value=\"file\" selected>File</option>\
-									<option value=\"url\">URL</option></select></div>\
-									<div class=\"form-inline\">time : <input id=\"time\" type=\"number\" name=\"times\" min=\"-1\"  value="+message[i].time_sec+" class=\"form-control\"> sec <br>(set -1 is display to end)</div></td>";
-						}else if(message[i].format == 'url'){
-							string += "<td id=\""+message[i].assetsId+"selects\"><div class=\"form-inline\">Format <select class=\"form-control\" name=\"formats\" >\
-									<option value=\"file\">File</option>\
-									<option value=\"url\" selected>URL</option></select></div>\
-									<div class=\"form-inline\">time : <input id=\"time\" type=\"number\" name=\"times\" min=\"-1\" value="+message[i].time_sec+" class=\"form-control\"> sec <br>(set -1 is display to end)</div></td>";		
+						if(message[i].type == 'video'){
+							if(message[i].format == 'file'){
+								string += "<td id=\""+message[i].assetsId+"selects\"><div class=\"form-inline\">Format <select  class=\"form-control\" name=\"formats\">\
+										<option value=\"file\" selected>File</option>\
+										<option value=\"url\">URL</option></select></div>\
+										<div class=\"form-inline\">time : <input id=\"time\" type=\"number\" name=\"times\" min=\"-1\"  value="+message[i].time_sec+" class=\"form-control\"> sec <br>(set -1 is display to end)</div></td>";
+							}else if(message[i].format == 'url'){
+								string += "<td id=\""+message[i].assetsId+"selects\"><div class=\"form-inline\">Format <select class=\"form-control\" name=\"formats\" >\
+										<option value=\"file\">File</option>\
+										<option value=\"url\" selected>URL</option></select></div>\
+										<div class=\"form-inline\">time : <input id=\"time\" type=\"number\" name=\"times\" min=\"-1\" value="+message[i].time_sec+" class=\"form-control\"> sec <br>(set -1 is display to end)</div></td>";		
+							}else{
+								string += "<td id=\""+message[i].assetsId+"selects\"><div class=\"form-inline\">Format <select  class=\"form-control\" name=\"formats\">\
+										<option value=\"file\" selected>File</option>\
+										<option value=\"url\" >URL</option></select></div>\
+										<div class=\"form-inline\">time : <input id=\"time\" type=\"number\" name=\"times\" min=\"-1\" value="+message[i].time_sec+" class=\"form-control\"> sec <br>(set -1 is display to end)</div></td>";
+							}
 						}else{
 							string += "<td id=\""+message[i].assetsId+"selects\"><div class=\"form-inline\">Format <select  class=\"form-control\" name=\"formats\">\
-									<option value=\"file\" selected>File</option>\
-									<option value=\"url\" >URL</option></select></div>\
-									<div class=\"form-inline\">time : <input id=\"time\" type=\"number\" name=\"times\" min=\"-1\" value="+message[i].time_sec+" class=\"form-control\"> sec <br>(set -1 is display to end)</div></td>";
+										<option value=\"file\" selected>File</option></select></div>\
+										<div class=\"form-inline\">time : <input id=\"time\" type=\"number\" name=\"times\" min=\"-1\"  value="+message[i].time_sec+" class=\"form-control\"> sec <br>(set -1 is display to end)</div></td>";
 						}
+						
 
 						if(message[i].position == 'S'){
 							string += "<td id=\"tick\"><input id=\""+message[i].assetsId+"s\" type=\"checkbox\" name=\"as\" value="+message[i].assetsId+" onclick=\"showFormats("+message[i].assetsId+")\" checked=\"a\"><br></td></tr>";
@@ -196,7 +213,7 @@
 
 					}else{
 						string += "<td id=\""+message[i].assetsId+"selects\"></td>";
-						string += "<td id=\"tick\"><input id=\""+message[i].assetsId+"s\" type=\"checkbox\" name=\"as\" value="+message[i].assetsId+" onclick=\"showFormats("+message[i].assetsId+")\"><br></td></tr>";
+						string += "<td id=\"tick\"><input id=\""+message[i].assetsId+"s\" type=\"checkbox\" name=\"as\" value="+message[i].assetsId+" onclick=\"showFormats("+message[i].assetsId+",\'"+message[i].type+"\')\"><br></td></tr>";
 						//alert(message[i].assetsId.toString()+"s");
 					}
 					

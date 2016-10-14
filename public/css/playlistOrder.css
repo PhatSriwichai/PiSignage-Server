@@ -186,3 +186,7 @@ select{
 #th{
 	color: white;
 }
+
+img{
+	cursor: pointer;
+}

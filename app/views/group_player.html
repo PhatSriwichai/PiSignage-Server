@@ -31,13 +31,14 @@
 			}
 			listPlaylist.push(dex);
 			listPlaylist.push(play);
+			
 			list.innerHTML = string;
-			try{
+			/*try{
 				var listPlay = document.getElementById('edit');
 				listPlay.innerHTML = string;
 			}catch(err){
 
-			}
+			}*/
 		});
 		var id = getUrlVars()['id'];
 		socket.emit('route', 'player_in_group');
@@ -45,13 +46,17 @@
 		socket.on('player_in_group', function(message){
 			var list = document.getElementById("list");
 			var string = '';
-			for(i = 0; i < message.length; i++){
-				string += "<tr><td>"+message[i].name+"</td>";
-				string += "<td>"+message[i].ip+ "</td>";
-				string += "<td>"+message[i].playerMac+ "</td>";
-				string += "<td>"+message[i].location+ "</td>";
-				string += "<td><p id=\"status\" target=\""+message[i].status+"\">"+message[i].status+"</p></td>";
-				string += "<td>"+message[i].groupName+ "</td></tr>";		
+			if(message.length <= 0){
+				string += "<tr><td colspan=6 style=\"text-align: center;  vertical-align: middle; height:200px\"><h4>No Player in this Group</h4></td></tr>"; 
+			}else{
+				for(i = 0; i < message.length; i++){
+					string += "<tr><td>"+message[i].name+"</td>";
+					string += "<td>"+message[i].ip+ "</td>";
+					string += "<td>"+message[i].playerMac+ "</td>";
+					string += "<td>"+message[i].location+ "</td>";
+					string += "<td><p id=\"status\" target=\""+message[i].status+"\">"+message[i].status+"</p></td>";
+					string += "<td>"+message[i].groupName+ "</td></tr>";		
+				}
 			}
 			list.innerHTML = string;
 			var headText = document.getElementById("headText");
@@ -99,10 +104,12 @@
 			string += "<td>"+index+"</td>";
 			string += "<td><select name=\""+id+"playlistName\" id=\"edit\" class=\"form-control\">";
 			//alert(listPlaylist[0][1]);
-
-			for(var i = 0; i < listPlaylist.length; i++){
-				if(id == listPlaylist[i].dex){
-					string += "<option value=\""+id+"\" selected>"+playName+"</option>";
+			//alert(id);
+			
+			for(var i = 0; i < listPlaylist[0].length; i++){
+				
+				if(playId == listPlaylist[0][i]){
+					string += "<option value=\""+playId+"\" selected>"+playName+"</option>";
 				}else{
 					string += "<option value=\""+listPlaylist[0][i]+"\">"+listPlaylist[1][i]+"</option>";
 				}

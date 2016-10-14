@@ -359,8 +359,8 @@ module.exports = function(app, io, server){
 		});
 
 		socket.on('action', function(message){
-			console.log("action: "+message);
-			io.emit('action', message);
+			console.log("action: "+message[0]);
+			io.emit(message[1]+'_action', message[0]);
            
 		});
 

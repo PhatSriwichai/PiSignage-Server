@@ -72,7 +72,8 @@ module.exports = function(app, io, server){
 		//==========================================================================================
 		socket.on('schedule', function(message){
 			var group = message;
-			var queryString = 'SELECT * FROM Schedule, Playlist WHERE groupId='+group+' and Schedule.playlistId = Playlist.playlistId';
+			var queryString = 'SELECT * FROM Schedule, Playlist WHERE groupId='+group+' \
+			and Schedule.playlistId = Playlist.playlistId ORDER BY dateStart ASC, timeStart ASC';
 		   	//var queryString = 'SELECT * FROM User)';
 			   	mysql.query(queryString, function(err, rows, fields){
 			   		if(err){
@@ -223,7 +224,7 @@ module.exports = function(app, io, server){
 	   							AddPlaylist.apId \
 	   							FROM Assets LEFT JOIN AddPlaylist ON AddPlaylist.assetsId = Assets.assetsId \
 						   		and AddPlaylist.playlistId = "+id+" and AddPlaylist.position = \'M\'"+ 
-						   		"ORDER BY apId DESC";
+						   		"ORDER BY AddPlaylist.apId DESC";
 			//var insert = ['M'];
 			//queryString = mysql.format(queryString, insert);
 		   	mysql.query(queryString, function(err, rows, fields){
@@ -236,7 +237,7 @@ module.exports = function(app, io, server){
 		});
 		socket.on('playlist-assets-slide-zone', function(message){
 			var id;
-			var position = 'M';
+			var position = 'S';
 			id = message;
 		   	//var queryString = "SELECT * FROM Assets LEFT JOIN AddPlaylist \
 		   	//			ON AddPlaylist.assetsId = Assets.assetsId and AddPlaylist.playlistId = "+id+" ORDER BY apId DESC"
@@ -245,8 +246,8 @@ module.exports = function(app, io, server){
 	   		var queryString = "SELECT Assets.assetsId, Assets.assetsName, Assets.type, AddPlaylist.time_sec, AddPlaylist.position, AddPlaylist.format,\
 	   							AddPlaylist.apId \
 	   							FROM Assets LEFT JOIN AddPlaylist ON AddPlaylist.assetsId = Assets.assetsId \
-						   		and AddPlaylist.playlistId = "+id+" and AddPlaylist.position = \'S\'"+ 
-						   		"ORDER BY apId DESC";
+						   		and AddPlaylist.playlistId = "+id+" and AddPlaylist.position = \'S\' WHERE Assets.type=\'image\'"+ 
+						   		"ORDER BY AddPlaylist.apId DESC";
 			//var insert = ['M'];
 			//queryString = mysql.format(queryString, insert);
 		   	mysql.query(queryString, function(err, rows, fields){

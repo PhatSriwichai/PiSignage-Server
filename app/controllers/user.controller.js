@@ -595,12 +595,16 @@ exports.addToPlaylist = function(req, res){
                           );
                         }
                     }else{
-                          var format = '';
-                          if(req.body.format instanceof Array){
-                              format = req.body.formats[0];
-                          }else{
-                              format = req.body.formats;
-                          }
+                          var format = 'file';
+                          console.log(req.body.formats);
+                          //if(req.body.formats instanceof Array){
+                              //console.log(req.body.formats);
+                          ////    format = req.body.formats[0];    
+                          //}else{
+                          //    format = req.body.formats;
+                          //}
+                          console.log("s"+slide_id);
+                          console.log(format);
                           var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
                           var insert = ['ownId', 'format', 'time_sec', 'playlistId', 'assetsId', 'position', 
                                         req.session.userId, format, time_secs, req.session.playListId, slide_id, 'S'];

@@ -72,9 +72,11 @@ module.exports = function(app, io, server){
                                   var listType = [];
                                   var listPosition = [];
                                   var listTime = [];
+                                  var listUrl = [];
                                     for(j=0; j<rows.length; j++){
                                       var fileName = '';
                                       listTime.push(rows[j].time_sec);
+                                      listUrl.push(rows[j].url);
                                       listPosition.push(rows[j].position);
                                         if(rows[j].format == 'url'){
                                             fileName = "http://"+ip.address()+":"+server.address().port+
@@ -113,6 +115,7 @@ module.exports = function(app, io, server){
                                     package.push(ticker);
                                     package.push(listPosition);
                                     package.push(layout);
+                                    package.push(listUrl);
                                     console.log(package);
                                     console.log("send");
                                     io.emit(mac+"_check", package, rows[0].playlistName);
@@ -189,10 +192,12 @@ module.exports = function(app, io, server){
                                             var listType = [];
                                             var listPosition = [];
                                             var listTime = [];
+                                            var listUrl = [];
                                               for(j=0; j<rows.length; j++){
                                                 var fileName = '';
                                                 listTime.push(rows[j].time_sec);
                                                 listPosition.push(rows[j].position);
+                                                listUrl.push(rows[j].url);
                                                   if(rows[j].format == 'url'){
                                                       fileName = "http://"+ip.address()+":"+server.address().port+
                                                                 "/assets/"+rows[j].assetsName;
@@ -226,6 +231,7 @@ module.exports = function(app, io, server){
                                               package.push(ticker);
                                               package.push(listPosition);
                                               package.push(layout);
+                                              package.push(listUrl);
                                               console.log(package);
                                               console.log("Play Sche");
                                               io.emit(mac+"_check", package, rows[0].playlistName);

@@ -555,9 +555,11 @@ exports.addToPlaylist = function(req, res){
                           var format = '';
                           if(req.body.format instanceof Array){
                               format = req.body.format[0];
+
                           }else{
                               format = req.body.format;
                           }
+                          console.log("format ="+format);
                           var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
                           var insert = ['ownId', 'format', 'time_sec', 'playlistId', 'assetsId', 'position', 
                                         req.session.userId, format, time_sec, req.session.playListId, assets_id, 'M'];
@@ -576,51 +578,57 @@ exports.addToPlaylist = function(req, res){
                     }
                     if(slide_id != null){
                         if(slide_id instanceof Array){
+                          var format = '';
+                          if(req.body.format instanceof Array){
+                              format = req.body.formats[0];
 
-                        for(var i=0; i<slide_id.length; i++){
-                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
-                          var insert = ['ownId', 'format', 'time_sec', 'playlistId', 'assetsId', 'position', req.session.userId, 
-                                      req.body.formats[i], time_secs[i], req.session.playListId, slide_id[i], 'S'];
-                          queryString = mysql.format(queryString, insert);
+                          }else{
+                              format = req.body.formats;
+                          }
+                          for(var i=0; i<slide_id.length; i++){
+                            var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
+                            var insert = ['ownId', 'format', 'time_sec', 'playlistId', 'assetsId', 'position', req.session.userId, 
+                                        req.body.formats[i], time_secs[i], req.session.playListId, slide_id[i], 'S'];
+                            queryString = mysql.format(queryString, insert);
 
-                          mysql.query(queryString,
-                                function(err, result){
-                                    //console.log(pass);
-                                    if(err){
-                                        console.log(err);
-                                    }else{
-                                        console.log('added');
-                                    }
-                                }
-                          );
-                        }
-                    }else{
-                          var format = 'file';
-                          console.log(req.body.formats);
-                          //if(req.body.formats instanceof Array){
-                              //console.log(req.body.formats);
-                          ////    format = req.body.formats[0];    
-                          //}else{
-                          //    format = req.body.formats;
-                          //}
-                          console.log("s"+slide_id);
-                          console.log(format);
-                          var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
-                          var insert = ['ownId', 'format', 'time_sec', 'playlistId', 'assetsId', 'position', 
-                                        req.session.userId, format, time_secs, req.session.playListId, slide_id, 'S'];
-                          queryString = mysql.format(queryString, insert);
+                            mysql.query(queryString,
+                                  function(err, result){
+                                      //console.log(pass);
+                                      if(err){
+                                          console.log(err);
+                                      }else{
+                                          console.log('added');
+                                      }
+                                  }
+                            );
+                          }
+                      }else{
+                            var format = 'file';
+                            console.log(req.body.formats);
+                            //if(req.body.formats instanceof Array){
+                                //console.log(req.body.formats);
+                            ////    format = req.body.formats[0];    
+                            //}else{
+                            //    format = req.body.formats;
+                            //}
+                            console.log("s"+slide_id);
+                            console.log(format);
+                            var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';
+                            var insert = ['ownId', 'format', 'time_sec', 'playlistId', 'assetsId', 'position', 
+                                          req.session.userId, format, time_secs, req.session.playListId, slide_id, 'S'];
+                            queryString = mysql.format(queryString, insert);
 
-                          mysql.query(queryString,
-                                function(err, result){
-                                    //console.log(pass);
-                                    if(err){
-                                        console.log(err);
-                                    }else{
-                                        console.log('added');
-                                    }
-                                }
-                          );
-                    }
+                            mysql.query(queryString,
+                                  function(err, result){
+                                      //console.log(pass);
+                                      if(err){
+                                          console.log(err);
+                                      }else{
+                                          console.log('added');
+                                      }
+                                  }
+                            );
+                      }
                     }
                     
                     

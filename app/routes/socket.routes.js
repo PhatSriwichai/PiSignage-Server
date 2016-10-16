@@ -78,6 +78,7 @@ module.exports = function(app, io, server){
                                       listTime.push(rows[j].time_sec);
                                       listUrl.push(rows[j].url);
                                       listPosition.push(rows[j].position);
+                                      listUrl.push(rows[j].url);
                                         if(rows[j].format == 'url'){
                                             fileName = "http://"+ip.address()+":"+server.address().port+
                                                       "/assets/"+rows[j].assetsName;

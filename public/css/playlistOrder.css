@@ -190,3 +190,6 @@ select{
 img{
 	cursor: pointer;
 }
+img#layout{
+	float: right;
+}

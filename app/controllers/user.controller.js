@@ -1,5 +1,6 @@
 var os = require('os');
 var fs = require('fs');
+var md5 = require('MD5');
 var ffmpeg = require('fluent-ffmpeg');
 
 exports.login = function(req, res){
@@ -16,7 +17,7 @@ exports.login = function(req, res){
    	console.log(req.body.username);
    	console.log(req.body.password);
 
-   	var queryString = 'SELECT * FROM User WHERE username=\''+req.body.username+'\' and password=\''+req.body.password+'\' LIMIT 1';
+   	var queryString = 'SELECT * FROM User WHERE username=\''+req.body.username+'\' and password=\''+md5(req.body.password)+'\' LIMIT 1';
    	//var queryString = 'SELECT * FROM User)';
    	mysql.query(queryString, function(err, rows, fields){
    		if(err){

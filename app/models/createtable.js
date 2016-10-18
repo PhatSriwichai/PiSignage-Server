@@ -159,7 +159,7 @@ exports.createtable = function(req, res){
 
     var pass = md5('admin');
 
-    connection.query('INSERT INTO User VALUES(1, \'admin\',\'admin\')',
+    connection.query('INSERT INTO User VALUES(1, \'admin\',\''+pass+'\')',
         function(err, result){
             console.log(pass);
             if(err){

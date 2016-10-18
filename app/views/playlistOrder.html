@@ -264,11 +264,11 @@
 
 					for(var i=0; i<message.length; i++){
 						if(message[i].layout == null){
-							string += '<tr><td><input type=\"radio\" name=\"select\" value=\"'+message[i].layoutId+'\"> '+message[i].layoutCode+' : '+message[i].layoutName+'</td><tr>';
+							string += '<tr><td><input type=\"radio\" name=\"select\" value=\"'+message[i].layoutId+'\"> '+message[i].layoutCode+' : '+message[i].layoutName+'<img id=\"layout\" src=\"images/'+message[i].layoutCode+'.png\" width=\"50px\" height=\"50px\"></td><tr>';
 						}else{
 							layout = message[i].layout;
 							if(index == 0){
-								string += '<tr><td><input type=\"radio\" name=\"select\" value=\"'+message[i].layoutId+'\" checked> '+message[i].layoutCode+' : '+message[i].layoutName+'</td><tr>';
+								string += '<tr><td><input type=\"radio\" name=\"select\" value=\"'+message[i].layoutId+'\" checked> '+message[i].layoutCode+' : '+message[i].layoutName+'<img id=\"layout\" src=\"images/'+message[i].layoutCode+'.png\" width=\"50px\" height=\"50px\"></td><tr>';
 								text = message[i].layoutCode;
 								index = index+1;
 							}

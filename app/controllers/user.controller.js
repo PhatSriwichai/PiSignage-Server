@@ -586,6 +586,7 @@ exports.addToPlaylist = function(req, res){
 
                           }else{
                               format = req.body.formats;
+                              console.log("slide no array");
                           }
                           for(var i=0; i<slide_id.length; i++){
                             var queryString = 'INSERT INTO AddPlaylist(??, ??, ??, ??, ??, ??) VALUES(?, ?, ?, ?, ?, ?)';

@@ -520,6 +520,7 @@ exports.addToPlaylist = function(req, res){
                     var assets_id = req.body.a; 
                     var slide_id = req.body.as;
                     var time_sec = req.body.time;
+                    console.log(time_sec);
                      var time_secs = req.body.times;
 
                     var l_id = null;

@@ -9,7 +9,7 @@ module.exports = function(app, io, server){
 
 	io.on('connection', function(socket){
 		var nick = socket.handshake.address;
-		nick = nick.substring(7, nick.length);
+		//nick = nick.substring(7, nick.length);
 		socket.nickname = nick;
 		console.log(socket+" connected.");
 		var old_file = [];
@@ -408,7 +408,8 @@ module.exports = function(app, io, server){
 		
 		socket.on('mac', function(message){
 			var address = socket.handshake.address;
-			address = address.substring(7, address.length);
+			//console.log(address);
+			//address = address.substring(7, address.length);
 			
 			var queryString = 'SELECT * FROM Player \
 							WHERE playerMac = ? LIMIT 1';
